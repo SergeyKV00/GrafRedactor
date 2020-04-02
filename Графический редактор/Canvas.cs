@@ -19,21 +19,7 @@ namespace Графический_редактор
 
         public Canvas(Size _size)
         {
-            CurrentPic = Create(_size);
-            topPic = Create(_size);
-            buttomPic = Create(_size);
-
-            buttomPic.Location = new Point((PanelForDraw.Width - CanvasSize.Width) / 2, (PanelForDraw.Height - CanvasSize.Height) / 2);
-            CurrentPic.Location = new Point(0, 0);
-            topPic.Location = new Point(0, 0);
-
-
-            PanelForDraw.Controls.Clear();
-            PanelForDraw.Controls.Add(buttomPic);
-            buttomPic.Controls.Add(CurrentPic);
-            CurrentPic.Controls.Add(topPic);
-
-            buttomPic.BackColor = Color.White;
+            
         }
 
         public PictureBox Create(Size size)
