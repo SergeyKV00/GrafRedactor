@@ -12,7 +12,7 @@ namespace Графический_редактор
     class Canvas
     {
         private PictureBox currentPic, topPic, buttomPic;
-        public Size CanvasSize { get; set; }
+        public Size Size { get; set; }
         public PictureBox CurrentPic { get => currentPic; set => currentPic = value; }
         public PictureBox TopPic { get => topPic; set => topPic = value; }
         public PictureBox ButtomPic { get => buttomPic; set => buttomPic = value; }
@@ -23,7 +23,7 @@ namespace Графический_редактор
             topPic = Create(panel.Size, image_size);
             buttomPic = Create(panel.Size, image_size);
 
-            buttomPic.Location = new Point((panel.Width - CanvasSize.Width) / 2, (panel.Height - CanvasSize.Height) / 2);
+            buttomPic.Location = new Point((panel.Width - Size.Width) / 2, (panel.Height - Size.Height) / 2);
             CurrentPic.Location = new Point(0, 0);
             topPic.Location = new Point(0, 0);
 
@@ -42,7 +42,7 @@ namespace Графический_редактор
                 temp = new Bitmap(image_size.Width, image_size.Height);
             PictureBox picture = new PictureBox();
             picture.BackColor = Color.FromArgb(0, 0, 0, 0);
-            CanvasSize = picture.Size = temp.Size;
+            Size = picture.Size = temp.Size;
 
             return picture;
         }

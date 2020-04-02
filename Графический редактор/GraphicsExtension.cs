@@ -13,7 +13,7 @@ namespace Графический_редактор
         public static Graphics FillPngBackground(this Graphics graph, int Width, int Height)
         {
             graph.Clear(Color.White);
-            SolidBrush solidBrush = new SolidBrush(Color.FromArgb(242, 242, 242));
+            SolidBrush solidBrush = new SolidBrush(Color.FromArgb(232, 232, 232));
             bool turn = false;
             for (int x = 0; x < Width; x += 10)
             {
@@ -56,7 +56,8 @@ namespace Графический_редактор
 
             var scaleWidth = (int)(image.Width * scale);
             var scaleHeight = (int)(image.Height * scale);
-
+            
+            // Эту (тут ее уже нет ыыыыыыыыыы) ну она в этом месте
             graph.DrawImage(image, new Rectangle(((int)width - scaleWidth) / 2, ((int)height - scaleHeight) / 2, scaleWidth, scaleHeight));
             return new Bitmap(scaleWidth, scaleHeight);
         }
