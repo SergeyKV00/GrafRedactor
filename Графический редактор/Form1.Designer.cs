@@ -43,6 +43,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.button3 = new System.Windows.Forms.Button();
+            this.сохранитьКакToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -63,7 +64,8 @@
             // 
             this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.создатьToolStripMenuItem,
-            this.открытьToolStripMenuItem});
+            this.открытьToolStripMenuItem,
+            this.сохранитьКакToolStripMenuItem});
             this.файлToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.файлToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
@@ -219,6 +221,13 @@
             this.button3.UseVisualStyleBackColor = false;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // сохранитьКакToolStripMenuItem
+            // 
+            this.сохранитьКакToolStripMenuItem.Name = "сохранитьКакToolStripMenuItem";
+            this.сохранитьКакToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.сохранитьКакToolStripMenuItem.Text = "Сохранить Как...";
+            this.сохранитьКакToolStripMenuItem.Click += new System.EventHandler(this.SaveFile);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -261,6 +270,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button butDeleteLayer;
         private System.Windows.Forms.Button butNewLayer;
+        private System.Windows.Forms.ToolStripMenuItem сохранитьКакToolStripMenuItem;
     }
 }
 

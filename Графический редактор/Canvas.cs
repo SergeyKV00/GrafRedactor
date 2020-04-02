@@ -27,13 +27,10 @@ namespace Графический_редактор
             CurrentPic.Location = new Point(0, 0);
             topPic.Location = new Point(0, 0);
 
-
             panel.Controls.Clear();
             panel.Controls.Add(buttomPic);
             buttomPic.Controls.Add(CurrentPic);
             CurrentPic.Controls.Add(topPic);
-
-            buttomPic.BackColor = Color.White; 
         }
 
         public PictureBox Create(Size panel_size, Size image_size)

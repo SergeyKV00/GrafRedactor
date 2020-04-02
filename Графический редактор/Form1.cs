@@ -50,20 +50,41 @@ namespace Графический_редактор
 
             canvas = new Canvas(ref PanelForDraw,PictureDialog.picSize);
 
-            canvas.CurrentPic.MouseMove += new MouseEventHandler(Picture_MouseMove);
-            canvas.CurrentPic.MouseUp += new MouseEventHandler(Picture_MouseUp);
+            canvas.TopPic.MouseMove += new MouseEventHandler(Picture_MouseMove);
+            canvas.TopPic.MouseUp += new MouseEventHandler(Picture_MouseUp);
+            canvas.TopPic.MouseDown += new MouseEventHandler(Picture_MouseDown);
 
             bitmaps.Clear();
             listBox1.Items.Clear();
             bitmaps.Add(new Bitmap(canvas.CanvasSize.Width, canvas.CanvasSize.Height));
+            Graphics.FromImage(bitmaps[0]).FillRectangle(new SolidBrush(Color.White), 0, 0, canvas.CanvasSize.Width, canvas.CanvasSize.Height);
+            //canvas.ButtomPic.Image = bitmaps[0];
             listBox1.Items.Add("Cлой: " + bitmaps.Count);
 
         }
 
-        private void Picture_MouseUp(object sender, MouseEventArgs e)
-        {
+        private void Picture_MouseUp(object sender, MouseEventArgs e) => Picture_Paint();
 
+        private void Picture_MouseDown(object sender, MouseEventArgs e)
+        {
+            int index = listBox1.SelectedIndex;
+            if (index == -1 || bitmaps.Count < 2) return;
+
+            List<Bitmap> tempBitmaps = new List<Bitmap>();
+            for (int i = 0; i < index; i++)
+                tempBitmaps.Add(bitmaps[i]);
+
+            if(tempBitmaps.Count > 0)
+                canvas.ButtomPic.Image = GraphicsExtension.CombineBitmap(ref tempBitmaps);
+
+            tempBitmaps.Clear();
+            for (int i = index + 1; i < bitmaps.Count; i++)
+                tempBitmaps.Add(bitmaps[i]);
+
+            if (tempBitmaps.Count > 0)
+                canvas.TopPic.Image = canvas.ButtomPic.Image = GraphicsExtension.CombineBitmap(ref tempBitmaps);
         }
+
         private void Picture_MouseMove(object sender, MouseEventArgs e)
         {
             int index = listBox1.SelectedIndex;
@@ -92,13 +113,16 @@ namespace Графический_редактор
                 Bitmap image = new Bitmap(openFileDialog1.FileName);
                 canvas = new Canvas(ref PanelForDraw, new Bitmap(PanelForDraw.Width, PanelForDraw.Height).ImageZoom(image).Size);
 
-                canvas.CurrentPic.Image = bitmaps[bitmaps.Count - 1].ImageZoom(image);
-                canvas.CurrentPic.Image = bitmaps[bitmaps.Count - 1];
+                canvas.TopPic.MouseMove += new MouseEventHandler(Picture_MouseMove);
+                canvas.TopPic.MouseDown += new MouseEventHandler(Picture_MouseDown);
 
                 bitmaps.Clear();
                 listBox1.Items.Clear();
                 bitmaps.Add(new Bitmap(canvas.CanvasSize.Width, canvas.CanvasSize.Height));
                 listBox1.Items.Add("Cлой: " + bitmaps.Count);
+
+                canvas.ButtomPic.Image = bitmaps[bitmaps.Count - 1].ImageZoom(image);
+                canvas.ButtomPic.Image = bitmaps[bitmaps.Count - 1];
             }
         }
 
@@ -118,6 +142,16 @@ namespace Графический_редактор
                 bitmaps.RemoveAt(index);
             }
             Picture_Paint();
+        }
+
+        private void SaveFile(object sender, EventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            if(dialog.ShowDialog() == DialogResult.OK)
+            {
+                Bitmap saveB = GraphicsExtension.CombineBitmap(ref bitmaps);
+                saveB.Save(dialog.FileName);
+            }
         }
     }
 }
