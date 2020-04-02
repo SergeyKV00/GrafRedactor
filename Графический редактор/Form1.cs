@@ -82,7 +82,7 @@ namespace Графический_редактор
                 tempBitmaps.Add(bitmaps[i]);
 
             if (tempBitmaps.Count > 0)
-                canvas.TopPic.Image = canvas.ButtomPic.Image = GraphicsExtension.CombineBitmap(ref tempBitmaps);
+                canvas.TopPic.Image = GraphicsExtension.CombineBitmap(ref tempBitmaps);
         }
 
         private void Picture_MouseMove(object sender, MouseEventArgs e)
