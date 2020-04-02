@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Графический_редактор
 {
-    class Canvas : Form1
+    class Canvas
     {
         private PictureBox currentPic, topPic, buttomPic;
         public Size CanvasSize { get; set; }
@@ -17,28 +17,35 @@ namespace Графический_редактор
         public PictureBox TopPic { get => topPic; set => topPic = value; }
         public PictureBox ButtomPic { get => buttomPic; set => buttomPic = value; }
 
-        public Canvas(Size _size)
+        public Canvas(ref Panel panel, Size image_size)
         {
-            
+            CurrentPic = Create(panel.Size, image_size);
+            topPic = Create(panel.Size, image_size);
+            buttomPic = Create(panel.Size, image_size);
+
+            buttomPic.Location = new Point((panel.Width - CanvasSize.Width) / 2, (panel.Height - CanvasSize.Height) / 2);
+            CurrentPic.Location = new Point(0, 0);
+            topPic.Location = new Point(0, 0);
+
+
+            panel.Controls.Clear();
+            panel.Controls.Add(buttomPic);
+            buttomPic.Controls.Add(CurrentPic);
+            CurrentPic.Controls.Add(topPic);
+
+            buttomPic.BackColor = Color.White; 
         }
 
-        public PictureBox Create(Size size)
+        public PictureBox Create(Size panel_size, Size image_size)
         {
-            Bitmap temp = new Bitmap(PanelForDraw.Width, PanelForDraw.Height);
-            if (size.Width > PanelForDraw.Width && size.Height > PanelForDraw.Height)
-                temp = temp.ImageZoom(new Bitmap(size.Width, size.Height));
+            Bitmap temp = new Bitmap(panel_size.Width, panel_size.Height);
+            if (image_size.Width > panel_size.Width && image_size.Height > panel_size.Height)
+                temp = temp.ImageZoom(new Bitmap(image_size.Width, image_size.Height));
             else
-                temp = new Bitmap(size.Width, size.Height);
-            var picture = new PictureBox();
+                temp = new Bitmap(image_size.Width, image_size.Height);
+            PictureBox picture = new PictureBox();
             picture.BackColor = Color.FromArgb(0, 0, 0, 0);
             CanvasSize = picture.Size = temp.Size;
-          /*picture.MouseMove += new MouseEventHandler(Picture_MouseMove);
-            picture.MouseUp += new MouseEventHandler(Picture_MouseUp);*/
-
-            bitmaps.Clear();
-            listBox1.Items.Clear();
-            bitmaps.Add(new Bitmap(picture.Width, picture.Height));
-            listBox1.Items.Add("Cлой: " + bitmaps.Count);
 
             return picture;
         }

@@ -16,7 +16,7 @@ namespace Графический_редактор
         //private PictureBox currentPic, topPic, buttomPic;
         private Canvas canvas;
         private Point prevPoint;
-        protected List<Bitmap> bitmaps;
+        private List<Bitmap> bitmaps;
         private bool isCollapse;
 
         public Form1()
@@ -48,10 +48,15 @@ namespace Графический_редактор
             PictureDialog.ShowDialog();
             if (PictureDialog.Cancel) return;
 
-            canvas = new Canvas(PictureDialog.picSize);
+            canvas = new Canvas(ref PanelForDraw,PictureDialog.picSize);
 
             canvas.CurrentPic.MouseMove += new MouseEventHandler(Picture_MouseMove);
             canvas.CurrentPic.MouseUp += new MouseEventHandler(Picture_MouseUp);
+
+            bitmaps.Clear();
+            listBox1.Items.Clear();
+            bitmaps.Add(new Bitmap(canvas.CanvasSize.Width, canvas.CanvasSize.Height));
+            listBox1.Items.Add("Cлой: " + bitmaps.Count);
 
         }
 
@@ -79,24 +84,23 @@ namespace Графический_редактор
             prevPoint.Y = e.Y;
         }
 
-        /*private void OpenFile_Click(object sender, EventArgs e)
+        private void OpenFile_Click(object sender, EventArgs e)
         {
             openFileDialog1.Filter = "(*.bmp, *.jpg, *.png) | *.bmp; *.jpg; *.png";
             if(openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 Bitmap image = new Bitmap(openFileDialog1.FileName);
-                currentPic = topPic = buttomPic = PictureBoxCreate(new Bitmap(PanelForDraw.Width, PanelForDraw.Height).ImageZoom(image).Size);
+                canvas = new Canvas(ref PanelForDraw, new Bitmap(PanelForDraw.Width, PanelForDraw.Height).ImageZoom(image).Size);
 
-                currentPic.Image = bitmaps[bitmaps.Count - 1].ImageZoom(image);
-                currentPic.Image = bitmaps[bitmaps.Count - 1];
+                canvas.CurrentPic.Image = bitmaps[bitmaps.Count - 1].ImageZoom(image);
+                canvas.CurrentPic.Image = bitmaps[bitmaps.Count - 1];
 
-
-                PanelForDraw.Controls.Clear();
-                PanelForDraw.Controls.Add(buttomPic);
-                PanelForDraw.Controls.Add(currentPic);
-                PanelForDraw.Controls.Add(topPic);
+                bitmaps.Clear();
+                listBox1.Items.Clear();
+                bitmaps.Add(new Bitmap(canvas.CanvasSize.Width, canvas.CanvasSize.Height));
+                listBox1.Items.Add("Cлой: " + bitmaps.Count);
             }
-        }*/
+        }
 
         private void butNewLayer_Click(object sender, EventArgs e)
         {
