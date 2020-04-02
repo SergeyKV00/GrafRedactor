@@ -84,7 +84,7 @@
             this.открытьToolStripMenuItem.Name = "открытьToolStripMenuItem";
             this.открытьToolStripMenuItem.Size = new System.Drawing.Size(142, 26);
             this.открытьToolStripMenuItem.Text = "Открыть";
-            this.открытьToolStripMenuItem.Click += new System.EventHandler(this.OpenFile_Click);
+            //this.открытьToolStripMenuItem.Click += new System.EventHandler(this.OpenFile_Click);
             // 
             // button1
             // 
@@ -253,8 +253,8 @@
         private System.Windows.Forms.ToolStripMenuItem создатьToolStripMenuItem;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel PanelForDraw;
-        private System.Windows.Forms.ListBox listBox1;
+        protected System.Windows.Forms.Panel PanelForDraw;
+        protected System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.ToolStripMenuItem открытьToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog2;
