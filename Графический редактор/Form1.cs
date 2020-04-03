@@ -57,8 +57,8 @@ namespace Графический_редактор
             listBox1.SetSelected(0, true);
         }
 
-        private void Picture_MouseDown(object sender, MouseEventArgs e) => layer.SpreadLayersOnCanvas(ref canvas);
-        private void Picture_MouseUp(object sender, MouseEventArgs e) => layer.SpreadLayersOnCanvas(ref canvas);
+        private void Picture_MouseDown(object sender, MouseEventArgs e) => layer.Redrawing(ref canvas);
+        private void Picture_MouseUp(object sender, MouseEventArgs e) => layer.Redrawing(ref canvas);
 
         private void Picture_MouseMove(object sender, MouseEventArgs e)
         {
@@ -112,24 +112,34 @@ namespace Графический_редактор
                 canvas.ButtomPic.Image = layer[0];
 
                 listBox1.SetSelected(0, true);
+
+                layer.Redrawing(ref canvas);
             }
         }
 
         private void butNewLayer_Click(object sender, EventArgs e)
         {
+            if (layer == null) return;
+
             if (layer.Count == 0) return;
             layer.Add(new Bitmap(canvas.Size.Width, canvas.Size.Height));
         }
 
         private void butDeleteLayer_Click(object sender, EventArgs e)
         {
+            if (layer == null) return;
             int index = listBox1.SelectedIndex;
             if(index != -1)
             {
                 layer.RemoveAt(index);
+                canvas.Clear();
+                var temp = layer[layer.Count - 1];
+                Graphics graph = Graphics.FromImage(temp);
+                graph.FillPngBackground(canvas.Size.Width, canvas.Size.Height);
+                canvas.ButtomPic.Image = temp;
             }
             if (listBox1.Items.Count != 0) listBox1.SetSelected(listBox1.Items.Count - 1, true);
-            layer.SpreadLayersOnCanvas(ref canvas);
+            layer.Redrawing(ref canvas);
         }
 
         private void SaveFile(object sender, EventArgs e)

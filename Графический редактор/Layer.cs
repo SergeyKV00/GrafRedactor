@@ -69,6 +69,7 @@ namespace Графический_редактор
             listBox.Items.Clear();
             for(int i = 1 + startPos; i <= Count; i++)
                 listBox.Items.Insert(0, "Cлой: " + (i- startPos));
+
         }
 
         public void Clear()
@@ -78,7 +79,7 @@ namespace Графический_редактор
             count = 0;
             startPos = 0;
         }
-        public void SpreadLayersOnCanvas(ref Canvas canvas)
+        public void Redrawing(ref Canvas canvas)
         {
             int index = listBox.SelectedIndex;
             if (bitmaps.Count < 1) return;

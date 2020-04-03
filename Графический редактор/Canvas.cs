@@ -46,5 +46,14 @@ namespace Графический_редактор
 
             return picture;
         }
+
+        public void Clear()
+        {
+            var bmp = new Bitmap(Size.Width, Size.Height);
+            CurrentPic.Image = bmp;
+            TopPic.Image = bmp;
+            ButtomPic.Image = bmp;     
+        }
+
     }
 }
