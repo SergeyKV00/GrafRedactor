@@ -13,17 +13,16 @@ namespace Графический_редактор
 {
     public partial class Form1 : Form
     {
-        //private PictureBox currentPic, topPic, buttomPic;
         private Canvas canvas;
         private Point prevPoint;
         private List<Bitmap> bitmaps;
+        Layer layer;
         private bool isCollapse;
-        private int indexClear = -1;
 
         public Form1()
         {
             InitializeComponent();
-            bitmaps = new List<Bitmap>();
+            bitmaps = new List<Bitmap>(); // complete
             isCollapse = false;
         }
         private void button1_Click(object sender, EventArgs e) => Close();
@@ -38,7 +37,7 @@ namespace Графический_редактор
         } 
         private void Picture_Paint()
         {
-            Bitmap bitmap = GraphicsExtension.CombineBitmap(ref bitmaps);
+            Bitmap bitmap = GraphicsExtension.CombineBitmap(ref bitmaps); // work
             canvas.CurrentPic.Image = bitmap;
   
         }
@@ -55,18 +54,13 @@ namespace Графический_редактор
             //canvas.TopPic.MouseUp += new MouseEventHandler(Picture_MouseUp);
             canvas.TopPic.MouseDown += new MouseEventHandler(Picture_MouseDown);
 
-            bitmaps.Clear();
-            listBox1.Items.Clear();
-            bitmaps.Add(new Bitmap(canvas.Size.Width, canvas.Size.Height));
-            Graphics graph = Graphics.FromImage(bitmaps[0]);
-            graph.FillPngBackground(canvas.Size.Width, canvas.Size.Height);
+            layer = new Layer(listBox1, new Bitmap(canvas.Size.Width, canvas.Size.Height), true);
+            layer.Add(new Bitmap(canvas.Size.Width, canvas.Size.Height));
 
-            bitmaps.Add(new Bitmap(canvas.Size.Width, canvas.Size.Height));
-            Graphics.FromImage(bitmaps[1]).FillRectangle(new SolidBrush(Color.White), 0, 0, canvas.Size.Width, canvas.Size.Height);
-
-            canvas.ButtomPic.Image = bitmaps[1];
-            listBox1.Items.Add("Cлой: " + (bitmaps.Count - 1));
-
+            canvas.ButtomPic.Image = layer[1];
+            var tempBmp = layer[0];
+            Graphics.FromImage(tempBmp).FillRectangle(new SolidBrush(Color.White), 0, 0, tempBmp.Width, tempBmp.Height);
+            canvas.CurrentPic.Image = layer[0] = tempBmp;
         }
 
         /*private void Picture_MouseUp(object sender, MouseEventArgs e)
@@ -75,40 +69,35 @@ namespace Графический_редактор
             Picture_MouseDown(sender, e);
         }*/
 
-        private void Picture_MouseDown(object sender, MouseEventArgs e)
-        {
-            int index = listBox1.SelectedIndex;
-            if (index == -1 || bitmaps.Count < 2) return;
-
-            List<Bitmap> tempBitmaps = new List<Bitmap>();
-            for (int i = 0; i < index; i++)
-                tempBitmaps.Add(bitmaps[i]);
-
-            if(tempBitmaps.Count > 0)
-                canvas.ButtomPic.Image = GraphicsExtension.CombineBitmap(ref tempBitmaps);
-
-            tempBitmaps.Clear();
-            for (int i = index + 1; i < bitmaps.Count; i++)
-                tempBitmaps.Add(bitmaps[i]);
-
-            if (tempBitmaps.Count > 0)
-                canvas.TopPic.Image = GraphicsExtension.CombineBitmap(ref tempBitmaps);
-        }
+        private void Picture_MouseDown(object sender, MouseEventArgs e) => layer.SpreadLayersOnCanvas(ref canvas);
 
         private void Picture_MouseMove(object sender, MouseEventArgs e)
         {
             int index = listBox1.SelectedIndex;
             if (index == -1) return;
-            Pen p = new Pen(Color.Red);
-            p.StartCap = LineCap.Round;
-            p.EndCap = LineCap.Round;
 
-            Graphics graph = Graphics.FromImage(bitmaps[index]);
+            var tempBmp = layer[index];
+            Graphics graph = Graphics.FromImage(tempBmp);
 
             if (e.Button == MouseButtons.Left)
             {
+                Pen p = new Pen(Color.Red);
+                p.StartCap = LineCap.Round;
+                p.EndCap = LineCap.Round;
                 graph.DrawLine(p, prevPoint.X, prevPoint.Y, e.X, e.Y);
-                canvas.CurrentPic.Image = bitmaps[index];
+                layer[index] = tempBmp;
+                canvas.CurrentPic.Image = layer[index];
+
+            }
+
+            if (e.Button == MouseButtons.Right)
+            {
+                Pen p = new Pen(Color.Blue);
+                p.StartCap = LineCap.Round;
+                p.EndCap = LineCap.Round;
+                graph.DrawLine(p, prevPoint.X, prevPoint.Y, e.X, e.Y);
+                layer[index] = tempBmp;
+                canvas.CurrentPic.Image = layer[index];
             }
 
             prevPoint.X = e.X;
@@ -138,9 +127,10 @@ namespace Графический_редактор
 
         private void butNewLayer_Click(object sender, EventArgs e)
         {
-            if (bitmaps.Count == 0) return;
-            bitmaps.Add(new Bitmap(bitmaps[0].Width, bitmaps[0].Height));
-            listBox1.Items.Add("Cлой: " + bitmaps.Count);
+            if (layer.Count == 0) return;
+            //bitmaps.Add(new Bitmap(bitmaps[0].Width, bitmaps[0].Height));
+            //listBox1.Items.Add("Cлой: " + bitmaps.Count);
+            layer.Add(new Bitmap(canvas.Size.Width, canvas.Size.Height));
         }
 
         private void butDeleteLayer_Click(object sender, EventArgs e)
