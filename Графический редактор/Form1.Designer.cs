@@ -37,12 +37,19 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.button4 = new System.Windows.Forms.Button();
             this.butHidenLayer = new System.Windows.Forms.Button();
             this.butDeleteLayer = new System.Windows.Forms.Button();
             this.butNewLayer = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.panelResizeX = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.butEraser = new System.Windows.Forms.Button();
+            this.labelWidthPen = new System.Windows.Forms.Label();
+            this.barWidthPen = new System.Windows.Forms.TrackBar();
+            this.butColor1 = new System.Windows.Forms.Panel();
+            this.butColor2 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.PanelForDraw = new System.Windows.Forms.Panel();
             this.button3 = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
@@ -50,6 +57,9 @@
             this.panelResizeY = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.barWidthPen)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -142,6 +152,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.button4);
             this.panel2.Controls.Add(this.butHidenLayer);
             this.panel2.Controls.Add(this.butDeleteLayer);
             this.panel2.Controls.Add(this.butNewLayer);
@@ -151,6 +162,17 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(285, 628);
             this.panel2.TabIndex = 3;
+            // 
+            // button4
+            // 
+            this.button4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button4.Location = new System.Drawing.Point(0, 0);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(283, 23);
+            this.button4.TabIndex = 4;
+            this.button4.Text = "Изменение цвета";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.ColorAction_Click);
             // 
             // butHidenLayer
             // 
@@ -218,12 +240,87 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.butEraser);
+            this.panel1.Controls.Add(this.labelWidthPen);
+            this.panel1.Controls.Add(this.barWidthPen);
+            this.panel1.Controls.Add(this.butColor1);
+            this.panel1.Controls.Add(this.butColor2);
+            this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Location = new System.Drawing.Point(0, 28);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1275, 60);
             this.panel1.TabIndex = 4;
             this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
+            // 
+            // butEraser
+            // 
+            this.butEraser.Enabled = false;
+            this.butEraser.Location = new System.Drawing.Point(381, 13);
+            this.butEraser.Name = "butEraser";
+            this.butEraser.Size = new System.Drawing.Size(156, 25);
+            this.butEraser.TabIndex = 8;
+            this.butEraser.Text = "Резинка";
+            this.butEraser.UseVisualStyleBackColor = true;
+            this.butEraser.Visible = false;
+            this.butEraser.Click += new System.EventHandler(this.butEraser_Click);
+            // 
+            // labelWidthPen
+            // 
+            this.labelWidthPen.AutoSize = true;
+            this.labelWidthPen.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.labelWidthPen.Location = new System.Drawing.Point(282, 13);
+            this.labelWidthPen.Name = "labelWidthPen";
+            this.labelWidthPen.Size = new System.Drawing.Size(24, 17);
+            this.labelWidthPen.TabIndex = 7;
+            this.labelWidthPen.Text = "10";
+            // 
+            // barWidthPen
+            // 
+            this.barWidthPen.AutoSize = false;
+            this.barWidthPen.Location = new System.Drawing.Point(118, 8);
+            this.barWidthPen.Maximum = 100;
+            this.barWidthPen.Minimum = 1;
+            this.barWidthPen.Name = "barWidthPen";
+            this.barWidthPen.Size = new System.Drawing.Size(170, 42);
+            this.barWidthPen.TabIndex = 6;
+            this.barWidthPen.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.barWidthPen.Value = 10;
+            this.barWidthPen.Scroll += new System.EventHandler(this.barWidthPen_Scroll);
+            // 
+            // butColor1
+            // 
+            this.butColor1.BackColor = System.Drawing.Color.Black;
+            this.butColor1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.butColor1.Location = new System.Drawing.Point(48, 8);
+            this.butColor1.Name = "butColor1";
+            this.butColor1.Size = new System.Drawing.Size(30, 30);
+            this.butColor1.TabIndex = 4;
+            this.butColor1.Click += new System.EventHandler(this.ColorAction_Click);
+            // 
+            // butColor2
+            // 
+            this.butColor2.BackColor = System.Drawing.Color.White;
+            this.butColor2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.butColor2.Location = new System.Drawing.Point(60, 20);
+            this.butColor2.Name = "butColor2";
+            this.butColor2.Size = new System.Drawing.Size(30, 30);
+            this.butColor2.TabIndex = 5;
+            this.butColor2.Click += new System.EventHandler(this.ColorAction_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::Графический_редактор.Properties.Resources.transfer;
+            this.pictureBox1.ImageLocation = "";
+            this.pictureBox1.InitialImage = null;
+            this.pictureBox1.Location = new System.Drawing.Point(84, 2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Padding = new System.Windows.Forms.Padding(3);
+            this.pictureBox1.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 2;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.ColorChange_Click);
             // 
             // PanelForDraw
             // 
@@ -308,6 +405,10 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel2.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.barWidthPen)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -335,6 +436,13 @@
         private System.Windows.Forms.Panel panelResizeX;
         private System.Windows.Forms.Panel panelResizeALL;
         private System.Windows.Forms.Panel panelResizeY;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Panel butColor2;
+        private System.Windows.Forms.Panel butColor1;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TrackBar barWidthPen;
+        private System.Windows.Forms.Label labelWidthPen;
+        private System.Windows.Forms.Button butEraser;
     }
 }
 

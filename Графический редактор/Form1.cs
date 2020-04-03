@@ -14,7 +14,7 @@ namespace Графический_редактор
     public partial class Form1 : Form
     {
         private int Mx, My, Sw, Sh;
-        private bool moveResize, isCollapse, moveRelocation;
+        private bool moveResize, isCollapse, isEraser;
 
         private Size resolution;
         private Canvas canvas;
@@ -22,7 +22,6 @@ namespace Графический_редактор
         private Point MouseHook;
         private Layer layer;
        
-
         public Form1()
         {
             InitializeComponent();
@@ -32,7 +31,6 @@ namespace Графический_редактор
             resolution = Size;
             this.Size = Screen.PrimaryScreen.Bounds.Size;
         }
-
         
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
         {
@@ -40,7 +38,6 @@ namespace Графический_редактор
             if (e.Button != MouseButtons.Left) MouseHook = e.Location;
             Location = new Point((Size)Location - (Size)MouseHook + (Size)e.Location);
         }
-
         private void SizerMouseDown(object sender, MouseEventArgs e)
         {
             moveResize = true;
@@ -68,6 +65,7 @@ namespace Графический_редактор
         void SizerMouseUp(object sender, MouseEventArgs e) => moveResize = false;
         private void button1_Click(object sender, EventArgs e) => Close();
         private void button2_Click(object sender, EventArgs e) => this.WindowState = FormWindowState.Minimized;
+        private void barWidthPen_Scroll(object sender, EventArgs e) => labelWidthPen.Text = barWidthPen.Value.ToString();
         private void button3_Click(object sender, EventArgs e)
         {
             if (isCollapse)
@@ -128,22 +126,12 @@ namespace Графический_редактор
             var tempBmp = layer[index];
             Graphics graph = Graphics.FromImage(tempBmp);
 
+            Pen p = new Pen(butColor1.BackColor, barWidthPen.Value);
+            p.StartCap = LineCap.Round;
+            p.EndCap = LineCap.Round;
+
             if (e.Button == MouseButtons.Left && layer.tryVisible(index))
-            {
-                Pen p = new Pen(Color.Red, 15);
-                p.StartCap = LineCap.Round;
-                p.EndCap = LineCap.Round;
-                graph.DrawLine(p, prevPoint.X, prevPoint.Y, e.X, e.Y);
-                layer[index] = tempBmp;
-                canvas.CurrentPic.Image = layer[index];
-
-            }
-
-            if (e.Button == MouseButtons.Right && layer.tryVisible(index))
-            {
-                Pen p = new Pen(Color.Blue, 15);
-                p.StartCap = LineCap.Round;
-                p.EndCap = LineCap.Round;
+            {           
                 graph.DrawLine(p, prevPoint.X, prevPoint.Y, e.X, e.Y);
                 layer[index] = tempBmp;
                 canvas.CurrentPic.Image = layer[index];
@@ -177,6 +165,34 @@ namespace Графический_редактор
                 layer.Redrawing(ref canvas);
                 menuItemSaveFile.Enabled = true;
             }
+        }
+
+        private void ColorAction_Click(object sender, EventArgs e)
+        {
+            ColorDialog colorDialog = new ColorDialog();
+            try
+            {
+                var temp = (Panel)sender;
+                if (colorDialog.ShowDialog() == DialogResult.OK)
+                    temp.BackColor = colorDialog.Color;
+            }
+            catch
+            {
+                if (colorDialog.ShowDialog() == DialogResult.OK)
+                    butColor1.BackColor = colorDialog.Color;
+            }         
+        }
+
+        private void ColorChange_Click(object sender, EventArgs e)
+        {
+            var tmpColor = butColor1.BackColor;
+            butColor1.BackColor = butColor2.BackColor;
+            butColor2.BackColor = tmpColor;
+        }
+
+        private void butEraser_Click(object sender, EventArgs e)
+        {
+            isEraser = !isEraser;
         }
 
         private void butNewLayer_Click(object sender, EventArgs e)
