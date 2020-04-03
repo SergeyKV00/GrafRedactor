@@ -68,7 +68,7 @@ namespace Графический_редактор
             var tempBmp = layer[index];
             Graphics graph = Graphics.FromImage(tempBmp);
 
-            if (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left && layer.tryVisible(index))
             {
                 Pen p = new Pen(Color.Red, 15);
                 p.StartCap = LineCap.Round;
@@ -79,7 +79,7 @@ namespace Графический_редактор
 
             }
 
-            if (e.Button == MouseButtons.Right)
+            if (e.Button == MouseButtons.Right && layer.tryVisible(index))
             {
                 Pen p = new Pen(Color.Blue, 15);
                 p.StartCap = LineCap.Round;
@@ -95,10 +95,11 @@ namespace Графический_редактор
 
         private void OpenFile_Click(object sender, EventArgs e)
         {
-            openFileDialog1.Filter = "(*.bmp, *.jpg, *.png) | *.bmp; *.jpg; *.png";
-            if(openFileDialog1.ShowDialog() == DialogResult.OK)
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "(*.bmp, *.jpg, *.png) | *.bmp; *.jpg; *.png";
+            if(openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                Bitmap image = new Bitmap(openFileDialog1.FileName);
+                Bitmap image = new Bitmap(openFileDialog.FileName);
                 canvas = new Canvas(ref PanelForDraw, new Bitmap(PanelForDraw.Width, PanelForDraw.Height).ImageZoom(image).Size);
 
                 canvas.TopPic.MouseMove += new MouseEventHandler(Picture_MouseMove);
@@ -146,10 +147,10 @@ namespace Графический_редактор
         {
             SaveFileDialog savedialog = new SaveFileDialog();
             savedialog.Filter =
-            "Bitmap File(*.bmp)|*.bmp|" +
+            "PNG File(*.png)|*.png" +
             "JPEG File(*.jpg)|*.jpg|" +
-            "TIF File(*.tif)|*.tif|" +
-            "PNG File(*.png)|*.png";
+            "Bitmap File(*.bmp)|*.bmp|" +
+            "TIF File(*.tif)|*.tif|";
             savedialog.ShowHelp = true;
             if (savedialog.ShowDialog() == DialogResult.OK)
             {
@@ -158,6 +159,21 @@ namespace Графический_редактор
                 Bitmap saveB = GraphicsExtension.CombineBitmap(ref temp);
                 saveB.Save(savedialog.FileName);
             }
+        }
+
+        private void button_HidenLayer(object sender, EventArgs e)
+        {
+            int index = listBox1.SelectedIndex;
+            if (index == -1 || layer == null) return;
+            layer.Visible(index);
+
+            canvas.Clear();
+            var temp = layer[layer.Count - 1];
+            Graphics graph = Graphics.FromImage(temp);
+            graph.FillPngBackground(canvas.Size.Width, canvas.Size.Height);
+            canvas.ButtomPic.Image = temp;
+
+            layer.Redrawing(ref canvas);
         }
     }
 }

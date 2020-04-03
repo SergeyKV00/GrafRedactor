@@ -12,11 +12,14 @@ namespace Графический_редактор
     {
         private ListBox listBox;
         private List<Bitmap> bitmaps;
+        private List<bool> bitmapsVisible;
 
         private int count;
         private int startPos;
         public int Count { get => count; }
         public List<Bitmap> Bitmaps { get => bitmaps; }
+
+        public bool tryVisible(int index) => bitmapsVisible[index];
 
         public Layer(ListBox listBox)
         {
@@ -32,7 +35,8 @@ namespace Графический_редактор
             if (createHidenLayer)
             {
                 startPos = 1;
-                bitmaps.Insert(0, bmp); 
+                bitmaps.Insert(0, bmp);
+                bitmapsVisible.Insert(0, true);
                 count++;
                 Graphics graph = Graphics.FromImage(bitmaps[0]);
                 graph.FillPngBackground(bmp.Width, bmp.Height);
@@ -56,6 +60,7 @@ namespace Графический_редактор
         public void Add(Bitmap bmp)
         {
             bitmaps.Insert(0, bmp);
+            bitmapsVisible.Insert(0, true);
             count++;
 
             listBox.Items.Insert(0, "Cлой: " + (count - startPos));
@@ -64,17 +69,33 @@ namespace Графический_редактор
         public void RemoveAt(int index)
         {
             bitmaps.RemoveAt(index);
+            bitmapsVisible.RemoveAt(index);
             count--;
 
             listBox.Items.Clear();
-            for(int i = 1 + startPos; i <= Count; i++)
-                listBox.Items.Insert(0, "Cлой: " + (i- startPos));
+            for(int i = 0; i < Count - startPos; i++)
+            {
+                if (bitmapsVisible[i])
+                    listBox.Items.Add("Cлой: " + (Count - (i + startPos)));
+                else
+                    listBox.Items.Add("Скрытый Cлой: " + (Count - (i + startPos)));
 
+            }
+        }
+
+        public void Visible(int index)
+        {
+            bitmapsVisible[index] = !bitmapsVisible[index];
+            if(!bitmapsVisible[index])
+                listBox.Items[index] = "Скрытый слой: " + (Count - index - startPos);
+            else
+                listBox.Items[index] = "Cлой: " + (Count - index - startPos);
         }
 
         public void Clear()
         {
             bitmaps = new List<Bitmap>();
+            bitmapsVisible = new List<bool>();
             listBox.Items.Clear();
             count = 0;
             startPos = 0;
@@ -87,19 +108,21 @@ namespace Графический_редактор
 
             List<Bitmap> tempBitmaps = new List<Bitmap>();
             for (int i = index + 1; i < bitmaps.Count ; ++i)
-                tempBitmaps.Insert(0, bitmaps[i]);
+                if(bitmapsVisible[i]) tempBitmaps.Insert(0, bitmaps[i]);
+
 
             if (tempBitmaps.Count > 0)
                 canvas.ButtomPic.Image = GraphicsExtension.CombineBitmap(ref tempBitmaps);
 
             tempBitmaps.Clear();
             for (int i = 0; i < index; ++i)
-                tempBitmaps.Insert(0, bitmaps[i]);
+                if (bitmapsVisible[i]) tempBitmaps.Insert(0, bitmaps[i]);
 
             if (tempBitmaps.Count > 0)
                 canvas.TopPic.Image = GraphicsExtension.CombineBitmap(ref tempBitmaps);
 
-            canvas.CurrentPic.Image = bitmaps[index];
+            if(bitmapsVisible[index])
+                canvas.CurrentPic.Image = bitmaps[index];
         }
     }
 }

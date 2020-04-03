@@ -32,6 +32,7 @@
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.создатьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.открытьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сохранитьКакToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -40,10 +41,8 @@
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.PanelForDraw = new System.Windows.Forms.Panel();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.button3 = new System.Windows.Forms.Button();
-            this.сохранитьКакToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.butHidenLayer = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -77,16 +76,23 @@
             this.создатьToolStripMenuItem.BackColor = System.Drawing.Color.White;
             this.создатьToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
             this.создатьToolStripMenuItem.Name = "создатьToolStripMenuItem";
-            this.создатьToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.создатьToolStripMenuItem.Size = new System.Drawing.Size(195, 26);
             this.создатьToolStripMenuItem.Text = "Создать";
             this.создатьToolStripMenuItem.Click += new System.EventHandler(this.CreatePictureToolStripMenuItem_Click);
             // 
             // открытьToolStripMenuItem
             // 
             this.открытьToolStripMenuItem.Name = "открытьToolStripMenuItem";
-            this.открытьToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.открытьToolStripMenuItem.Size = new System.Drawing.Size(195, 26);
             this.открытьToolStripMenuItem.Text = "Открыть";
             this.открытьToolStripMenuItem.Click += new System.EventHandler(this.OpenFile_Click);
+            // 
+            // сохранитьКакToolStripMenuItem
+            // 
+            this.сохранитьКакToolStripMenuItem.Name = "сохранитьКакToolStripMenuItem";
+            this.сохранитьКакToolStripMenuItem.Size = new System.Drawing.Size(195, 26);
+            this.сохранитьКакToolStripMenuItem.Text = "Сохранить Как...";
+            this.сохранитьКакToolStripMenuItem.Click += new System.EventHandler(this.SaveFile);
             // 
             // button1
             // 
@@ -128,6 +134,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.butHidenLayer);
             this.panel2.Controls.Add(this.butDeleteLayer);
             this.panel2.Controls.Add(this.butNewLayer);
             this.panel2.Controls.Add(this.listBox1);
@@ -196,14 +203,6 @@
             this.PanelForDraw.Size = new System.Drawing.Size(1028, 663);
             this.PanelForDraw.TabIndex = 4;
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // openFileDialog2
-            // 
-            this.openFileDialog2.FileName = "openFileDialog2";
-            // 
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -221,12 +220,16 @@
             this.button3.UseVisualStyleBackColor = false;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // сохранитьКакToolStripMenuItem
+            // butHidenLayer
             // 
-            this.сохранитьКакToolStripMenuItem.Name = "сохранитьКакToolStripMenuItem";
-            this.сохранитьКакToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
-            this.сохранитьКакToolStripMenuItem.Text = "Сохранить Как...";
-            this.сохранитьКакToolStripMenuItem.Click += new System.EventHandler(this.SaveFile);
+            this.butHidenLayer.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.butHidenLayer.Location = new System.Drawing.Point(0, 348);
+            this.butHidenLayer.Name = "butHidenLayer";
+            this.butHidenLayer.Size = new System.Drawing.Size(250, 23);
+            this.butHidenLayer.TabIndex = 3;
+            this.butHidenLayer.Text = "Скрыть слой";
+            this.butHidenLayer.UseVisualStyleBackColor = true;
+            this.butHidenLayer.Click += new System.EventHandler(this.button_HidenLayer);
             // 
             // Form1
             // 
@@ -265,12 +268,11 @@
         private System.Windows.Forms.Panel PanelForDraw;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.ToolStripMenuItem открытьToolStripMenuItem;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.OpenFileDialog openFileDialog2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button butDeleteLayer;
         private System.Windows.Forms.Button butNewLayer;
         private System.Windows.Forms.ToolStripMenuItem сохранитьКакToolStripMenuItem;
+        private System.Windows.Forms.Button butHidenLayer;
     }
 }
 
