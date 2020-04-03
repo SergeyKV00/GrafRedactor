@@ -44,7 +44,7 @@ namespace Графический_редактор
             get
             {
                 if (index >= Count && index < 0) throw new Exception("Out of range");
-                return bitmaps[index]; // ???
+                return bitmaps[index]; 
             }
 
             set
