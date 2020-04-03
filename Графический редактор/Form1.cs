@@ -37,7 +37,8 @@ namespace Графический_редактор
         } 
         private void Picture_Paint()
         {
-            Bitmap bitmap = GraphicsExtension.CombineBitmap(ref bitmaps); // work
+            var temp = layer.Bitmaps;
+            Bitmap bitmap = GraphicsExtension.CombineBitmap(ref temp); // work
             canvas.CurrentPic.Image = bitmap;
   
         }
@@ -138,8 +139,7 @@ namespace Графический_редактор
             int index = listBox1.SelectedIndex;
             if(index != -1)
             {
-                listBox1.Items.RemoveAt(index);
-                bitmaps.RemoveAt(index);
+                layer.RemoveAt(index);
             }
             Picture_Paint();
         }

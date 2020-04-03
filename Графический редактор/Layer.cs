@@ -16,21 +16,18 @@ namespace Графический_редактор
         private int count;
         private int startPos;
         public int Count { get => count; }
+        public List<Bitmap> Bitmaps { get => bitmaps; }
 
         public Layer(ListBox listBox)
         {
             this.listBox = listBox;
-            bitmaps = new List<Bitmap>();
-            count = 0;
-            startPos = 0;
+            Clear();
         }
 
         public Layer(ListBox listBox, Bitmap bmp, bool createHidenLayer)
         {
             this.listBox = listBox;
-            bitmaps = new List<Bitmap>();
-            count = 0;
-            startPos = 0;
+            Clear();
 
             if (createHidenLayer)
             {
@@ -63,10 +60,29 @@ namespace Графический_редактор
 
             listBox.Items.Insert(0, "Cлой: " + (count - startPos));
         }
+
+        public void RemoveAt(int index)
+        {
+            bitmaps.RemoveAt(index);
+            count--;
+
+            listBox.Items.Clear();
+            for(int i = 1 + startPos; i <= Count; i++)
+                listBox.Items.Insert(0, "Cлой: " + (i- startPos));
+        }
+
+        public void Clear()
+        {
+            bitmaps = new List<Bitmap>();
+            listBox.Items.Clear();
+            count = 0;
+            startPos = 0;
+        }
         public void SpreadLayersOnCanvas(ref Canvas canvas)
         {
             int index = listBox.SelectedIndex;
-            if (index == -1 || bitmaps.Count < 2) return;
+            if (bitmaps.Count < 2) return;
+            index = (index == -1) ? 0 : index;
 
             List<Bitmap> tempBitmaps = new List<Bitmap>();
             for (int i = index + 1; i < bitmaps.Count ; ++i)
@@ -81,20 +97,6 @@ namespace Графический_редактор
 
             if (tempBitmaps.Count > 0)
                 canvas.TopPic.Image = GraphicsExtension.CombineBitmap(ref tempBitmaps);
-
-            /*List<Bitmap> tempBitmaps = new List<Bitmap>();
-            for (int i = 0; i < index; i++)
-                tempBitmaps.Add(bitmaps[i]);
-
-            if (tempBitmaps.Count > 0)
-                canvas.ButtomPic.Image = GraphicsExtension.CombineBitmap(ref tempBitmaps);
-
-            tempBitmaps.Clear();
-            for (int i = index + 1; i < bitmaps.Count; i++)
-                tempBitmaps.Add(bitmaps[i]);
-
-            if (tempBitmaps.Count > 0)
-                canvas.TopPic.Image = GraphicsExtension.CombineBitmap(ref tempBitmaps);*/
         }
     }
 }
