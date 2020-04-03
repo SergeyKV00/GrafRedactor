@@ -14,30 +14,48 @@ namespace Графический_редактор
     {
         private Size pic_size;
         public Size picSize { get => pic_size; }
-
         public bool Cancel { get; set; }
         public CreatePictureDialog()
         {
             InitializeComponent();
             Cancel = true;
+            textBoxWidth.Text = "600";
+            textBoxHeight.Text = "600";
         }
 
+        private bool ValueCheck(object sender)
+        {
+            var temp = (TextBox)sender;
+            if (!int.TryParse(temp.Text, out int value)) value = -1;
+
+            if (value > 3000 || value < 1)
+            {
+                temp.ForeColor = Color.Red;
+                return false;
+            }
+            temp.ForeColor = Color.Black;
+            return true;
+        }
+        private void TextChange(object sender, EventArgs e)
+        {
+           if(ValueCheck(textBoxWidth) && ValueCheck(textBoxHeight))
+           {
+                label3.Visible = false;
+                buttonOk.Enabled = true;
+           }
+           else
+           {
+                label3.Visible = true;
+                buttonOk.Enabled = false;
+            }
+        }
         private void buttonCancel_Click(object sender, EventArgs e) => Close();
 
         private void buttonOk_Click(object sender, EventArgs e)
         {
-            if(textBoxHeight.Text != "" || textBoxWidth.Text != "")
-            {
-                int width = 0;
-                int height = 0;
-
-                if (!int.TryParse(textBoxWidth.Text, out width) || !int.TryParse(textBoxHeight.Text, out height))
-                    return;
                 Cancel = false;
-                pic_size = new Size(width, height);
-                Close();
-            }
-            
+                pic_size = new Size(Convert.ToInt32(textBoxWidth.Text), Convert.ToInt32(textBoxHeight.Text));
+                Close();  
         }
     }
 }

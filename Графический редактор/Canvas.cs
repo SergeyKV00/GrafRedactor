@@ -42,6 +42,7 @@ namespace Графический_редактор
                 temp = new Bitmap(image_size.Width, image_size.Height);
             PictureBox picture = new PictureBox();
             picture.BackColor = Color.FromArgb(0, 0, 0, 0);
+            picture.Cursor = Cursors.Cross;
             Size = picture.Size = temp.Size;
 
             return picture;

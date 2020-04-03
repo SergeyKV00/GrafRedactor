@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxWidth = new System.Windows.Forms.TextBox();
             this.textBoxHeight = new System.Windows.Forms.TextBox();
             this.buttonOk = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -62,6 +62,7 @@
             this.textBoxWidth.Name = "textBoxWidth";
             this.textBoxWidth.Size = new System.Drawing.Size(100, 22);
             this.textBoxWidth.TabIndex = 2;
+            this.textBoxWidth.TextChanged += new System.EventHandler(this.TextChange);
             // 
             // textBoxHeight
             // 
@@ -70,9 +71,11 @@
             this.textBoxHeight.Name = "textBoxHeight";
             this.textBoxHeight.Size = new System.Drawing.Size(100, 22);
             this.textBoxHeight.TabIndex = 3;
+            this.textBoxHeight.TextChanged += new System.EventHandler(this.TextChange);
             // 
             // buttonOk
             // 
+            this.buttonOk.Enabled = false;
             this.buttonOk.Location = new System.Drawing.Point(242, 8);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(101, 23);
@@ -91,11 +94,24 @@
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label3.ForeColor = System.Drawing.Color.Red;
+            this.label3.Location = new System.Drawing.Point(22, 80);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(179, 18);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Недопустимое значение";
+            this.label3.Visible = false;
+            // 
             // CreatePictureDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(355, 85);
+            this.ClientSize = new System.Drawing.Size(355, 112);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.textBoxHeight);
@@ -111,13 +127,12 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxWidth;
         private System.Windows.Forms.TextBox textBoxHeight;
         private System.Windows.Forms.Button buttonOk;
         private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.Label label3;
     }
 }

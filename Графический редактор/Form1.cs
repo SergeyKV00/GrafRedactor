@@ -13,38 +13,96 @@ namespace Графический_редактор
 {
     public partial class Form1 : Form
     {
+        private int Mx, My, Sw, Sh;
+        private bool moveResize, isCollapse, moveRelocation;
+
+        private Size resolution;
         private Canvas canvas;
         private Point prevPoint;
+        private Point MouseHook;
         private Layer layer;
-        private bool isCollapse;
+       
 
         public Form1()
         {
             InitializeComponent();
+
             isCollapse = false;
+            this.MaximumSize = Screen.PrimaryScreen.WorkingArea.Size;
+            resolution = Size;
+            this.Size = Screen.PrimaryScreen.Bounds.Size;
         }
+
+        
+        private void MainForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!isCollapse) return;
+            if (e.Button != MouseButtons.Left) MouseHook = e.Location;
+            Location = new Point((Size)Location - (Size)MouseHook + (Size)e.Location);
+        }
+
+        private void SizerMouseDown(object sender, MouseEventArgs e)
+        {
+            moveResize = true;
+            My = MousePosition.Y;
+            Mx = MousePosition.X;
+            Sw = Width;
+            Sh = Height;
+        }
+        void SizerMouseMove(object sender, MouseEventArgs e)
+        {
+            var panel = (Panel)sender;
+            if (moveResize && isCollapse)
+            {
+                if(panel == panelResizeALL)
+                {
+                    Width = MousePosition.X - Mx + Sw;
+                    Height = MousePosition.Y - My + Sh;
+                }
+                if (panel == panelResizeX)
+                    Width = MousePosition.X - Mx + Sw;
+                if (panel == panelResizeY)
+                    Height = MousePosition.Y - My + Sh;
+            }
+        }
+        void SizerMouseUp(object sender, MouseEventArgs e) => moveResize = false;
         private void button1_Click(object sender, EventArgs e) => Close();
         private void button2_Click(object sender, EventArgs e) => this.WindowState = FormWindowState.Minimized;
         private void button3_Click(object sender, EventArgs e)
         {
             if (isCollapse)
-                this.WindowState = FormWindowState.Maximized;
+            {
+                panelResizeALL.Cursor = Cursors.Default;
+                panelResizeX.Cursor = Cursors.Default;
+                panelResizeY.Cursor = Cursors.Default;
+                this.Size = Screen.PrimaryScreen.Bounds.Size;
+                Location = new Point(0, 0);
+            }              
             else
-                this.WindowState = FormWindowState.Normal;
+            {
+                panelResizeALL.Cursor = Cursors.SizeNWSE;
+                panelResizeX.Cursor = Cursors.SizeWE;
+                panelResizeY.Cursor = Cursors.SizeNS;
+                
+                this.Size = resolution;
+            }
+                
             isCollapse = !isCollapse;
         } 
         private void CreatePictureToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // === Открыть диалок созданий холста ====
             var PictureDialog = new CreatePictureDialog();
             PictureDialog.TopMost = true;
             PictureDialog.ShowDialog();
-            if (PictureDialog.Cancel) return;
-
+            if (PictureDialog.Cancel) return; // Отмена создания холста
+            // === === === === === === === === === ===
+            // === Создание холста ===
             canvas = new Canvas(ref PanelForDraw,PictureDialog.picSize);
-
             canvas.TopPic.MouseMove += new MouseEventHandler(Picture_MouseMove);
             canvas.TopPic.MouseUp += new MouseEventHandler(Picture_MouseUp);
             canvas.TopPic.MouseDown += new MouseEventHandler(Picture_MouseDown);
+            // === === === === === ===
 
             layer = new Layer(listBox1, new Bitmap(canvas.Size.Width, canvas.Size.Height), true);
             layer.Add(new Bitmap(canvas.Size.Width, canvas.Size.Height));
@@ -53,8 +111,10 @@ namespace Графический_редактор
             var tempBmp = layer[0];
             Graphics.FromImage(tempBmp).FillRectangle(new SolidBrush(Color.White), 0, 0, tempBmp.Width, tempBmp.Height);
             canvas.CurrentPic.Image = layer[0] = tempBmp;
-
             listBox1.SetSelected(0, true);
+
+
+            menuItemSaveFile.Enabled = true;
         }
 
         private void Picture_MouseDown(object sender, MouseEventArgs e) => layer.Redrawing(ref canvas);
@@ -115,6 +175,7 @@ namespace Графический_редактор
                 listBox1.SetSelected(0, true);
 
                 layer.Redrawing(ref canvas);
+                menuItemSaveFile.Enabled = true;
             }
         }
 
@@ -124,6 +185,9 @@ namespace Графический_редактор
 
             if (layer.Count == 0) return;
             layer.Add(new Bitmap(canvas.Size.Width, canvas.Size.Height));
+            listBox1.SetSelected(0, true);
+
+            menuItemSaveFile.Enabled = true;
         }
 
         private void butDeleteLayer_Click(object sender, EventArgs e)
@@ -138,6 +202,7 @@ namespace Графический_редактор
                 Graphics graph = Graphics.FromImage(temp);
                 graph.FillPngBackground(canvas.Size.Width, canvas.Size.Height);
                 canvas.ButtomPic.Image = temp;
+                if(layer.Count == 1) menuItemSaveFile.Enabled = false;
             }
             if (listBox1.Items.Count != 0) listBox1.SetSelected(listBox1.Items.Count - 1, true);
             layer.Redrawing(ref canvas);
@@ -145,17 +210,34 @@ namespace Графический_редактор
 
         private void SaveFile(object sender, EventArgs e)
         {
-            SaveFileDialog savedialog = new SaveFileDialog();
-            savedialog.Filter =
-            "PNG File(*.png)|*.png" +
-            "JPEG File(*.jpg)|*.jpg|" +
+            if (layer == null)
+            {
+            }
+            if (layer.Count == 0) return;
+            SaveFileDialog savedialog = new SaveFileDialog
+            {
+                Filter =
             "Bitmap File(*.bmp)|*.bmp|" +
-            "TIF File(*.tif)|*.tif|";
-            savedialog.ShowHelp = true;
+            "JPEG File(*.jpg)|*.jpg|" +
+            "TIF File(*.tif)|*.tif|" +
+            "PNG File(*.png)|*.png",
+                ShowHelp = true
+            };
             if (savedialog.ShowDialog() == DialogResult.OK)
             {
+                string fileExtension = System.IO.Path.GetExtension(savedialog.FileName);
                 var temp = layer.Bitmaps;
                 temp.Reverse();
+                temp.RemoveAt(0);
+
+                if(fileExtension == ".fpg")
+                {
+                    var bmp = new Bitmap(canvas.Size.Width, canvas.Size.Height);
+                    var graph = Graphics.FromImage(bmp);
+                    graph.FillRectangle(new SolidBrush(Color.White), 0, 0, bmp.Width, bmp.Height);
+                    temp.Insert(0, bmp);
+                }
+
                 Bitmap saveB = GraphicsExtension.CombineBitmap(ref temp);
                 saveB.Save(savedialog.FileName);
             }
