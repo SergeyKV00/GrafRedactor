@@ -81,7 +81,7 @@ namespace Графический_редактор
         public void SpreadLayersOnCanvas(ref Canvas canvas)
         {
             int index = listBox.SelectedIndex;
-            if (bitmaps.Count < 2) return;
+            if (bitmaps.Count < 1) return;
             index = (index == -1) ? 0 : index;
 
             List<Bitmap> tempBitmaps = new List<Bitmap>();
@@ -97,6 +97,8 @@ namespace Графический_редактор
 
             if (tempBitmaps.Count > 0)
                 canvas.TopPic.Image = GraphicsExtension.CombineBitmap(ref tempBitmaps);
+
+            canvas.CurrentPic.Image = bitmaps[index];
         }
     }
 }
