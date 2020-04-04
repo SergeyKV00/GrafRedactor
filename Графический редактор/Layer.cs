@@ -77,7 +77,7 @@ namespace Графический_редактор
                 if (bitmapsVisible[Count - i - 1 - startPos])
                     layersName.Insert(0, "Cлой: " + layersName.Count);
                 else
-                    layersName.Insert(0, "Скрытый слой" + layersName.Count);
+                    layersName.Insert(0, "Скрытый слой " + layersName.Count);
 
                 List<Bitmap> tempBmp = new List<Bitmap>();
                 tempBmp.Add(new Bitmap(bitmaps[Count - 1]));
