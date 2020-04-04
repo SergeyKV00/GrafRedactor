@@ -29,7 +29,7 @@ namespace Графический_редактор
             isCollapse = false;
             this.MaximumSize = Screen.PrimaryScreen.WorkingArea.Size;
             resolution = Size;
-            this.Size = Screen.PrimaryScreen.Bounds.Size;
+            this.Size = Screen.PrimaryScreen.Bounds.Size;           
         }
         
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
@@ -102,26 +102,38 @@ namespace Графический_редактор
             canvas.TopPic.MouseDown += new MouseEventHandler(Picture_MouseDown);
             // === === === === === ===
 
-            layer = new Layer(listBox1, new Bitmap(canvas.Size.Width, canvas.Size.Height), true);
+            layer = new Layer(listView1, new Bitmap(canvas.Size.Width, canvas.Size.Height), true);
             layer.Add(new Bitmap(canvas.Size.Width, canvas.Size.Height));
 
             canvas.ButtomPic.Image = layer[1];
             var tempBmp = layer[0];
             Graphics.FromImage(tempBmp).FillRectangle(new SolidBrush(Color.White), 0, 0, tempBmp.Width, tempBmp.Height);
             canvas.CurrentPic.Image = layer[0] = tempBmp;
-            listBox1.SetSelected(0, true);
 
+            listView1.Items[0].Selected = true;
+            listView1.Select();
 
             menuItemSaveFile.Enabled = true;
         }
 
-        private void Picture_MouseDown(object sender, MouseEventArgs e) => layer.Redrawing(ref canvas);
-        private void Picture_MouseUp(object sender, MouseEventArgs e) => layer.Redrawing(ref canvas);
+        private void Picture_MouseDown(object sender, MouseEventArgs e)
+        {
+            prevPoint.X = e.X;
+            prevPoint.Y = e.Y;
+            layer.Redrawing(ref canvas);
+        }
 
+        private void Picture_MouseUp(object sender, MouseEventArgs e)
+        {
+            layer.LayerListUpData(listView1.SelectedIndices[0]);            
+            layer.Redrawing(ref canvas);
+        }
+        
         private void Picture_MouseMove(object sender, MouseEventArgs e)
         {
-            int index = listBox1.SelectedIndex;
-            if (index == -1) return;
+           
+            if (!(listView1.SelectedIndices.Count > 0)) return;
+            int index = listView1.SelectedIndices[0];
 
             var tempBmp = layer[index];
             Graphics graph = Graphics.FromImage(tempBmp);
@@ -154,15 +166,17 @@ namespace Графический_редактор
                 canvas.TopPic.MouseUp += new MouseEventHandler(Picture_MouseUp);
                 canvas.TopPic.MouseDown += new MouseEventHandler(Picture_MouseDown);
 
-                layer = new Layer(listBox1, new Bitmap(canvas.Size.Width, canvas.Size.Height), true);
+                layer = new Layer(listView1, new Bitmap(canvas.Size.Width, canvas.Size.Height), true);
                 layer.Add(new Bitmap(canvas.Size.Width, canvas.Size.Height));
 
                 canvas.ButtomPic.Image = layer[0].ImageZoom(image);
                 canvas.ButtomPic.Image = layer[0];
 
-                listBox1.SetSelected(0, true);
+                listView1.Items[0].Selected = true;
+                listView1.Select();
 
                 layer.Redrawing(ref canvas);
+
                 menuItemSaveFile.Enabled = true;
             }
         }
@@ -201,27 +215,28 @@ namespace Графический_редактор
 
             if (layer.Count == 0) return;
             layer.Add(new Bitmap(canvas.Size.Width, canvas.Size.Height));
-            listBox1.SetSelected(0, true);
 
             menuItemSaveFile.Enabled = true;
         }
 
         private void butDeleteLayer_Click(object sender, EventArgs e)
-        {
-            if (layer == null) return;
-            int index = listBox1.SelectedIndex;
-            if(index != -1)
-            {
-                layer.RemoveAt(index);
-                canvas.Clear();
-                var temp = layer[layer.Count - 1];
-                Graphics graph = Graphics.FromImage(temp);
-                graph.FillPngBackground(canvas.Size.Width, canvas.Size.Height);
-                canvas.ButtomPic.Image = temp;
-                if(layer.Count == 1) menuItemSaveFile.Enabled = false;
-            }
-            if (listBox1.Items.Count != 0) listBox1.SetSelected(listBox1.Items.Count - 1, true);
-            layer.Redrawing(ref canvas);
+       {
+           if (layer == null) return;
+           int index;
+
+           if (listView1.SelectedIndices.Count > 0) index = listView1.SelectedIndices[0];
+           else index = -1;
+           if(index != -1)
+           {
+               layer.RemoveAt(index);
+               canvas.Clear();
+               var temp = layer[layer.Count - 1];
+               Graphics graph = Graphics.FromImage(temp);
+               graph.FillPngBackground(canvas.Size.Width, canvas.Size.Height);
+               canvas.ButtomPic.Image = temp;
+               if(layer.Count == 1) menuItemSaveFile.Enabled = false;
+           }
+           layer.Redrawing(ref canvas);
         }
 
         private void SaveFile(object sender, EventArgs e)
@@ -261,7 +276,7 @@ namespace Графический_редактор
 
         private void button_HidenLayer(object sender, EventArgs e)
         {
-            int index = listBox1.SelectedIndex;
+            int index = (listView1.SelectedIndices.Count > 0) ? listView1.SelectedIndices[0] : -1;
             if (index == -1 || layer == null) return;
             layer.Visible(index);
 
@@ -271,6 +286,7 @@ namespace Графический_редактор
             graph.FillPngBackground(canvas.Size.Width, canvas.Size.Height);
             canvas.ButtomPic.Image = temp;
 
+            layer.LayerListUpData(index);
             layer.Redrawing(ref canvas);
         }
     }

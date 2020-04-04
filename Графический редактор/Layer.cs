@@ -10,7 +10,9 @@ namespace Графический_редактор
 {
     class Layer
     {
-        private ListBox listBox;
+        private ListView listView;
+        private ImageList imageList;
+        private List<string> layersName;
         private List<Bitmap> bitmaps;
         private List<bool> bitmapsVisible;
 
@@ -21,15 +23,15 @@ namespace Графический_редактор
 
         public bool tryVisible(int index) => bitmapsVisible[index];
 
-        public Layer(ListBox listBox)
+        public Layer(ListView listBox)
         {
-            this.listBox = listBox;
+            this.listView = listBox;
             Clear();
         }
 
-        public Layer(ListBox listBox, Bitmap bmp, bool createHidenLayer)
+        public Layer(ListView listBox, Bitmap bmp, bool createHidenLayer)
         {
-            this.listBox = listBox;
+            this.listView = listBox;
             Clear();
 
             if (createHidenLayer)
@@ -62,8 +64,34 @@ namespace Графический_редактор
             bitmaps.Insert(0, bmp);
             bitmapsVisible.Insert(0, true);
             count++;
+            LayerListUpData(0);
 
-            listBox.Items.Insert(0, "Cлой: " + (count - startPos));
+        }
+
+        public void LayerListUpData(int index)
+        {
+            listView.Items.Clear();
+            layersName.Clear();
+            for(int i = 0; i < Count - startPos; i++)
+            {
+                if (bitmapsVisible[Count - i - 1 - startPos])
+                    layersName.Insert(0, "Cлой: " + layersName.Count);
+                else
+                    layersName.Insert(0, "Скрытый слой" + layersName.Count);
+
+                List<Bitmap> tempBmp = new List<Bitmap>();
+                tempBmp.Add(new Bitmap(bitmaps[Count - 1]));
+                tempBmp.Add(new Bitmap(bitmaps[Count - i - 1 - startPos]));
+                imageList.Images.Add(GraphicsExtension.CombineBitmap(ref tempBmp));
+
+                ListViewItem tempItem = new ListViewItem(new string[] { "", layersName[layersName.Count - i - startPos] });
+                tempItem.ImageIndex = imageList.Images.Count - 1;
+                listView.Items.Insert(0, tempItem);
+            }
+
+            if (Count < 2) return;
+            listView.Items[index].Selected = true;
+            listView.Select();
         }
 
         public void RemoveAt(int index)
@@ -71,38 +99,32 @@ namespace Графический_редактор
             bitmaps.RemoveAt(index);
             bitmapsVisible.RemoveAt(index);
             count--;
-
-            listBox.Items.Clear();
-            for(int i = 0; i < Count - startPos; i++)
-            {
-                if (bitmapsVisible[i])
-                    listBox.Items.Add("Cлой: " + (Count - (i + startPos)));
-                else
-                    listBox.Items.Add("Скрытый Cлой: " + (Count - (i + startPos)));
-
-            }
+            LayerListUpData(0);
         }
 
         public void Visible(int index)
         {
             bitmapsVisible[index] = !bitmapsVisible[index];
-            if(!bitmapsVisible[index])
-                listBox.Items[index] = "Скрытый слой: " + (Count - index - startPos);
-            else
-                listBox.Items[index] = "Cлой: " + (Count - index - startPos);
         }
 
         public void Clear()
         {
             bitmaps = new List<Bitmap>();
             bitmapsVisible = new List<bool>();
-            listBox.Items.Clear();
+            layersName = new List<string>();
+            imageList = new ImageList();
+            imageList.ImageSize = new Size(35, 35);
+            listView.SmallImageList = imageList;
+            listView.Items.Clear();
             count = 0;
             startPos = 0;
         }
         public void Redrawing(ref Canvas canvas)
         {
-            int index = listBox.SelectedIndex;
+            int index;
+            if (listView.SelectedIndices.Count == 0) index = -1;
+            else index = listView.SelectedIndices[0];
+
             if (bitmaps.Count < 1) return;
             index = (index == -1) ? 0 : index;
 
