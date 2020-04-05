@@ -109,6 +109,8 @@ namespace Графический_редактор
             layers.Change();
 
             menuItemSaveFile.Enabled = true;
+            butLayerUp.Enabled = true;
+            butLayerDown.Enabled = true;
         }
 
         private void Picture_MouseDown(object sender, MouseEventArgs e)
@@ -133,6 +135,7 @@ namespace Графический_редактор
             if (e.Button == MouseButtons.Left && layers.Visible && !isEraser)
             {               
                 Graphics graph = Graphics.FromImage(tempBmp);
+                graph.SmoothingMode = SmoothingMode.AntiAlias; // Сглаживание 
 
                 Pen p = new Pen(butColor1.BackColor, barWidthPen.Value);
                 p.StartCap = LineCap.Round;
@@ -183,6 +186,8 @@ namespace Графический_редактор
                 layers.Change();
 
                 menuItemSaveFile.Enabled = true;
+                butLayerUp.Enabled = true;
+                butLayerDown.Enabled = true;
             }
         }
 

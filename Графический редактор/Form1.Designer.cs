@@ -37,13 +37,11 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.labelNumber = new System.Windows.Forms.Label();
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button4 = new System.Windows.Forms.Button();
-            this.butHidenLayer = new System.Windows.Forms.Button();
-            this.butDeleteLayer = new System.Windows.Forms.Button();
-            this.butNewLayer = new System.Windows.Forms.Button();
             this.panelResizeX = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.labelEraser = new System.Windows.Forms.Label();
@@ -53,24 +51,30 @@
             this.barWidthPen = new System.Windows.Forms.TrackBar();
             this.butColor1 = new System.Windows.Forms.Panel();
             this.butColor2 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.PanelForDraw = new System.Windows.Forms.Panel();
             this.button3 = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.panelResizeALL = new System.Windows.Forms.Panel();
             this.panelResizeY = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.labelNumber = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.butLayerUp = new System.Windows.Forms.Button();
             this.butLayerDown = new System.Windows.Forms.Button();
+            this.butHidenLayer = new System.Windows.Forms.Button();
+            this.butDeleteLayer = new System.Windows.Forms.Button();
+            this.butNewLayer = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarEraser)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.barWidthPen)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -163,19 +167,26 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.butLayerDown);
-            this.panel2.Controls.Add(this.butLayerUp);
-            this.panel2.Controls.Add(this.labelNumber);
             this.panel2.Controls.Add(this.listView1);
+            this.panel2.Controls.Add(this.panel3);
+            this.panel2.Controls.Add(this.labelNumber);
             this.panel2.Controls.Add(this.button4);
-            this.panel2.Controls.Add(this.butHidenLayer);
-            this.panel2.Controls.Add(this.butDeleteLayer);
-            this.panel2.Controls.Add(this.butNewLayer);
             this.panel2.Location = new System.Drawing.Point(990, 88);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(285, 628);
             this.panel2.TabIndex = 3;
+            // 
+            // labelNumber
+            // 
+            this.labelNumber.AutoSize = true;
+            this.labelNumber.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.labelNumber.Location = new System.Drawing.Point(61, 119);
+            this.labelNumber.Name = "labelNumber";
+            this.labelNumber.Size = new System.Drawing.Size(44, 17);
+            this.labelNumber.TabIndex = 6;
+            this.labelNumber.Text = "NULL";
+            this.labelNumber.Visible = false;
             // 
             // listView1
             // 
@@ -186,10 +197,10 @@
             this.listView1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.listView1.ForeColor = System.Drawing.SystemColors.Info;
             this.listView1.FullRowSelect = true;
-            this.listView1.Location = new System.Drawing.Point(0, 288);
+            this.listView1.Location = new System.Drawing.Point(0, 186);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(283, 338);
+            this.listView1.Size = new System.Drawing.Size(283, 399);
             this.listView1.TabIndex = 5;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -214,36 +225,6 @@
             this.button4.Text = "Изменение цвета";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.ColorAction_Click);
-            // 
-            // butHidenLayer
-            // 
-            this.butHidenLayer.Location = new System.Drawing.Point(-1, 217);
-            this.butHidenLayer.Name = "butHidenLayer";
-            this.butHidenLayer.Size = new System.Drawing.Size(283, 23);
-            this.butHidenLayer.TabIndex = 3;
-            this.butHidenLayer.Text = "Скрыть слой";
-            this.butHidenLayer.UseVisualStyleBackColor = true;
-            this.butHidenLayer.Click += new System.EventHandler(this.button_HidenLayer);
-            // 
-            // butDeleteLayer
-            // 
-            this.butDeleteLayer.Location = new System.Drawing.Point(-1, 240);
-            this.butDeleteLayer.Name = "butDeleteLayer";
-            this.butDeleteLayer.Size = new System.Drawing.Size(283, 23);
-            this.butDeleteLayer.TabIndex = 2;
-            this.butDeleteLayer.Text = "Удалить слой";
-            this.butDeleteLayer.UseVisualStyleBackColor = true;
-            this.butDeleteLayer.Click += new System.EventHandler(this.butDeleteLayer_Click);
-            // 
-            // butNewLayer
-            // 
-            this.butNewLayer.Location = new System.Drawing.Point(-1, 263);
-            this.butNewLayer.Name = "butNewLayer";
-            this.butNewLayer.Size = new System.Drawing.Size(283, 23);
-            this.butNewLayer.TabIndex = 1;
-            this.butNewLayer.Text = "Новый слой";
-            this.butNewLayer.UseVisualStyleBackColor = true;
-            this.butNewLayer.Click += new System.EventHandler(this.butNewLayer_Click);
             // 
             // panelResizeX
             // 
@@ -356,20 +337,6 @@
             this.butColor2.TabIndex = 5;
             this.butColor2.Click += new System.EventHandler(this.ColorAction_Click);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::Графический_редактор.Properties.Resources.transfer;
-            this.pictureBox1.ImageLocation = "";
-            this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(84, 2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Padding = new System.Windows.Forms.Padding(3);
-            this.pictureBox1.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.ColorChange_Click);
-            // 
             // PanelForDraw
             // 
             this.PanelForDraw.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -430,6 +397,36 @@
             this.panelResizeY.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SizerMouseMove);
             this.panelResizeY.MouseUp += new System.Windows.Forms.MouseEventHandler(this.SizerMouseUp);
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 5;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.butLayerUp, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.butLayerDown, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.butHidenLayer, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.butDeleteLayer, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.butNewLayer, 4, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(283, 41);
+            this.tableLayoutPanel1.TabIndex = 4;
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.tableLayoutPanel1);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel3.Location = new System.Drawing.Point(0, 585);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(283, 41);
+            this.panel3.TabIndex = 7;
+            // 
             // pictureBox2
             // 
             this.pictureBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
@@ -441,38 +438,91 @@
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
             // 
-            // labelNumber
+            // pictureBox1
             // 
-            this.labelNumber.AutoSize = true;
-            this.labelNumber.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.labelNumber.Location = new System.Drawing.Point(61, 119);
-            this.labelNumber.Name = "labelNumber";
-            this.labelNumber.Size = new System.Drawing.Size(44, 17);
-            this.labelNumber.TabIndex = 6;
-            this.labelNumber.Text = "NULL";
-            this.labelNumber.Visible = false;
+            this.pictureBox1.Image = global::Графический_редактор.Properties.Resources.transfer;
+            this.pictureBox1.ImageLocation = "";
+            this.pictureBox1.InitialImage = null;
+            this.pictureBox1.Location = new System.Drawing.Point(84, 2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Padding = new System.Windows.Forms.Padding(3);
+            this.pictureBox1.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 2;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.ColorChange_Click);
             // 
             // butLayerUp
             // 
-            this.butLayerUp.Dock = System.Windows.Forms.DockStyle.Top;
-            this.butLayerUp.Location = new System.Drawing.Point(0, 23);
+            this.butLayerUp.BackgroundImage = global::Графический_редактор.Properties.Resources.arrowUp;
+            this.butLayerUp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.butLayerUp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.butLayerUp.Enabled = false;
+            this.butLayerUp.FlatAppearance.BorderSize = 0;
+            this.butLayerUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butLayerUp.Location = new System.Drawing.Point(59, 3);
             this.butLayerUp.Name = "butLayerUp";
-            this.butLayerUp.Size = new System.Drawing.Size(283, 23);
+            this.butLayerUp.Size = new System.Drawing.Size(50, 35);
             this.butLayerUp.TabIndex = 7;
-            this.butLayerUp.Text = "Вверх";
             this.butLayerUp.UseVisualStyleBackColor = true;
             this.butLayerUp.Click += new System.EventHandler(this.butLayerUp_Click);
             // 
             // butLayerDown
             // 
-            this.butLayerDown.Dock = System.Windows.Forms.DockStyle.Top;
-            this.butLayerDown.Location = new System.Drawing.Point(0, 46);
+            this.butLayerDown.BackgroundImage = global::Графический_редактор.Properties.Resources.arrowDown;
+            this.butLayerDown.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.butLayerDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.butLayerDown.Enabled = false;
+            this.butLayerDown.FlatAppearance.BorderSize = 0;
+            this.butLayerDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butLayerDown.Location = new System.Drawing.Point(115, 3);
             this.butLayerDown.Name = "butLayerDown";
-            this.butLayerDown.Size = new System.Drawing.Size(283, 23);
+            this.butLayerDown.Size = new System.Drawing.Size(50, 35);
             this.butLayerDown.TabIndex = 8;
-            this.butLayerDown.Text = "Вниз";
             this.butLayerDown.UseVisualStyleBackColor = true;
             this.butLayerDown.Click += new System.EventHandler(this.butLayerDown_Click);
+            // 
+            // butHidenLayer
+            // 
+            this.butHidenLayer.BackgroundImage = global::Графический_редактор.Properties.Resources.Eye;
+            this.butHidenLayer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.butHidenLayer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.butHidenLayer.FlatAppearance.BorderSize = 0;
+            this.butHidenLayer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butHidenLayer.Location = new System.Drawing.Point(3, 3);
+            this.butHidenLayer.Name = "butHidenLayer";
+            this.butHidenLayer.Size = new System.Drawing.Size(50, 35);
+            this.butHidenLayer.TabIndex = 3;
+            this.butHidenLayer.UseVisualStyleBackColor = true;
+            this.butHidenLayer.Click += new System.EventHandler(this.button_HidenLayer);
+            // 
+            // butDeleteLayer
+            // 
+            this.butDeleteLayer.BackgroundImage = global::Графический_редактор.Properties.Resources.basket;
+            this.butDeleteLayer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.butDeleteLayer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.butDeleteLayer.FlatAppearance.BorderSize = 0;
+            this.butDeleteLayer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butDeleteLayer.Location = new System.Drawing.Point(171, 3);
+            this.butDeleteLayer.Name = "butDeleteLayer";
+            this.butDeleteLayer.Size = new System.Drawing.Size(50, 35);
+            this.butDeleteLayer.TabIndex = 2;
+            this.butDeleteLayer.UseVisualStyleBackColor = true;
+            this.butDeleteLayer.Click += new System.EventHandler(this.butDeleteLayer_Click);
+            // 
+            // butNewLayer
+            // 
+            this.butNewLayer.BackgroundImage = global::Графический_редактор.Properties.Resources.layer;
+            this.butNewLayer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.butNewLayer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.butNewLayer.FlatAppearance.BorderSize = 0;
+            this.butNewLayer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butNewLayer.Location = new System.Drawing.Point(227, 3);
+            this.butNewLayer.Name = "butNewLayer";
+            this.butNewLayer.Size = new System.Drawing.Size(53, 35);
+            this.butNewLayer.TabIndex = 1;
+            this.butNewLayer.UseVisualStyleBackColor = true;
+            this.butNewLayer.Click += new System.EventHandler(this.butNewLayer_Click);
             // 
             // Form1
             // 
@@ -504,9 +554,11 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarEraser)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.barWidthPen)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -548,6 +600,8 @@
         private System.Windows.Forms.Label labelNumber;
         private System.Windows.Forms.Button butLayerUp;
         private System.Windows.Forms.Button butLayerDown;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }
 
