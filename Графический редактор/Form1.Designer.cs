@@ -60,6 +60,9 @@
             this.panelResizeALL = new System.Windows.Forms.Panel();
             this.panelResizeY = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.labelNumber = new System.Windows.Forms.Label();
+            this.butLayerUp = new System.Windows.Forms.Button();
+            this.butLayerDown = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -160,6 +163,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.butLayerDown);
+            this.panel2.Controls.Add(this.butLayerUp);
+            this.panel2.Controls.Add(this.labelNumber);
             this.panel2.Controls.Add(this.listView1);
             this.panel2.Controls.Add(this.button4);
             this.panel2.Controls.Add(this.butHidenLayer);
@@ -187,6 +193,7 @@
             this.listView1.TabIndex = 5;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.SelectedIndexChanged += new System.EventHandler(this.IndexChange);
             // 
             // columnHeader1
             // 
@@ -434,6 +441,39 @@
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
             // 
+            // labelNumber
+            // 
+            this.labelNumber.AutoSize = true;
+            this.labelNumber.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.labelNumber.Location = new System.Drawing.Point(61, 119);
+            this.labelNumber.Name = "labelNumber";
+            this.labelNumber.Size = new System.Drawing.Size(44, 17);
+            this.labelNumber.TabIndex = 6;
+            this.labelNumber.Text = "NULL";
+            this.labelNumber.Visible = false;
+            // 
+            // butLayerUp
+            // 
+            this.butLayerUp.Dock = System.Windows.Forms.DockStyle.Top;
+            this.butLayerUp.Location = new System.Drawing.Point(0, 23);
+            this.butLayerUp.Name = "butLayerUp";
+            this.butLayerUp.Size = new System.Drawing.Size(283, 23);
+            this.butLayerUp.TabIndex = 7;
+            this.butLayerUp.Text = "Вверх";
+            this.butLayerUp.UseVisualStyleBackColor = true;
+            this.butLayerUp.Click += new System.EventHandler(this.butLayerUp_Click);
+            // 
+            // butLayerDown
+            // 
+            this.butLayerDown.Dock = System.Windows.Forms.DockStyle.Top;
+            this.butLayerDown.Location = new System.Drawing.Point(0, 46);
+            this.butLayerDown.Name = "butLayerDown";
+            this.butLayerDown.Size = new System.Drawing.Size(283, 23);
+            this.butLayerDown.TabIndex = 8;
+            this.butLayerDown.Text = "Вниз";
+            this.butLayerDown.UseVisualStyleBackColor = true;
+            this.butLayerDown.Click += new System.EventHandler(this.butLayerDown_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -459,6 +499,7 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarEraser)).EndInit();
@@ -504,6 +545,9 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label labelEraser;
         private System.Windows.Forms.TrackBar trackBarEraser;
+        private System.Windows.Forms.Label labelNumber;
+        private System.Windows.Forms.Button butLayerUp;
+        private System.Windows.Forms.Button butLayerDown;
     }
 }
 

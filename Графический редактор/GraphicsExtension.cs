@@ -10,6 +10,21 @@ namespace Графический_редактор
 {
     static class GraphicsExtension
     {
+        public static List<T> Swap<T>(this List<T> list, int first, int second)
+        {
+            T temp = list[first];
+            list[first] = list[second];
+            list[second] = temp;
+            return list;
+        }
+        public static void Swap<T>(ref T a, ref T b)
+        {
+            T temp = a;
+            a = b;
+            b = temp;
+        }
+
+
         public static Graphics FillPngBackground(this Graphics graph, int Width, int Height)
         {
             graph.Clear(Color.White);
