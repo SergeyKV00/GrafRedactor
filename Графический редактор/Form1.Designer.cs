@@ -46,24 +46,27 @@
             this.butNewLayer = new System.Windows.Forms.Button();
             this.panelResizeX = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.labelEraser = new System.Windows.Forms.Label();
+            this.trackBarEraser = new System.Windows.Forms.TrackBar();
             this.butEraser = new System.Windows.Forms.Button();
             this.labelWidthPen = new System.Windows.Forms.Label();
             this.barWidthPen = new System.Windows.Forms.TrackBar();
             this.butColor1 = new System.Windows.Forms.Panel();
             this.butColor2 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.PanelForDraw = new System.Windows.Forms.Panel();
             this.button3 = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.panelResizeALL = new System.Windows.Forms.Panel();
             this.panelResizeY = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarEraser)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.barWidthPen)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
@@ -255,6 +258,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.labelEraser);
+            this.panel1.Controls.Add(this.trackBarEraser);
             this.panel1.Controls.Add(this.butEraser);
             this.panel1.Controls.Add(this.labelWidthPen);
             this.panel1.Controls.Add(this.barWidthPen);
@@ -268,16 +273,37 @@
             this.panel1.TabIndex = 4;
             this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
             // 
+            // labelEraser
+            // 
+            this.labelEraser.AutoSize = true;
+            this.labelEraser.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.labelEraser.Location = new System.Drawing.Point(727, 13);
+            this.labelEraser.Name = "labelEraser";
+            this.labelEraser.Size = new System.Drawing.Size(24, 17);
+            this.labelEraser.TabIndex = 10;
+            this.labelEraser.Text = "10";
+            // 
+            // trackBarEraser
+            // 
+            this.trackBarEraser.AutoSize = false;
+            this.trackBarEraser.Location = new System.Drawing.Point(551, 8);
+            this.trackBarEraser.Maximum = 100;
+            this.trackBarEraser.Minimum = 1;
+            this.trackBarEraser.Name = "trackBarEraser";
+            this.trackBarEraser.Size = new System.Drawing.Size(170, 42);
+            this.trackBarEraser.TabIndex = 9;
+            this.trackBarEraser.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBarEraser.Value = 10;
+            this.trackBarEraser.Scroll += new System.EventHandler(this.trackBarEraser_Scroll);
+            // 
             // butEraser
             // 
-            this.butEraser.Enabled = false;
             this.butEraser.Location = new System.Drawing.Point(381, 13);
             this.butEraser.Name = "butEraser";
             this.butEraser.Size = new System.Drawing.Size(156, 25);
             this.butEraser.TabIndex = 8;
             this.butEraser.Text = "Резинка";
             this.butEraser.UseVisualStyleBackColor = true;
-            this.butEraser.Visible = false;
             this.butEraser.Click += new System.EventHandler(this.butEraser_Click);
             // 
             // labelWidthPen
@@ -301,7 +327,7 @@
             this.barWidthPen.TabIndex = 6;
             this.barWidthPen.TickStyle = System.Windows.Forms.TickStyle.None;
             this.barWidthPen.Value = 10;
-            this.barWidthPen.Scroll += new System.EventHandler(this.barWidthPen_Scroll);
+            this.barWidthPen.Scroll += new System.EventHandler(this.trackBarWidthPen_Scroll);
             // 
             // butColor1
             // 
@@ -322,6 +348,20 @@
             this.butColor2.Size = new System.Drawing.Size(30, 30);
             this.butColor2.TabIndex = 5;
             this.butColor2.Click += new System.EventHandler(this.ColorAction_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::Графический_редактор.Properties.Resources.transfer;
+            this.pictureBox1.ImageLocation = "";
+            this.pictureBox1.InitialImage = null;
+            this.pictureBox1.Location = new System.Drawing.Point(84, 2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Padding = new System.Windows.Forms.Padding(3);
+            this.pictureBox1.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 2;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.ColorChange_Click);
             // 
             // PanelForDraw
             // 
@@ -383,20 +423,6 @@
             this.panelResizeY.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SizerMouseMove);
             this.panelResizeY.MouseUp += new System.Windows.Forms.MouseEventHandler(this.SizerMouseUp);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::Графический_редактор.Properties.Resources.transfer;
-            this.pictureBox1.ImageLocation = "";
-            this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(84, 2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Padding = new System.Windows.Forms.Padding(3);
-            this.pictureBox1.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.ColorChange_Click);
-            // 
             // pictureBox2
             // 
             this.pictureBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
@@ -435,9 +461,10 @@
             this.panel2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarEraser)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.barWidthPen)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -475,6 +502,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label labelEraser;
+        private System.Windows.Forms.TrackBar trackBarEraser;
     }
 }
 

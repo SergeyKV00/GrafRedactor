@@ -8,41 +8,31 @@ using System.Drawing;
 
 namespace Графический_редактор
 {
-    class Layer
+    class Layer : Canvas
     {
-        private ListView listView;
-        private ImageList imageList;
-        private List<string> layersName;
         private List<Bitmap> bitmaps;
         private List<bool> bitmapsVisible;
+        private List<string> bitmapsName;
 
-        private int count;
-        private int startPos;
+        private ImageList images;
+        private Bitmap comboBitTop, comboBitBottom;
+        private int count, nameCount;
+
+        public ListView View { get; set; }
         public int Count { get => count; }
-        public List<Bitmap> Bitmaps { get => bitmaps; }
-
-        public bool tryVisible(int index) => bitmapsVisible[index];
-
-        public Layer(ListView listBox)
+        public Layer(ref ListView listView, Size panel_size, Size image_size)
+            : base(panel_size, image_size)
         {
-            this.listView = listBox;
-            Clear();
-        }
-
-        public Layer(ListView listBox, Bitmap bmp, bool createHidenLayer)
-        {
-            this.listView = listBox;
-            Clear();
-
-            if (createHidenLayer)
-            {
-                startPos = 1;
-                bitmaps.Insert(0, bmp);
-                bitmapsVisible.Insert(0, true);
-                count++;
-                Graphics graph = Graphics.FromImage(bitmaps[0]);
-                graph.FillPngBackground(bmp.Width, bmp.Height);
-            }
+            View = listView;
+            bitmaps = new List<Bitmap>();
+            bitmapsVisible = new List<bool>();
+            bitmapsName = new List<string>();
+            images = new ImageList();
+            images.ImageSize = new Size(35, 35);
+            View.SmallImageList = images;
+            count = 0;
+            nameCount = 0;
+            ClearCanvas();
         }
 
         public Bitmap this[int index]
@@ -50,7 +40,7 @@ namespace Графический_редактор
             get
             {
                 if (index >= Count && index < 0) throw new Exception("Out of range");
-                return bitmaps[index]; 
+                return bitmaps[index];
             }
 
             set
@@ -59,92 +49,86 @@ namespace Графический_редактор
                 bitmaps[index] = value;
             }
         }
-        public void Add(Bitmap bmp)
+
+        public void Add()
         {
-            bitmaps.Insert(0, bmp);
+            bitmaps.Insert(0, new Bitmap(Width, Height));
             bitmapsVisible.Insert(0, true);
+            bitmapsName.Insert(0, "Слой: " + nameCount);
+            nameCount++;
             count++;
-            LayerListUpData(0);
-
+            ViewUpdata();
         }
 
-        public void LayerListUpData(int index)
-        {
-            listView.Items.Clear();
-            layersName.Clear();
-            for(int i = 0; i < Count - startPos; i++)
-            {
-                if (bitmapsVisible[Count - i - 1 - startPos])
-                    layersName.Insert(0, "Cлой: " + layersName.Count);
-                else
-                    layersName.Insert(0, "Скрытый слой " + layersName.Count);
-
-                List<Bitmap> tempBmp = new List<Bitmap>();
-                tempBmp.Add(new Bitmap(bitmaps[Count - 1]));
-                tempBmp.Add(new Bitmap(bitmaps[Count - i - 1 - startPos]));
-                imageList.Images.Add(GraphicsExtension.CombineBitmap(ref tempBmp));
-
-                ListViewItem tempItem = new ListViewItem(new string[] { "", layersName[layersName.Count - i - startPos] });
-                tempItem.ImageIndex = imageList.Images.Count - 1;
-                listView.Items.Insert(0, tempItem);
-            }
-
-            if (Count < 2) return;
-            listView.Items[index].Selected = true;
-            listView.Select();
-        }
-
-        public void RemoveAt(int index)
+        public void RemoveAt(int index) // <!--- Check Index --->
         {
             bitmaps.RemoveAt(index);
             bitmapsVisible.RemoveAt(index);
+            bitmapsName.RemoveAt(index);
             count--;
-            LayerListUpData(0);
+            ViewUpdata();
         }
 
-        public void Visible(int index)
+        public void Fill(int index, Color color)  // <!--- Check Index --->
         {
-            bitmapsVisible[index] = !bitmapsVisible[index];
+            Graphics g = Graphics.FromImage(bitmaps[index]);
+            g.Clear(color);
+            ViewUpdata();
         }
 
-        public void Clear()
+        public void Update(int index)
         {
-            bitmaps = new List<Bitmap>();
-            bitmapsVisible = new List<bool>();
-            layersName = new List<string>();
-            imageList = new ImageList();
-            imageList.ImageSize = new Size(35, 35);
-            listView.SmallImageList = imageList;
-            listView.Items.Clear();
-            count = 0;
-            startPos = 0;
+            Top.Image = comboBitTop;
+            Middle.Image = bitmaps[index];
+            Bottom.Image = comboBitBottom;
         }
-        public void Redrawing(ref Canvas canvas)
+
+        public void Change(int index)  // <!--- Check Index --->
         {
-            int index;
-            if (listView.SelectedIndices.Count == 0) index = -1;
-            else index = listView.SelectedIndices[0];
+            if (Count == 0) return; // !!!!!!
+            ClearCanvas();
+            if (Count == 1)
+            {
+                Middle.Image = bitmaps[0];
+            }
+            if (Count > 1)
+            {
+                List<Bitmap> tempComboBitmaps = new List<Bitmap>();
 
-            if (bitmaps.Count < 1) return;
-            index = (index == -1) ? 0 : index;
+                for (int i = index + 1; i < Count; ++i)
+                    if (bitmapsVisible[i]) tempComboBitmaps.Insert(0, bitmaps[i]);
 
-            List<Bitmap> tempBitmaps = new List<Bitmap>();
-            for (int i = index + 1; i < bitmaps.Count ; ++i)
-                if(bitmapsVisible[i]) tempBitmaps.Insert(0, bitmaps[i]);
+                if (tempComboBitmaps.Count > 0)
+                    comboBitBottom = GraphicsExtension.CombineBitmap(ref tempComboBitmaps);
+                tempComboBitmaps.Clear();
 
+                for (int i = 0; i < index; ++i)
+                    if (bitmapsVisible[i]) tempComboBitmaps.Insert(0, bitmaps[i]);
 
-            if (tempBitmaps.Count > 0)
-                canvas.ButtomPic.Image = GraphicsExtension.CombineBitmap(ref tempBitmaps);
+                if (tempComboBitmaps.Count > 0)
+                    comboBitTop = GraphicsExtension.CombineBitmap(ref tempComboBitmaps);
 
-            tempBitmaps.Clear();
-            for (int i = 0; i < index; ++i)
-                if (bitmapsVisible[i]) tempBitmaps.Insert(0, bitmaps[i]);
+                if (bitmapsVisible[index])
+                    Middle.Image = bitmaps[index];
+                Top.Image = comboBitTop;
+                Bottom.Image = comboBitBottom;
+            }
+        }
 
-            if (tempBitmaps.Count > 0)
-                canvas.TopPic.Image = GraphicsExtension.CombineBitmap(ref tempBitmaps);
+        public void ViewUpdata()
+        {
+            View.Items.Clear();
+            for (int i = 0; i < Count; i++)
+            {
+                List<Bitmap> tempBmp = new List<Bitmap>();
+                tempBmp.Add(new Bitmap(Picture.Image));
+                tempBmp.Add(new Bitmap(bitmaps[Count - i - 1]));                       
+                images.Images.Add(GraphicsExtension.CombineBitmap(ref tempBmp));
 
-            if(bitmapsVisible[index])
-                canvas.CurrentPic.Image = bitmaps[index];
+                ListViewItem tempItem = new ListViewItem(new string[] { "", bitmapsName[Count - i - 1] });
+                tempItem.ImageIndex = images.Images.Count - 1;
+                View.Items.Insert(0, tempItem);
+            }
         }
     }
 }
