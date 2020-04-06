@@ -14,12 +14,14 @@ namespace Графический_редактор
     public partial class Form1 : Form
     {
         private int Mx, My, Sw, Sh;
-        private bool moveResize, isCollapse, isEraser;
+        private bool moveResize, isCollapse;
+        private bool[] isTool;
 
         private Size resolution;
         private Point prevPoint;
         private Point MouseHook;
         private Layer layers;
+        private Button selectedTool;
        
         public Form1()
         {
@@ -28,7 +30,10 @@ namespace Графический_редактор
             isCollapse = false;
             this.MaximumSize = Screen.PrimaryScreen.WorkingArea.Size;
             resolution = Size;
-            this.Size = Screen.PrimaryScreen.Bounds.Size;           
+            this.Size = Screen.PrimaryScreen.Bounds.Size;        
+            isTool =  new bool[] { true, false };
+            selectedTool = butBrush;
+            selectedTool.BackColor = Color.FromArgb(25, 25, 25);
         }
         
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
@@ -132,7 +137,7 @@ namespace Графический_редактор
             if (layers.Count == 0) return;
             var tempBmp = layers[layers.Number];
 
-            if (e.Button == MouseButtons.Left && layers.Visible && !isEraser)
+            if (e.Button == MouseButtons.Left && layers.Visible && isTool[0])
             {               
                 Graphics graph = Graphics.FromImage(tempBmp);
                 graph.SmoothingMode = SmoothingMode.AntiAlias; // Сглаживание 
@@ -146,7 +151,7 @@ namespace Графический_редактор
                 layers.Update();
             }
 
-            if (e.Button == MouseButtons.Left && layers.Visible && isEraser)
+            if (e.Button == MouseButtons.Left && layers.Visible && isTool[1])
             {
                 int eraserWidth = trackBarEraser.Value / 2;
                 for (int i = e.X - eraserWidth; i < e.X + eraserWidth; i++)
@@ -221,7 +226,27 @@ namespace Графический_редактор
             layers.Number = index;
         }
 
-        private void butEraser_Click(object sender, EventArgs e) => isEraser = !isEraser;
+        private void ToolChange_Click(object sender, EventArgs e)
+        {
+            selectedTool.BackColor = Color.FromArgb(38, 38, 38);
+            selectedTool = (Button)sender;
+
+            for (int i = 0; i < isTool.Length; i++)
+                isTool[i] = false;
+
+            Color tempColor = Color.FromArgb(25, 25, 25);
+            switch (selectedTool.Name)
+            {
+                case "butBrush":
+                    isTool[0] = true;
+                    selectedTool.BackColor = tempColor; 
+                    break;
+                case "butEraser":
+                    isTool[1] = true;
+                    selectedTool.BackColor = tempColor;
+                    break;
+            }
+        }
 
         private void butNewLayer_Click(object sender, EventArgs e)
         {
@@ -268,7 +293,6 @@ namespace Графический_редактор
                 saveB.Save(savedialog.FileName);
             }
         }
-
         private void button_HidenLayer(object sender, EventArgs e)
         {
             layers.Visible = !layers.Visible;
