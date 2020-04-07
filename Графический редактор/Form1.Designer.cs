@@ -55,7 +55,6 @@
             this.labelEraser = new System.Windows.Forms.Label();
             this.trackBarEraser = new System.Windows.Forms.TrackBar();
             this.labelWidthPen = new System.Windows.Forms.Label();
-            this.barWidthPen = new System.Windows.Forms.TrackBar();
             this.butColor1 = new System.Windows.Forms.Panel();
             this.butColor2 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -76,7 +75,6 @@
             this.panelTools.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarEraser)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.barWidthPen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -324,7 +322,6 @@
             this.panelTools.Controls.Add(this.labelEraser);
             this.panelTools.Controls.Add(this.trackBarEraser);
             this.panelTools.Controls.Add(this.labelWidthPen);
-            this.panelTools.Controls.Add(this.barWidthPen);
             this.panelTools.Controls.Add(this.butColor1);
             this.panelTools.Controls.Add(this.butColor2);
             this.panelTools.Controls.Add(this.pictureBox1);
@@ -389,11 +386,12 @@
             this.labelEraser.Size = new System.Drawing.Size(24, 17);
             this.labelEraser.TabIndex = 10;
             this.labelEraser.Text = "10";
+            this.labelEraser.Visible = false;
             // 
             // trackBarEraser
             // 
             this.trackBarEraser.AutoSize = false;
-            this.trackBarEraser.Location = new System.Drawing.Point(855, 3);
+            this.trackBarEraser.Location = new System.Drawing.Point(855, 8);
             this.trackBarEraser.Maximum = 100;
             this.trackBarEraser.Minimum = 1;
             this.trackBarEraser.Name = "trackBarEraser";
@@ -412,25 +410,13 @@
             this.labelWidthPen.Size = new System.Drawing.Size(24, 17);
             this.labelWidthPen.TabIndex = 7;
             this.labelWidthPen.Text = "10";
-            // 
-            // barWidthPen
-            // 
-            this.barWidthPen.AutoSize = false;
-            this.barWidthPen.Location = new System.Drawing.Point(625, 3);
-            this.barWidthPen.Maximum = 100;
-            this.barWidthPen.Minimum = 1;
-            this.barWidthPen.Name = "barWidthPen";
-            this.barWidthPen.Size = new System.Drawing.Size(170, 42);
-            this.barWidthPen.TabIndex = 6;
-            this.barWidthPen.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.barWidthPen.Value = 10;
-            this.barWidthPen.Scroll += new System.EventHandler(this.trackBarWidthPen_Scroll);
+            this.labelWidthPen.Visible = false;
             // 
             // butColor1
             // 
             this.butColor1.BackColor = System.Drawing.Color.Black;
             this.butColor1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.butColor1.Location = new System.Drawing.Point(1129, 8);
+            this.butColor1.Location = new System.Drawing.Point(1085, 8);
             this.butColor1.Name = "butColor1";
             this.butColor1.Size = new System.Drawing.Size(30, 30);
             this.butColor1.TabIndex = 4;
@@ -440,7 +426,7 @@
             // 
             this.butColor2.BackColor = System.Drawing.Color.White;
             this.butColor2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.butColor2.Location = new System.Drawing.Point(1141, 20);
+            this.butColor2.Location = new System.Drawing.Point(1097, 20);
             this.butColor2.Name = "butColor2";
             this.butColor2.Size = new System.Drawing.Size(30, 30);
             this.butColor2.TabIndex = 5;
@@ -451,7 +437,7 @@
             this.pictureBox1.Image = global::Графический_редактор.Properties.Resources.transfer;
             this.pictureBox1.ImageLocation = "";
             this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(1165, 2);
+            this.pictureBox1.Location = new System.Drawing.Point(1121, 2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Padding = new System.Windows.Forms.Padding(3);
             this.pictureBox1.Size = new System.Drawing.Size(25, 25);
@@ -630,7 +616,6 @@
             this.panelTools.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.trackBarEraser)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.barWidthPen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -663,7 +648,6 @@
         private System.Windows.Forms.Panel butColor2;
         private System.Windows.Forms.Panel butColor1;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.TrackBar barWidthPen;
         private System.Windows.Forms.Label labelWidthPen;
         private System.Windows.Forms.Button butEraser;
         private System.Windows.Forms.ListView listView1;

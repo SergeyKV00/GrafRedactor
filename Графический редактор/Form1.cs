@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace Графический_редактор
 {
@@ -15,13 +16,14 @@ namespace Графический_редактор
     {
         private int Mx, My, Sw, Sh;
         private bool moveResize, isCollapse;
-        private bool[] isTool;
 
         private Size resolution;
         private Point prevPoint;
         private Point MouseHook;
         private Layer layers;
         private Button selectedTool;
+        private Pen pen;
+        private Tool tool;
        
         public Form1()
         {
@@ -31,9 +33,9 @@ namespace Графический_редактор
             this.MaximumSize = Screen.PrimaryScreen.WorkingArea.Size;
             resolution = Size;
             this.Size = Screen.PrimaryScreen.Bounds.Size;        
-            isTool =  new bool[] { true, false };
             selectedTool = butBrush;
-            selectedTool.BackColor = Color.FromArgb(25, 25, 25);
+            ToolChange_Click(selectedTool, null);
+           
         }
         
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
@@ -71,7 +73,6 @@ namespace Графический_редактор
         private void butLayerDown_Click(object sender, EventArgs e) => layers.Down();
         private void button1_Click(object sender, EventArgs e) => Close();
         private void button2_Click(object sender, EventArgs e) => this.WindowState = FormWindowState.Minimized;
-        private void trackBarWidthPen_Scroll(object sender, EventArgs e) => labelWidthPen.Text = barWidthPen.Value.ToString();
         private void trackBarEraser_Scroll(object sender, EventArgs e) => labelEraser.Text = trackBarEraser.Value.ToString();
         private void button3_Click(object sender, EventArgs e)
         {
@@ -123,49 +124,51 @@ namespace Графический_редактор
             prevPoint.X = e.X;
             prevPoint.Y = e.Y;
             layers.Change();
-        }
 
+            if (tool.Name == NameTool.Brush) pen = ((Brush)tool).GetPen();
+            if (tool.Name == NameTool.Eraser) pen = ((Eraser)tool).GetPen();
+
+            pen.StartCap = LineCap.Round;
+            pen.EndCap = LineCap.Round;
+        }
         private void Picture_MouseUp(object sender, MouseEventArgs e)
         {
             layers.Change();
             layers.ViewUpdata();
         }
-
         private void Picture_MouseMove(object sender, MouseEventArgs e)
         {
             listView1.Select();
             if (layers.Count == 0) return;
-            var tempBmp = layers[layers.Number];
+            int LX = Math.Abs(prevPoint.X - e.X);
+            int LY = Math.Abs(prevPoint.Y - e.Y);
 
-            if (e.Button == MouseButtons.Left && layers.Visible && isTool[0])
-            {               
-                Graphics graph = Graphics.FromImage(tempBmp);
-                graph.SmoothingMode = SmoothingMode.AntiAlias; // Сглаживание 
-
-                Pen p = new Pen(butColor1.BackColor, barWidthPen.Value);
-                p.StartCap = LineCap.Round;
-                p.EndCap = LineCap.Round;
-
-                graph.DrawLine(p, prevPoint.X, prevPoint.Y, e.X, e.Y);
-                layers[layers.Number] = tempBmp;
+            if (e.Button == MouseButtons.Left && layers.Visible && tool.Name == NameTool.Brush)
+            {
+                using (Graphics graph = Graphics.FromImage(layers[layers.Number]))
+                {
+                    graph.SmoothingMode = SmoothingMode.AntiAlias;
+                    graph.DrawLine(pen, prevPoint.X, prevPoint.Y, e.X, e.Y);
+                }
+                
                 layers.Update();
             }
+        
 
-            if (e.Button == MouseButtons.Left && layers.Visible && isTool[1])
+            if (e.Button == MouseButtons.Left && layers.Visible && tool.Name == NameTool.Eraser)
             {
-                int eraserWidth = trackBarEraser.Value / 2;
-                for (int i = e.X - eraserWidth; i < e.X + eraserWidth; i++)
-                    for(int j = e.Y - eraserWidth; j < e.Y + eraserWidth; j++)
-                    {
-                        if (i >= tempBmp.Width || j >= tempBmp.Height ) continue;
-                        if (i < 0 || j < 0) continue;
-                        tempBmp.SetPixel(i, j, Color.FromArgb(0, 0, 0, 0));
-                    }
-                layers[layers.Number] = tempBmp;
+                using (Graphics graph = Graphics.FromImage(layers[layers.Number]))
+                {
+                    graph.SmoothingMode = SmoothingMode.AntiAlias;
+                    graph.CompositingMode = CompositingMode.SourceCopy;
+                    graph.DrawLine(pen, prevPoint.X, prevPoint.Y, e.X, e.Y);
+                }
+
                 layers.Update();
-            }          
+            }
+            
             prevPoint.X = e.X;
-            prevPoint.Y = e.Y;
+            prevPoint.Y = e.Y;       
         }
 
         private void OpenFile_Click(object sender, EventArgs e)
@@ -231,19 +234,18 @@ namespace Графический_редактор
             selectedTool.BackColor = Color.FromArgb(38, 38, 38);
             selectedTool = (Button)sender;
 
-            for (int i = 0; i < isTool.Length; i++)
-                isTool[i] = false;
-
             Color tempColor = Color.FromArgb(25, 25, 25);
             switch (selectedTool.Name)
             {
                 case "butBrush":
-                    isTool[0] = true;
-                    selectedTool.BackColor = tempColor; 
+                    selectedTool.BackColor = tempColor;
+                    tool = new Brush();
+                    tool.SetSettings(ref panelTools);
                     break;
                 case "butEraser":
-                    isTool[1] = true;
                     selectedTool.BackColor = tempColor;
+                    tool = new Eraser();
+                    tool.SetSettings(ref panelTools);
                     break;
             }
         }
@@ -295,6 +297,7 @@ namespace Графический_редактор
         }
         private void button_HidenLayer(object sender, EventArgs e)
         {
+            if (layers == null) return;
             layers.Visible = !layers.Visible;
             layers.Change();
             layers.ViewUpdata();
