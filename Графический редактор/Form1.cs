@@ -6,9 +6,9 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Text.RegularExpressions;
 
 namespace Графический_редактор
 {
@@ -24,7 +24,7 @@ namespace Графический_редактор
         private Button selectedTool;
         private Pen pen;
         private Tool tool;
-       
+
         public Form1()
         {
             InitializeComponent();
@@ -32,12 +32,11 @@ namespace Графический_редактор
             isCollapse = false;
             this.MaximumSize = Screen.PrimaryScreen.WorkingArea.Size;
             resolution = Size;
-            this.Size = Screen.PrimaryScreen.Bounds.Size;        
+            this.Size = Screen.PrimaryScreen.Bounds.Size;
             selectedTool = butBrush;
             ToolChange_Click(selectedTool, null);
-           
         }
-        
+
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
         {
             if (!isCollapse) return;
@@ -57,7 +56,7 @@ namespace Графический_редактор
             var panel = (Panel)sender;
             if (moveResize && isCollapse)
             {
-                if(panel == panelResizeALL)
+                if (panel == panelResizeALL)
                 {
                     Width = MousePosition.X - Mx + Sw;
                     Height = MousePosition.Y - My + Sh;
@@ -83,17 +82,17 @@ namespace Графический_редактор
                 panelResizeY.Cursor = Cursors.Default;
                 this.Size = Screen.PrimaryScreen.Bounds.Size;
                 Location = new Point(0, 0);
-            }              
+            }
             else
             {
                 panelResizeALL.Cursor = Cursors.SizeNWSE;
                 panelResizeX.Cursor = Cursors.SizeWE;
                 panelResizeY.Cursor = Cursors.SizeNS;
-                
+
                 this.Size = resolution;
-            }               
+            }
             isCollapse = !isCollapse;
-        } 
+        }
         private void CreatePictureToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var PictureDialog = new CreatePictureDialog();
@@ -127,12 +126,18 @@ namespace Графический_редактор
 
             if (tool.Name == NameTool.Brush) pen = ((Brush)tool).GetPen();
             if (tool.Name == NameTool.Eraser) pen = ((Eraser)tool).GetPen();
+            if (tool.Name == NameTool.Fill)
+            {
+                Fill(e.X, e.Y, ((PaintBasket)tool).GetPen());
+                pen = ((PaintBasket)tool).GetPen();
+            }
 
             pen.StartCap = LineCap.Round;
             pen.EndCap = LineCap.Round;
         }
         private void Picture_MouseUp(object sender, MouseEventArgs e)
         {
+            layers.Update();
             layers.Change();
             layers.ViewUpdata();
         }
@@ -147,13 +152,12 @@ namespace Графический_редактор
             {
                 using (Graphics graph = Graphics.FromImage(layers[layers.Number]))
                 {
-                    graph.SmoothingMode = SmoothingMode.AntiAlias;
+                    //graph.SmoothingMode = SmoothingMode.AntiAlias;
                     graph.DrawLine(pen, prevPoint.X, prevPoint.Y, e.X, e.Y);
                 }
-                
+
                 layers.Update();
             }
-        
 
             if (e.Button == MouseButtons.Left && layers.Visible && tool.Name == NameTool.Eraser)
             {
@@ -166,16 +170,79 @@ namespace Графический_редактор
 
                 layers.Update();
             }
-            
             prevPoint.X = e.X;
-            prevPoint.Y = e.Y;       
+            prevPoint.Y = e.Y;
+        }
+
+        private void Fill(int x, int y, Pen pen)
+        {
+            if (x < 1 || x > layers.Width || y < 1 || y > layers.Height)
+                return;
+
+            pen.StartCap = LineCap.Round;
+            pen.EndCap = LineCap.Round;
+            Bitmap tempBmp = layers[layers.Number];
+            Color old_color, new_color;
+            new_color = pen.Color;
+            old_color = tempBmp.GetPixel(x, y);
+
+
+            if (old_color == new_color)
+                return;
+
+            List<Point> p = new List<Point>();
+            p.Add(new Point(x, y));
+
+            int Ntek = 0;
+            Graphics g = Graphics.FromImage(tempBmp);
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+
+            do
+            {
+                if (p[Ntek].X + 1 < layers.Width)
+                {
+                    if (tempBmp.GetPixel(p[Ntek].X + 1, p[Ntek].Y) == old_color)
+                    {
+                        p.Add(new Point(p[Ntek].X + 1, p[Ntek].Y));
+                        tempBmp.SetPixel(p[Ntek].X + 1, p[Ntek].Y, new_color);
+                    }
+                }
+                if (p[Ntek].X - 1 >= 0)
+                {
+                    if (tempBmp.GetPixel(p[Ntek].X - 1, p[Ntek].Y) == old_color)
+                    {
+                        p.Add(new Point(p[Ntek].X - 1, p[Ntek].Y));
+                        tempBmp.SetPixel(p[Ntek].X - 1, p[Ntek].Y, new_color);
+                    }
+                }
+                if (p[Ntek].Y + 1 < layers.Height)
+                {
+                    if (tempBmp.GetPixel(p[Ntek].X, p[Ntek].Y + 1) == old_color)
+                    {
+                        p.Add(new Point(p[Ntek].X, p[Ntek].Y + 1));
+                        tempBmp.SetPixel(p[Ntek].X, p[Ntek].Y + 1, new_color);
+                    }
+                }
+                if (p[Ntek].Y - 1 >= 0)
+                {
+                    if (tempBmp.GetPixel(p[Ntek].X, p[Ntek].Y - 1) == old_color)
+                    {
+                        p.Add(new Point(p[Ntek].X, p[Ntek].Y - 1));
+                        tempBmp.SetPixel(p[Ntek].X, p[Ntek].Y - 1, new_color);
+                    }
+                }
+                Ntek++;
+            } while (Ntek < p.Count - 1);
+
+            layers[layers.Number] = tempBmp;
+
         }
 
         private void OpenFile_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "(*.bmp, *.jpg, *.png) | *.bmp; *.jpg; *.png";
-            if(openFileDialog.ShowDialog() == DialogResult.OK)
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 Bitmap image = new Bitmap(openFileDialog.FileName);
 
@@ -212,7 +279,7 @@ namespace Графический_редактор
             {
                 if (colorDialog.ShowDialog() == DialogResult.OK)
                     butColor1.BackColor = colorDialog.Color;
-            }         
+            }
         }
 
         private void ColorChange_Click(object sender, EventArgs e)
@@ -222,7 +289,7 @@ namespace Графический_редактор
             butColor2.BackColor = tmpColor;
         }
 
-        private void IndexChange(object sender, EventArgs e) 
+        private void IndexChange(object sender, EventArgs e)
         {
             if (!(listView1.SelectedIndices.Count > 0)) return;
             int index = listView1.SelectedIndices[0];
@@ -233,21 +300,15 @@ namespace Графический_редактор
         {
             selectedTool.BackColor = Color.FromArgb(38, 38, 38);
             selectedTool = (Button)sender;
+            selectedTool.BackColor = Color.FromArgb(25, 25, 25);
 
-            Color tempColor = Color.FromArgb(25, 25, 25);
             switch (selectedTool.Name)
             {
-                case "butBrush":
-                    selectedTool.BackColor = tempColor;
-                    tool = new Brush();
-                    tool.SetSettings(ref panelTools);
-                    break;
-                case "butEraser":
-                    selectedTool.BackColor = tempColor;
-                    tool = new Eraser();
-                    tool.SetSettings(ref panelTools);
-                    break;
+                case "butBrush": tool = new Brush(); break;
+                case "butEraser": tool = new Eraser(); break;
+                case "butFill": tool = new PaintBasket(); break;
             }
+            tool.SetSettings(ref panelTools);
         }
 
         private void butNewLayer_Click(object sender, EventArgs e)
@@ -259,9 +320,9 @@ namespace Графический_редактор
 
         private void butDeleteLayer_Click(object sender, EventArgs e)
         {
-           if (layers == null) return;
-           layers.RemoveAt(layers.Number);
-           if(layers.Count == 0) menuItemSaveFile.Enabled = false;
+            if (layers == null) return;
+            layers.RemoveAt(layers.Number);
+            if (layers.Count == 0) menuItemSaveFile.Enabled = false;
         }
 
         private void SaveFile(object sender, EventArgs e)
@@ -284,7 +345,7 @@ namespace Графический_редактор
 
                 if (fileExtension == ".jpg")
                 {
-                    
+
                     var bmp = new Bitmap(layers.Width, layers.Height);
                     var graph = Graphics.FromImage(bmp);
                     graph.FillRectangle(new SolidBrush(Color.White), 0, 0, bmp.Width, bmp.Height);

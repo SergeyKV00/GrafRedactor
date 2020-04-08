@@ -24,9 +24,8 @@ namespace Графический_редактор
     }
 
     class Brush : Tool
-    {
-        
-        override public NameTool Name { get => NameTool.Brush; }
+    {       
+        public override NameTool Name { get => NameTool.Brush; }
         public int Depth => ((TrackBar)controls[0].GetValue(2)).Value;
         public int Transparence => ((TrackBar)controls[1].GetValue(2)).Value;
         public Color _Color => ((Button)controls[2].GetValue(0)).BackColor;
@@ -44,7 +43,7 @@ namespace Графический_редактор
     }
     class Eraser : Tool
     {
-        override public NameTool Name { get => NameTool.Eraser; }
+        public override NameTool Name { get => NameTool.Eraser; }
         public int Depth => ((TrackBar)controls[0].GetValue(2)).Value;
         public Pen GetPen() => new Pen(Color.FromArgb(0, 0, 0, 0), Depth);
 
@@ -52,6 +51,22 @@ namespace Графический_редактор
         {
             controls = new List<Control[]>();
             controls.Add(new TrackBarCustom(new Point(75, 11), "Размер:", 1, 100).Control);
+        }
+    }
+    class PaintBasket : Tool
+    {
+        public override NameTool Name => NameTool.Fill;
+        public int Transparence => ((TrackBar)controls[1].GetValue(2)).Value;
+        public Color _Color => ((Button)controls[0].GetValue(0)).BackColor;
+        public Pen GetPen() => new Pen(Color.FromArgb(Transparence, _Color));
+
+        public PaintBasket()
+        {
+            controls = new List<Control[]>
+            {
+                new ColorChangingPanel(new Point(120, -1)).Control,
+                new TrackBarCustom(new Point(150, 11), "Непрозрачность:", 1, 255).Control
+            };
         }
     }
 

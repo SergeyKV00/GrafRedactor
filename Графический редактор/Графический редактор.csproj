@@ -141,5 +141,11 @@
   <ItemGroup>
     <None Include="Resources\paintBrush.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\paint_basket.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\crop_tool.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
