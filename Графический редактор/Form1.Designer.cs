@@ -40,47 +40,38 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel3 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.labelNumber = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
-            this.panelResizeX = new System.Windows.Forms.Panel();
-            this.panelTools = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.labelEraser = new System.Windows.Forms.Label();
-            this.trackBarEraser = new System.Windows.Forms.TrackBar();
-            this.labelWidthPen = new System.Windows.Forms.Label();
-            this.butColor1 = new System.Windows.Forms.Panel();
-            this.butColor2 = new System.Windows.Forms.Panel();
-            this.PanelForDraw = new System.Windows.Forms.Panel();
-            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.panelResizeALL = new System.Windows.Forms.Panel();
-            this.panelResizeY = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.panelX_Default = new System.Windows.Forms.Panel();
             this.butLayerUp = new System.Windows.Forms.Button();
             this.butLayerDown = new System.Windows.Forms.Button();
             this.butHidenLayer = new System.Windows.Forms.Button();
             this.butDeleteLayer = new System.Windows.Forms.Button();
             this.butNewLayer = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.labelNumber = new System.Windows.Forms.Label();
+            this.panelResizeX = new System.Windows.Forms.Panel();
+            this.panelTools = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.butFill = new System.Windows.Forms.Button();
             this.butCrop = new System.Windows.Forms.Button();
             this.butEraser = new System.Windows.Forms.Button();
             this.butBrush = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.PanelForDraw = new System.Windows.Forms.Panel();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.panelResizeALL = new System.Windows.Forms.Panel();
+            this.panelResizeY = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.panelX_Default = new System.Windows.Forms.Panel();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panelTools.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarEraser)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -143,7 +134,6 @@
             this.panel2.Controls.Add(this.listView1);
             this.panel2.Controls.Add(this.panel3);
             this.panel2.Controls.Add(this.labelNumber);
-            this.panel2.Controls.Add(this.button4);
             this.panel2.Location = new System.Drawing.Point(990, 88);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
@@ -206,205 +196,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(283, 41);
             this.tableLayoutPanel1.TabIndex = 4;
-            // 
-            // labelNumber
-            // 
-            this.labelNumber.AutoSize = true;
-            this.labelNumber.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.labelNumber.Location = new System.Drawing.Point(61, 119);
-            this.labelNumber.Name = "labelNumber";
-            this.labelNumber.Size = new System.Drawing.Size(44, 17);
-            this.labelNumber.TabIndex = 6;
-            this.labelNumber.Text = "NULL";
-            this.labelNumber.Visible = false;
-            // 
-            // button4
-            // 
-            this.button4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.button4.Location = new System.Drawing.Point(0, 0);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(283, 23);
-            this.button4.TabIndex = 4;
-            this.button4.Text = "Изменение цвета";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.ColorAction_Click);
-            // 
-            // panelResizeX
-            // 
-            this.panelResizeX.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
-            this.panelResizeX.Cursor = System.Windows.Forms.Cursors.Default;
-            this.panelResizeX.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelResizeX.Location = new System.Drawing.Point(1275, 0);
-            this.panelResizeX.Name = "panelResizeX";
-            this.panelResizeX.Size = new System.Drawing.Size(5, 720);
-            this.panelResizeX.TabIndex = 0;
-            this.panelResizeX.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SizerMouseDown);
-            this.panelResizeX.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SizerMouseMove);
-            this.panelResizeX.MouseUp += new System.Windows.Forms.MouseEventHandler(this.SizerMouseUp);
-            // 
-            // panelTools
-            // 
-            this.panelTools.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelTools.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.panelTools.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelTools.Controls.Add(this.tableLayoutPanel3);
-            this.panelTools.Controls.Add(this.labelEraser);
-            this.panelTools.Controls.Add(this.trackBarEraser);
-            this.panelTools.Controls.Add(this.labelWidthPen);
-            this.panelTools.Controls.Add(this.butColor1);
-            this.panelTools.Controls.Add(this.butColor2);
-            this.panelTools.Controls.Add(this.pictureBox1);
-            this.panelTools.Location = new System.Drawing.Point(0, 28);
-            this.panelTools.Margin = new System.Windows.Forms.Padding(0);
-            this.panelTools.Name = "panelTools";
-            this.panelTools.Size = new System.Drawing.Size(1280, 60);
-            this.panelTools.TabIndex = 4;
-            this.panelTools.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
-            // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Controls.Add(this.butFill, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.butCrop, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.butEraser, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.butBrush, 0, 0);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 2;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(60, 60);
-            this.tableLayoutPanel3.TabIndex = 0;
-            // 
-            // labelEraser
-            // 
-            this.labelEraser.AutoSize = true;
-            this.labelEraser.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.labelEraser.Location = new System.Drawing.Point(1031, 13);
-            this.labelEraser.Name = "labelEraser";
-            this.labelEraser.Size = new System.Drawing.Size(24, 17);
-            this.labelEraser.TabIndex = 10;
-            this.labelEraser.Text = "10";
-            this.labelEraser.Visible = false;
-            // 
-            // trackBarEraser
-            // 
-            this.trackBarEraser.AutoSize = false;
-            this.trackBarEraser.Location = new System.Drawing.Point(855, 8);
-            this.trackBarEraser.Maximum = 100;
-            this.trackBarEraser.Minimum = 1;
-            this.trackBarEraser.Name = "trackBarEraser";
-            this.trackBarEraser.Size = new System.Drawing.Size(170, 42);
-            this.trackBarEraser.TabIndex = 9;
-            this.trackBarEraser.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBarEraser.Value = 10;
-            this.trackBarEraser.Scroll += new System.EventHandler(this.trackBarEraser_Scroll);
-            // 
-            // labelWidthPen
-            // 
-            this.labelWidthPen.AutoSize = true;
-            this.labelWidthPen.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.labelWidthPen.Location = new System.Drawing.Point(801, 13);
-            this.labelWidthPen.Name = "labelWidthPen";
-            this.labelWidthPen.Size = new System.Drawing.Size(24, 17);
-            this.labelWidthPen.TabIndex = 7;
-            this.labelWidthPen.Text = "10";
-            this.labelWidthPen.Visible = false;
-            // 
-            // butColor1
-            // 
-            this.butColor1.BackColor = System.Drawing.Color.Black;
-            this.butColor1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.butColor1.Location = new System.Drawing.Point(1085, 8);
-            this.butColor1.Name = "butColor1";
-            this.butColor1.Size = new System.Drawing.Size(30, 30);
-            this.butColor1.TabIndex = 4;
-            this.butColor1.Click += new System.EventHandler(this.ColorAction_Click);
-            // 
-            // butColor2
-            // 
-            this.butColor2.BackColor = System.Drawing.Color.White;
-            this.butColor2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.butColor2.Location = new System.Drawing.Point(1097, 20);
-            this.butColor2.Name = "butColor2";
-            this.butColor2.Size = new System.Drawing.Size(30, 30);
-            this.butColor2.TabIndex = 5;
-            this.butColor2.Click += new System.EventHandler(this.ColorAction_Click);
-            // 
-            // PanelForDraw
-            // 
-            this.PanelForDraw.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.PanelForDraw.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.PanelForDraw.Location = new System.Drawing.Point(5, 88);
-            this.PanelForDraw.Margin = new System.Windows.Forms.Padding(0);
-            this.PanelForDraw.Name = "PanelForDraw";
-            this.PanelForDraw.Size = new System.Drawing.Size(983, 628);
-            this.PanelForDraw.TabIndex = 4;
-            // 
-            // errorProvider1
-            // 
-            this.errorProvider1.ContainerControl = this;
-            // 
-            // panelResizeALL
-            // 
-            this.panelResizeALL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelResizeALL.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
-            this.panelResizeALL.Cursor = System.Windows.Forms.Cursors.Default;
-            this.panelResizeALL.Location = new System.Drawing.Point(1275, 715);
-            this.panelResizeALL.Name = "panelResizeALL";
-            this.panelResizeALL.Size = new System.Drawing.Size(5, 5);
-            this.panelResizeALL.TabIndex = 1;
-            this.panelResizeALL.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SizerMouseDown);
-            this.panelResizeALL.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SizerMouseMove);
-            this.panelResizeALL.MouseUp += new System.Windows.Forms.MouseEventHandler(this.SizerMouseUp);
-            // 
-            // panelResizeY
-            // 
-            this.panelResizeY.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelResizeY.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
-            this.panelResizeY.Cursor = System.Windows.Forms.Cursors.Default;
-            this.panelResizeY.Location = new System.Drawing.Point(0, 715);
-            this.panelResizeY.Name = "panelResizeY";
-            this.panelResizeY.Size = new System.Drawing.Size(1275, 5);
-            this.panelResizeY.TabIndex = 2;
-            this.panelResizeY.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SizerMouseDown);
-            this.panelResizeY.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SizerMouseMove);
-            this.panelResizeY.MouseUp += new System.Windows.Forms.MouseEventHandler(this.SizerMouseUp);
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
-            this.tableLayoutPanel2.ColumnCount = 3;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel2.Controls.Add(this.button1, 2, 0);
-            this.tableLayoutPanel2.Controls.Add(this.button3, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.button2, 0, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(1130, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(145, 28);
-            this.tableLayoutPanel2.TabIndex = 0;
-            // 
-            // panelX_Default
-            // 
-            this.panelX_Default.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
-            this.panelX_Default.Cursor = System.Windows.Forms.Cursors.Default;
-            this.panelX_Default.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelX_Default.Location = new System.Drawing.Point(0, 0);
-            this.panelX_Default.Name = "panelX_Default";
-            this.panelX_Default.Size = new System.Drawing.Size(5, 720);
-            this.panelX_Default.TabIndex = 1;
             // 
             // butLayerUp
             // 
@@ -478,6 +269,178 @@
             this.butNewLayer.UseVisualStyleBackColor = true;
             this.butNewLayer.Click += new System.EventHandler(this.butNewLayer_Click);
             // 
+            // labelNumber
+            // 
+            this.labelNumber.AutoSize = true;
+            this.labelNumber.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.labelNumber.Location = new System.Drawing.Point(61, 119);
+            this.labelNumber.Name = "labelNumber";
+            this.labelNumber.Size = new System.Drawing.Size(44, 17);
+            this.labelNumber.TabIndex = 6;
+            this.labelNumber.Text = "NULL";
+            this.labelNumber.Visible = false;
+            // 
+            // panelResizeX
+            // 
+            this.panelResizeX.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
+            this.panelResizeX.Cursor = System.Windows.Forms.Cursors.Default;
+            this.panelResizeX.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panelResizeX.Location = new System.Drawing.Point(1275, 0);
+            this.panelResizeX.Name = "panelResizeX";
+            this.panelResizeX.Size = new System.Drawing.Size(5, 720);
+            this.panelResizeX.TabIndex = 0;
+            this.panelResizeX.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SizerMouseDown);
+            this.panelResizeX.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SizerMouseMove);
+            this.panelResizeX.MouseUp += new System.Windows.Forms.MouseEventHandler(this.SizerMouseUp);
+            // 
+            // panelTools
+            // 
+            this.panelTools.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelTools.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.panelTools.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelTools.Controls.Add(this.tableLayoutPanel3);
+            this.panelTools.Location = new System.Drawing.Point(0, 28);
+            this.panelTools.Margin = new System.Windows.Forms.Padding(0);
+            this.panelTools.Name = "panelTools";
+            this.panelTools.Size = new System.Drawing.Size(1280, 60);
+            this.panelTools.TabIndex = 4;
+            this.panelTools.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Controls.Add(this.butFill, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.butCrop, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.butEraser, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.butBrush, 0, 0);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(60, 60);
+            this.tableLayoutPanel3.TabIndex = 0;
+            // 
+            // butFill
+            // 
+            this.butFill.BackgroundImage = global::Графический_редактор.Properties.Resources.paint_basket;
+            this.butFill.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.butFill.FlatAppearance.BorderSize = 0;
+            this.butFill.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butFill.Location = new System.Drawing.Point(3, 33);
+            this.butFill.Name = "butFill";
+            this.butFill.Size = new System.Drawing.Size(24, 24);
+            this.butFill.TabIndex = 11;
+            this.butFill.UseVisualStyleBackColor = true;
+            this.butFill.Click += new System.EventHandler(this.ToolChange_Click);
+            // 
+            // butCrop
+            // 
+            this.butCrop.BackgroundImage = global::Графический_редактор.Properties.Resources.crop_tool;
+            this.butCrop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.butCrop.FlatAppearance.BorderSize = 0;
+            this.butCrop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butCrop.Location = new System.Drawing.Point(33, 33);
+            this.butCrop.Name = "butCrop";
+            this.butCrop.Size = new System.Drawing.Size(24, 24);
+            this.butCrop.TabIndex = 10;
+            this.butCrop.UseVisualStyleBackColor = true;
+            this.butCrop.Click += new System.EventHandler(this.ToolChange_Click);
+            // 
+            // butEraser
+            // 
+            this.butEraser.BackgroundImage = global::Графический_редактор.Properties.Resources.sterka;
+            this.butEraser.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.butEraser.FlatAppearance.BorderSize = 0;
+            this.butEraser.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butEraser.Location = new System.Drawing.Point(33, 3);
+            this.butEraser.Name = "butEraser";
+            this.butEraser.Size = new System.Drawing.Size(24, 24);
+            this.butEraser.TabIndex = 8;
+            this.butEraser.UseVisualStyleBackColor = true;
+            this.butEraser.Click += new System.EventHandler(this.ToolChange_Click);
+            // 
+            // butBrush
+            // 
+            this.butBrush.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.butBrush.BackgroundImage = global::Графический_редактор.Properties.Resources.paintBrush;
+            this.butBrush.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.butBrush.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.butBrush.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.butBrush.FlatAppearance.BorderSize = 0;
+            this.butBrush.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butBrush.Location = new System.Drawing.Point(3, 3);
+            this.butBrush.Name = "butBrush";
+            this.butBrush.Size = new System.Drawing.Size(24, 24);
+            this.butBrush.TabIndex = 9;
+            this.butBrush.UseVisualStyleBackColor = false;
+            this.butBrush.Click += new System.EventHandler(this.ToolChange_Click);
+            // 
+            // PanelForDraw
+            // 
+            this.PanelForDraw.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PanelForDraw.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.PanelForDraw.Location = new System.Drawing.Point(5, 88);
+            this.PanelForDraw.Margin = new System.Windows.Forms.Padding(0);
+            this.PanelForDraw.Name = "PanelForDraw";
+            this.PanelForDraw.Size = new System.Drawing.Size(983, 628);
+            this.PanelForDraw.TabIndex = 4;
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
+            // panelResizeALL
+            // 
+            this.panelResizeALL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelResizeALL.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
+            this.panelResizeALL.Cursor = System.Windows.Forms.Cursors.Default;
+            this.panelResizeALL.Location = new System.Drawing.Point(1275, 715);
+            this.panelResizeALL.Name = "panelResizeALL";
+            this.panelResizeALL.Size = new System.Drawing.Size(5, 5);
+            this.panelResizeALL.TabIndex = 1;
+            this.panelResizeALL.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SizerMouseDown);
+            this.panelResizeALL.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SizerMouseMove);
+            this.panelResizeALL.MouseUp += new System.Windows.Forms.MouseEventHandler(this.SizerMouseUp);
+            // 
+            // panelResizeY
+            // 
+            this.panelResizeY.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelResizeY.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
+            this.panelResizeY.Cursor = System.Windows.Forms.Cursors.Default;
+            this.panelResizeY.Location = new System.Drawing.Point(0, 715);
+            this.panelResizeY.Name = "panelResizeY";
+            this.panelResizeY.Size = new System.Drawing.Size(1275, 5);
+            this.panelResizeY.TabIndex = 2;
+            this.panelResizeY.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SizerMouseDown);
+            this.panelResizeY.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SizerMouseMove);
+            this.panelResizeY.MouseUp += new System.Windows.Forms.MouseEventHandler(this.SizerMouseUp);
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
+            this.tableLayoutPanel2.ColumnCount = 3;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel2.Controls.Add(this.button1, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.button3, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.button2, 0, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(1130, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(145, 28);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -535,6 +498,16 @@
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // panelX_Default
+            // 
+            this.panelX_Default.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
+            this.panelX_Default.Cursor = System.Windows.Forms.Cursors.Default;
+            this.panelX_Default.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelX_Default.Location = new System.Drawing.Point(0, 0);
+            this.panelX_Default.Name = "panelX_Default";
+            this.panelX_Default.Size = new System.Drawing.Size(5, 720);
+            this.panelX_Default.TabIndex = 1;
+            // 
             // pictureBox2
             // 
             this.pictureBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
@@ -545,75 +518,6 @@
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
-            // 
-            // butFill
-            // 
-            this.butFill.BackgroundImage = global::Графический_редактор.Properties.Resources.paint_basket;
-            this.butFill.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.butFill.FlatAppearance.BorderSize = 0;
-            this.butFill.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.butFill.Location = new System.Drawing.Point(3, 33);
-            this.butFill.Name = "butFill";
-            this.butFill.Size = new System.Drawing.Size(24, 24);
-            this.butFill.TabIndex = 11;
-            this.butFill.UseVisualStyleBackColor = true;
-            this.butFill.Click += new System.EventHandler(this.ToolChange_Click);
-            // 
-            // butCrop
-            // 
-            this.butCrop.BackgroundImage = global::Графический_редактор.Properties.Resources.crop_tool;
-            this.butCrop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.butCrop.FlatAppearance.BorderSize = 0;
-            this.butCrop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.butCrop.Location = new System.Drawing.Point(33, 33);
-            this.butCrop.Name = "butCrop";
-            this.butCrop.Size = new System.Drawing.Size(24, 24);
-            this.butCrop.TabIndex = 10;
-            this.butCrop.UseVisualStyleBackColor = true;
-            this.butCrop.Click += new System.EventHandler(this.ToolChange_Click);
-            // 
-            // butEraser
-            // 
-            this.butEraser.BackgroundImage = global::Графический_редактор.Properties.Resources.sterka;
-            this.butEraser.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.butEraser.FlatAppearance.BorderSize = 0;
-            this.butEraser.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.butEraser.Location = new System.Drawing.Point(33, 3);
-            this.butEraser.Name = "butEraser";
-            this.butEraser.Size = new System.Drawing.Size(24, 24);
-            this.butEraser.TabIndex = 8;
-            this.butEraser.UseVisualStyleBackColor = true;
-            this.butEraser.Click += new System.EventHandler(this.ToolChange_Click);
-            // 
-            // butBrush
-            // 
-            this.butBrush.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.butBrush.BackgroundImage = global::Графический_редактор.Properties.Resources.paintBrush;
-            this.butBrush.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.butBrush.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.butBrush.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.butBrush.FlatAppearance.BorderSize = 0;
-            this.butBrush.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.butBrush.Location = new System.Drawing.Point(3, 3);
-            this.butBrush.Name = "butBrush";
-            this.butBrush.Size = new System.Drawing.Size(24, 24);
-            this.butBrush.TabIndex = 9;
-            this.butBrush.UseVisualStyleBackColor = false;
-            this.butBrush.Click += new System.EventHandler(this.ToolChange_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::Графический_редактор.Properties.Resources.transfer;
-            this.pictureBox1.ImageLocation = "";
-            this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(1121, 2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Padding = new System.Windows.Forms.Padding(3);
-            this.pictureBox1.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.ColorChange_Click);
             // 
             // Form1
             // 
@@ -643,13 +547,10 @@
             this.panel3.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panelTools.ResumeLayout(false);
-            this.panelTools.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarEraser)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -674,18 +575,11 @@
         private System.Windows.Forms.Panel panelResizeX;
         private System.Windows.Forms.Panel panelResizeALL;
         private System.Windows.Forms.Panel panelResizeY;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Panel butColor2;
-        private System.Windows.Forms.Panel butColor1;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Label labelWidthPen;
         private System.Windows.Forms.Button butEraser;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Label labelEraser;
-        private System.Windows.Forms.TrackBar trackBarEraser;
         private System.Windows.Forms.Label labelNumber;
         private System.Windows.Forms.Button butLayerUp;
         private System.Windows.Forms.Button butLayerDown;

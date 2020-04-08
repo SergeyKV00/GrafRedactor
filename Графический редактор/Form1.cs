@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CtrLibrary;
 
 namespace Графический_редактор
 {
@@ -72,7 +73,6 @@ namespace Графический_редактор
         private void butLayerDown_Click(object sender, EventArgs e) => layers.Down();
         private void button1_Click(object sender, EventArgs e) => Close();
         private void button2_Click(object sender, EventArgs e) => this.WindowState = FormWindowState.Minimized;
-        private void trackBarEraser_Scroll(object sender, EventArgs e) => labelEraser.Text = trackBarEraser.Value.ToString();
         private void button3_Click(object sender, EventArgs e)
         {
             if (isCollapse)
@@ -264,29 +264,6 @@ namespace Графический_редактор
                 butLayerUp.Enabled = true;
                 butLayerDown.Enabled = true;
             }
-        }
-
-        private void ColorAction_Click(object sender, EventArgs e)
-        {
-            ColorDialog colorDialog = new ColorDialog();
-            try
-            {
-                var temp = (Panel)sender;
-                if (colorDialog.ShowDialog() == DialogResult.OK)
-                    temp.BackColor = colorDialog.Color;
-            }
-            catch
-            {
-                if (colorDialog.ShowDialog() == DialogResult.OK)
-                    butColor1.BackColor = colorDialog.Color;
-            }
-        }
-
-        private void ColorChange_Click(object sender, EventArgs e)
-        {
-            var tmpColor = butColor1.BackColor;
-            butColor1.BackColor = butColor2.BackColor;
-            butColor2.BackColor = tmpColor;
         }
 
         private void IndexChange(object sender, EventArgs e)
