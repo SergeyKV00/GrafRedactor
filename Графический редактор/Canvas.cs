@@ -14,7 +14,8 @@ namespace Графический_редактор
         public PictureBox Top { get; set; }
         public PictureBox Middle { get; set; }
         public PictureBox Bottom { get; set; }
-        public PictureBox Picture { get; }
+        public PictureBox Picture { get; set; }
+        public PictureBox MouseCanvas { get; }
         public int Width { get => width; }
         public int Height { get => height; } 
 
@@ -30,12 +31,15 @@ namespace Графический_редактор
             Bottom = Create(panel_size, image_size);
             Middle = Create(panel_size, image_size);
             Top = Create(panel_size, image_size);
+            MouseCanvas = Create(panel_size, image_size);
+            MouseCanvas.Cursor = Cursors.Cross;
 
             Picture.Location = new Point((panel_size.Width - Width) / 2, (panel_size.Height - Height) / 2);
 
             Picture.Controls.Add(Bottom);
             Bottom.Controls.Add(Middle);
             Middle.Controls.Add(Top);
+            Top.Controls.Add(MouseCanvas);
         }
 
         private PictureBox Create(Size panel_size, Size image_size)
@@ -58,6 +62,7 @@ namespace Графический_редактор
         protected void ClearCanvas()
         {
             Bitmap tempBmp = new Bitmap(Width, Height);
+            MouseCanvas.Image = tempBmp;
             Top.Image = tempBmp;
             Middle.Image = tempBmp;
             Bottom.Image = tempBmp;

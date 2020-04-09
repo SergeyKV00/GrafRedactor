@@ -27,10 +27,6 @@ namespace Графический_редактор
     {
         private List<LayerNode> bitmaps;
 
-        /*private List<Bitmap> bitmaps;
-        private List<bool> bitmapsVisible;
-        private List<string> bitmapsName;  */
-
         private ImageList images;
         private Bitmap comboBitTop, comboBitBottom;
         private int count, nameCount;

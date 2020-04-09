@@ -34,7 +34,11 @@
             this.создатьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.открытьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemSaveFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.изображениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.размерХолстаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.размерИзображенияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.labelAngle = new System.Windows.Forms.Label();
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -48,11 +52,15 @@
             this.labelNumber = new System.Windows.Forms.Label();
             this.panelResizeX = new System.Windows.Forms.Panel();
             this.panelTools = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.LayoutTools = new System.Windows.Forms.TableLayoutPanel();
+            this.butPolygon = new System.Windows.Forms.Button();
+            this.butEllipse = new System.Windows.Forms.Button();
+            this.butLine = new System.Windows.Forms.Button();
             this.butFill = new System.Windows.Forms.Button();
             this.butCrop = new System.Windows.Forms.Button();
             this.butEraser = new System.Windows.Forms.Button();
             this.butBrush = new System.Windows.Forms.Button();
+            this.butRectangle = new System.Windows.Forms.Button();
             this.PanelForDraw = new System.Windows.Forms.Panel();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.panelResizeALL = new System.Windows.Forms.Panel();
@@ -68,7 +76,7 @@
             this.panel3.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panelTools.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
+            this.LayoutTools.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -79,7 +87,8 @@
             this.menuStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.файлToolStripMenuItem});
+            this.файлToolStripMenuItem,
+            this.изображениеToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(5, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(120, 2, 0, 2);
@@ -125,12 +134,35 @@
             this.menuItemSaveFile.Text = "Сохранить Как...";
             this.menuItemSaveFile.Click += new System.EventHandler(this.SaveFile);
             // 
+            // изображениеToolStripMenuItem
+            // 
+            this.изображениеToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.размерХолстаToolStripMenuItem,
+            this.размерИзображенияToolStripMenuItem});
+            this.изображениеToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.изображениеToolStripMenuItem.Name = "изображениеToolStripMenuItem";
+            this.изображениеToolStripMenuItem.Size = new System.Drawing.Size(119, 24);
+            this.изображениеToolStripMenuItem.Text = "Изображение";
+            // 
+            // размерХолстаToolStripMenuItem
+            // 
+            this.размерХолстаToolStripMenuItem.Name = "размерХолстаToolStripMenuItem";
+            this.размерХолстаToolStripMenuItem.Size = new System.Drawing.Size(235, 26);
+            this.размерХолстаToolStripMenuItem.Text = "Размер холста";
+            // 
+            // размерИзображенияToolStripMenuItem
+            // 
+            this.размерИзображенияToolStripMenuItem.Name = "размерИзображенияToolStripMenuItem";
+            this.размерИзображенияToolStripMenuItem.Size = new System.Drawing.Size(235, 26);
+            this.размерИзображенияToolStripMenuItem.Text = "Размер изображения";
+            // 
             // panel2
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.labelAngle);
             this.panel2.Controls.Add(this.listView1);
             this.panel2.Controls.Add(this.panel3);
             this.panel2.Controls.Add(this.labelNumber);
@@ -139,6 +171,16 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(285, 628);
             this.panel2.TabIndex = 3;
+            // 
+            // labelAngle
+            // 
+            this.labelAngle.AutoSize = true;
+            this.labelAngle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.labelAngle.Location = new System.Drawing.Point(56, 26);
+            this.labelAngle.Name = "labelAngle";
+            this.labelAngle.Size = new System.Drawing.Size(46, 17);
+            this.labelAngle.TabIndex = 1;
+            this.labelAngle.Text = "label1";
             // 
             // listView1
             // 
@@ -299,7 +341,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelTools.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.panelTools.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelTools.Controls.Add(this.tableLayoutPanel3);
+            this.panelTools.Controls.Add(this.LayoutTools);
             this.panelTools.Location = new System.Drawing.Point(0, 28);
             this.panelTools.Margin = new System.Windows.Forms.Padding(0);
             this.panelTools.Name = "panelTools";
@@ -307,23 +349,66 @@
             this.panelTools.TabIndex = 4;
             this.panelTools.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
             // 
-            // tableLayoutPanel3
+            // LayoutTools
             // 
-            this.tableLayoutPanel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Controls.Add(this.butFill, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.butCrop, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.butEraser, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.butBrush, 0, 0);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 2;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(60, 60);
-            this.tableLayoutPanel3.TabIndex = 0;
+            this.LayoutTools.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.LayoutTools.ColumnCount = 4;
+            this.LayoutTools.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.LayoutTools.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.LayoutTools.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.LayoutTools.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.LayoutTools.Controls.Add(this.butPolygon, 3, 1);
+            this.LayoutTools.Controls.Add(this.butEllipse, 3, 0);
+            this.LayoutTools.Controls.Add(this.butLine, 2, 0);
+            this.LayoutTools.Controls.Add(this.butFill, 0, 1);
+            this.LayoutTools.Controls.Add(this.butCrop, 0, 1);
+            this.LayoutTools.Controls.Add(this.butEraser, 1, 0);
+            this.LayoutTools.Controls.Add(this.butBrush, 0, 0);
+            this.LayoutTools.Controls.Add(this.butRectangle, 2, 1);
+            this.LayoutTools.Location = new System.Drawing.Point(0, 0);
+            this.LayoutTools.Name = "LayoutTools";
+            this.LayoutTools.RowCount = 2;
+            this.LayoutTools.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.LayoutTools.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.LayoutTools.Size = new System.Drawing.Size(120, 60);
+            this.LayoutTools.TabIndex = 0;
+            // 
+            // butPolygon
+            // 
+            this.butPolygon.BackgroundImage = global::Графический_редактор.Properties.Resources.polygon;
+            this.butPolygon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.butPolygon.FlatAppearance.BorderSize = 0;
+            this.butPolygon.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butPolygon.Location = new System.Drawing.Point(93, 33);
+            this.butPolygon.Name = "butPolygon";
+            this.butPolygon.Size = new System.Drawing.Size(24, 23);
+            this.butPolygon.TabIndex = 15;
+            this.butPolygon.UseVisualStyleBackColor = true;
+            // 
+            // butEllipse
+            // 
+            this.butEllipse.BackgroundImage = global::Графический_редактор.Properties.Resources.ellipse;
+            this.butEllipse.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.butEllipse.FlatAppearance.BorderSize = 0;
+            this.butEllipse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butEllipse.Location = new System.Drawing.Point(93, 3);
+            this.butEllipse.Name = "butEllipse";
+            this.butEllipse.Size = new System.Drawing.Size(24, 23);
+            this.butEllipse.TabIndex = 14;
+            this.butEllipse.UseVisualStyleBackColor = true;
+            // 
+            // butLine
+            // 
+            this.butLine.BackgroundImage = global::Графический_редактор.Properties.Resources.line;
+            this.butLine.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.butLine.FlatAppearance.BorderSize = 0;
+            this.butLine.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butLine.Location = new System.Drawing.Point(63, 3);
+            this.butLine.Name = "butLine";
+            this.butLine.Size = new System.Drawing.Size(24, 23);
+            this.butLine.TabIndex = 13;
+            this.butLine.UseVisualStyleBackColor = true;
+            this.butLine.Click += new System.EventHandler(this.ToolChange_Click);
             // 
             // butFill
             // 
@@ -379,6 +464,18 @@
             this.butBrush.TabIndex = 9;
             this.butBrush.UseVisualStyleBackColor = false;
             this.butBrush.Click += new System.EventHandler(this.ToolChange_Click);
+            // 
+            // butRectangle
+            // 
+            this.butRectangle.BackgroundImage = global::Графический_редактор.Properties.Resources.squareShape;
+            this.butRectangle.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.butRectangle.FlatAppearance.BorderSize = 0;
+            this.butRectangle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butRectangle.Location = new System.Drawing.Point(63, 33);
+            this.butRectangle.Name = "butRectangle";
+            this.butRectangle.Size = new System.Drawing.Size(24, 23);
+            this.butRectangle.TabIndex = 12;
+            this.butRectangle.UseVisualStyleBackColor = true;
             // 
             // PanelForDraw
             // 
@@ -538,8 +635,11 @@
             this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -547,7 +647,7 @@
             this.panel3.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panelTools.ResumeLayout(false);
-            this.tableLayoutPanel3.ResumeLayout(false);
+            this.LayoutTools.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -588,10 +688,18 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Panel panelX_Default;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.TableLayoutPanel LayoutTools;
         private System.Windows.Forms.Button butBrush;
         private System.Windows.Forms.Button butFill;
         private System.Windows.Forms.Button butCrop;
+        private System.Windows.Forms.ToolStripMenuItem изображениеToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem размерХолстаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem размерИзображенияToolStripMenuItem;
+        private System.Windows.Forms.Button butRectangle;
+        private System.Windows.Forms.Button butPolygon;
+        private System.Windows.Forms.Button butEllipse;
+        private System.Windows.Forms.Button butLine;
+        private System.Windows.Forms.Label labelAngle;
     }
 }
 

@@ -7,8 +7,8 @@ using CtrLibrary;
 namespace Графический_редактор
 {
 
-    public enum NameTool { Brush, Eraser, Fill }
-    class  Tool
+    public enum NameTool { Brush, Eraser, Fill, Line }
+    class  ToolSetting
     {
         protected List<Control> controls;
         virtual public void SetSettings(ref Panel panel)
@@ -25,20 +25,20 @@ namespace Графический_редактор
         virtual public NameTool Name { get; }
     }
 
-    class Brush : Tool
+    class BrushSetting : ToolSetting
     {
         public override NameTool Name { get => NameTool.Brush; }
         public int Depth => ((Slider)controls[1]).Value;
         public int Transparence => ((Slider)controls[2]).Value * 255 / 100;
-        public Color _Color => ((ColorChanger)controls[0]).FirstColor;
-        public Pen GetPen() => new Pen(Color.FromArgb(Transparence, _Color), Depth);
+        public Color Color => ((ColorChanger)controls[0]).FirstColor;
+        public Pen GetPen() => new Pen(Color.FromArgb(Transparence, Color), Depth);
         public override object[] Settings => new object[] { Depth, ((Slider)controls[2]).Value,
             ((ColorChanger)controls[0]).FirstColor, ((ColorChanger)controls[0]).SecondColor };
 
-        public Brush(object[] settings = null)
+        public BrushSetting(object[] settings = null)
         {
-            var col = new ColorChanger(new Point(100, 2));
-            col.BackImage = Properties.Resources.transfer;
+            var color = new ColorChanger(new Point(100, 2));
+            color.BackImage = Properties.Resources.transfer;
 
             var slider1 = new Slider(new Point(150, 0), new Size(200, 50), "Размер:", 1, 200);            
             slider1.Format = SliderFormat.Pixel;
@@ -54,21 +54,21 @@ namespace Графический_редактор
             {
                 slider1.Value = (int)settings[0];
                 slider2.Value = (int)settings[1];
-                col.FirstColor = (Color)settings[2];
-                col.SecondColor = (Color)settings[3];
+                color.FirstColor = (Color)settings[2];
+                color.SecondColor = (Color)settings[3];
             }
 
-            controls = new List<Control> { col, slider1, slider2 };
+            controls = new List<Control> { color, slider1, slider2 };
         }
     }
-    class Eraser : Tool
+    class EraserSetting : ToolSetting
     {
         public override NameTool Name { get => NameTool.Eraser; }
         public int Depth => ((Slider)controls[0]).Value;
         public Pen GetPen() => new Pen(Color.FromArgb(0, 0, 0, 0), Depth);
         public override object[] Settings => new object[] { Depth };
 
-        public Eraser(object[] settings = null)
+        public EraserSetting(object[] settings = null)
         {
             controls = new List<Control>();
             var slider1 = new Slider(new Point(100, 0), new Size(200, 50), "Размер:", 1, 200);
@@ -83,18 +83,18 @@ namespace Графический_редактор
             controls.Add(slider1);
         }
     }
-    class PaintBasket : Tool
+    class FillSetting : ToolSetting
     {
         public override NameTool Name => NameTool.Fill;
         public int Transparence => ((Slider)controls[1]).Value * 255 / 100;
-        public Color _Color => ((ColorChanger)controls[0]).FirstColor;
-        public Pen GetPen() => new Pen(Color.FromArgb(Transparence, _Color));
+        public Color Color => ((ColorChanger)controls[0]).FirstColor;
+        public Pen GetPen() => new Pen(Color.FromArgb(Transparence, Color));
         public override object[] Settings => new object[] { ((Slider)controls[1]).Value, ((ColorChanger)controls[0]).FirstColor, ((ColorChanger)controls[0]).SecondColor };
 
-        public PaintBasket(object[] settings = null)
+        public FillSetting(object[] settings = null)
         {
-            var col = new ColorChanger(new Point(100, 2));
-            col.BackImage = Properties.Resources.transfer;
+            var color = new ColorChanger(new Point(100, 2));
+            color.BackImage = Properties.Resources.transfer;
 
             var slider = new Slider(new Point(150, 0), new Size(200, 50), "Непрозрачность:", 1, 100);
             slider.Format = SliderFormat.Percent;
@@ -104,11 +104,38 @@ namespace Графический_редактор
             if(settings != null)
             {
                 slider.Value = (int)settings[0];
-                col.FirstColor = (Color)settings[1];
-                col.SecondColor = (Color)settings[2];               
+                color.FirstColor = (Color)settings[1];
+                color.SecondColor = (Color)settings[2];               
             }
 
-            controls = new List<Control> { col , slider };
+            controls = new List<Control> { color , slider };
+        }
+    }
+    class LineSetting : ToolSetting
+    {
+        public override NameTool Name => NameTool.Line;
+        public Color Color => ((ColorSelection)controls[0]).Color;
+        public int Depth => ((Slider)controls[1]).Value;
+        public Pen GetPen() => new Pen(Color, Depth);
+        public override object[] Settings => new object[] { Color, Depth };
+
+        public LineSetting(object[] settings = null)
+        {
+            var color = new ColorSelection(new Point(100, 2), new Size(90, 36));
+            color.LabelText = "Цвет: ";
+
+            var slider = new Slider(new Point(190, 0), new Size(200, 50), "Размер:", 1, 50);
+            slider.Format = SliderFormat.Pixel;
+            slider.BackColor = Color.FromArgb(38, 38, 38);
+            slider.Value = 1;
+
+            if(settings != null)
+            {
+                color.Color = (Color)settings[0];
+                slider.Value = (int)settings[1];
+            }
+
+            controls = new List<Control>() { color, slider };
         }
     }
 }
