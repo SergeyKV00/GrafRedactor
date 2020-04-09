@@ -25,6 +25,7 @@ namespace Графический_редактор
         private Button selectedTool;
         private Pen pen;
         private Tool tool;
+        private Dictionary<NameTool, object[]> toolSettings;
 
         public Form1()
         {
@@ -35,6 +36,8 @@ namespace Графический_редактор
             resolution = Size;
             this.Size = Screen.PrimaryScreen.Bounds.Size;
             selectedTool = butBrush;
+            toolSettings = new Dictionary<NameTool, object[]>();
+            tool = new Brush();
             ToolChange_Click(selectedTool, null);
         }
 
@@ -273,17 +276,44 @@ namespace Графический_редактор
             layers.Number = index;
         }
 
+        private void ChangeTool(NameTool name)
+        {
+            if(toolSettings.ContainsKey(name))
+            {
+                switch (name)
+                {
+                    case NameTool.Brush: tool = new Brush(toolSettings[name]); break;
+                    case NameTool.Eraser: tool = new Eraser(toolSettings[name]); break;
+                    case NameTool.Fill: tool = new PaintBasket(toolSettings[name]); break;
+                }
+            }
+            else
+            {
+                switch (name)
+                {
+                    case NameTool.Brush: tool = new Brush(); break;
+                    case NameTool.Eraser: tool = new Eraser(); break;
+                    case NameTool.Fill: tool = new PaintBasket(); break;
+                }
+            }
+        }
+
         private void ToolChange_Click(object sender, EventArgs e)
         {
             selectedTool.BackColor = Color.FromArgb(38, 38, 38);
             selectedTool = (Button)sender;
             selectedTool.BackColor = Color.FromArgb(25, 25, 25);
 
+            if (toolSettings.ContainsKey(tool.Name))
+                toolSettings[tool.Name] = tool.Settings;
+            else
+                toolSettings.Add(tool.Name, tool.Settings);
+
             switch (selectedTool.Name)
             {
-                case "butBrush": tool = new Brush(); break;
-                case "butEraser": tool = new Eraser(); break;
-                case "butFill": tool = new PaintBasket(); break;
+                case "butBrush": ChangeTool(NameTool.Brush); break;
+                case "butEraser": ChangeTool(NameTool.Eraser); break;
+                case "butFill": ChangeTool(NameTool.Fill); break;
             }
             tool.SetSettings(ref panelTools);
         }
