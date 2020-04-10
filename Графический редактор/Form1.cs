@@ -107,7 +107,8 @@ namespace Графический_редактор
         #endregion
         // ==================== //
 
-        // Создание холста
+        // ==================== //
+        #region Открытие и Сохранение файла, и Создание Холста
         private void CreatePictureToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var PictureDialog = new CreatePictureDialog();
@@ -133,173 +134,6 @@ namespace Графический_редактор
             butLayerUp.Enabled = true;
             butLayerDown.Enabled = true;
         }
-
-        private void Picture_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (layers.Count == 0) return;
-            prevPoint.X = e.X;
-            prevPoint.Y = e.Y;
-            mouseClickPoint.X = e.X;
-            mouseClickPoint.Y = e.Y;
-            layers.Change();
-
-            if (tool.Name == NameTool.Line) pen = ((LineSetting)tool).GetPen();
-            if (tool.Name == NameTool.Fill)
-            {
-                Fill(e.X, e.Y, ((FillSetting)tool).GetPen());
-                pen = ((FillSetting)tool).GetPen();
-            }
-
-        }
-        private void Picture_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (layers.Count == 0) return;
-            if (tool.Name == NameTool.Line && e.Button == MouseButtons.Left && layers.Visible)
-            {
-                using (Graphics graph = Graphics.FromImage(layers[layers.Number]))
-                {
-                    graph.DrawLine(pen, mouseClickPoint.X, mouseClickPoint.Y, e.X, e.Y);
-                }
-            }
-            layers.Update();
-            layers.Change();
-            layers.ViewUpdata();
-        }
-        private void Picture_MouseMove(object sender, MouseEventArgs e)
-        {
-            listView1.Select();
-            if (layers.Count == 0) return;
-
-            if (tool.Name == NameTool.Brush) pen = ((BrushSetting)tool).GetPen();
-            if (tool.Name == NameTool.Eraser) pen = ((EraserSetting)tool).GetPen();
-
-            if (pen != null)
-            {
-                pen.StartCap = LineCap.Round;
-                pen.EndCap = LineCap.Round;
-            }
-
-            if (e.Button == MouseButtons.Left && layers.Visible && tool.Name == NameTool.Brush)
-            {
-                using (Graphics graph = Graphics.FromImage(layers[layers.Number]))
-                {
-                    graph.DrawLine(pen, prevPoint.X, prevPoint.Y, e.X, e.Y);
-                }
-
-                layers.Update();
-            }
-
-            if (e.Button == MouseButtons.Left && layers.Visible && tool.Name == NameTool.Eraser)
-            {
-                using (Graphics graph = Graphics.FromImage(layers[layers.Number]))
-                {
-                    graph.SmoothingMode = SmoothingMode.AntiAlias;
-                    graph.CompositingMode = CompositingMode.SourceCopy;
-                    graph.DrawLine(pen, prevPoint.X, prevPoint.Y, e.X, e.Y);
-                }
-
-                layers.Update();
-            }
-
-            if (e.Button == MouseButtons.Left && layers.Visible && tool.Name == NameTool.Line)
-            {
-                Bitmap tempLineBmp = new Bitmap(layers.Width, layers.Height);
-                using (Graphics graph = Graphics.FromImage(tempLineBmp))
-                {
-                    if (activeKeys[Keys.Shift])
-                    {
-                        float distance = (mouseClickPoint.Y - e.Y) / (float)(mouseClickPoint.X - e.X);
-                        float angle = (float)Math.Atan(distance) * (float)(180 / Math.PI);
-                        int intAngle = (int)Math.Abs(Math.Round(angle, 4));
-                        labelAngle.Text = intAngle.ToString();
-                        if (intAngle == 90 || intAngle == 45 || intAngle == 0)
-                            graph.DrawLine(new Pen(Color.Black), mouseClickPoint.X, mouseClickPoint.Y, e.X, e.Y);
-
-                    }
-                    else
-                        graph.DrawLine(new Pen(Color.Black), mouseClickPoint.X, mouseClickPoint.Y, e.X, e.Y);
-                    layers.MouseCanvas.Image = tempLineBmp;
-                }
-            }
-
-            if (tool.Name != NameTool.Fill && tool.Name != NameTool.Line)
-            {
-                Bitmap tempBmp = new Bitmap(layers.Width, layers.Height);
-                using (Graphics graph = Graphics.FromImage(tempBmp))
-                {
-                    graph.DrawEllipse(new Pen(Color.Black), e.X - pen.Width / 2, e.Y - pen.Width / 2, pen.Width, pen.Width);
-                    layers.MouseCanvas.Image = tempBmp;
-                }
-            }
-
-            prevPoint.X = e.X;
-            prevPoint.Y = e.Y;
-        }
-
-        private void Fill(int x, int y, Pen pen)
-        {
-            if (x < 1 || x > layers.Width || y < 1 || y > layers.Height)
-                return;
-
-            pen.StartCap = LineCap.Round;
-            pen.EndCap = LineCap.Round;
-            Bitmap tempBmp = layers[layers.Number];
-            Color old_color, new_color;
-            new_color = pen.Color;
-            old_color = tempBmp.GetPixel(x, y);
-
-
-            if (old_color == new_color)
-                return;
-
-            List<Point> p = new List<Point>();
-            p.Add(new Point(x, y));
-
-            int Ntek = 0;
-            Graphics g = Graphics.FromImage(tempBmp);
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-
-            do
-            {
-                if (p[Ntek].X + 1 < layers.Width)
-                {
-                    if (tempBmp.GetPixel(p[Ntek].X + 1, p[Ntek].Y) == old_color)
-                    {
-                        p.Add(new Point(p[Ntek].X + 1, p[Ntek].Y));
-                        tempBmp.SetPixel(p[Ntek].X + 1, p[Ntek].Y, new_color);
-                    }
-                }
-                if (p[Ntek].X - 1 >= 0)
-                {
-                    if (tempBmp.GetPixel(p[Ntek].X - 1, p[Ntek].Y) == old_color)
-                    {
-                        p.Add(new Point(p[Ntek].X - 1, p[Ntek].Y));
-                        tempBmp.SetPixel(p[Ntek].X - 1, p[Ntek].Y, new_color);
-                    }
-                }
-                if (p[Ntek].Y + 1 < layers.Height)
-                {
-                    if (tempBmp.GetPixel(p[Ntek].X, p[Ntek].Y + 1) == old_color)
-                    {
-                        p.Add(new Point(p[Ntek].X, p[Ntek].Y + 1));
-                        tempBmp.SetPixel(p[Ntek].X, p[Ntek].Y + 1, new_color);
-                    }
-                }
-                if (p[Ntek].Y - 1 >= 0)
-                {
-                    if (tempBmp.GetPixel(p[Ntek].X, p[Ntek].Y - 1) == old_color)
-                    {
-                        p.Add(new Point(p[Ntek].X, p[Ntek].Y - 1));
-                        tempBmp.SetPixel(p[Ntek].X, p[Ntek].Y - 1, new_color);
-                    }
-                }
-                Ntek++;
-            } while (Ntek < p.Count - 1);
-
-            layers[layers.Number] = tempBmp;
-
-        }
-
         private void OpenFile_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -327,22 +161,184 @@ namespace Графический_редактор
                 butLayerDown.Enabled = true;
             }
         }
+        private void SaveFile(object sender, EventArgs e)
+        {
+            if (layers == null) return;
+            SaveFileDialog savedialog = new SaveFileDialog
+            {
+                Filter =
+            "Bitmap File(*.bmp)|*.bmp|" +
+            "JPEG File(*.jpg)|*.jpg|" +
+            "TIF File(*.tif)|*.tif|" +
+            "PNG File(*.png)|*.png",
+                ShowHelp = true
+            };
+            if (savedialog.ShowDialog() == DialogResult.OK)
+            {
+                string fileExtension = System.IO.Path.GetExtension(savedialog.FileName);
+                List<Bitmap> temp = layers.GetLayerList();
+                temp.Reverse();
 
+                if (fileExtension == ".jpg")
+                {
+
+                    var bmp = new Bitmap(layers.Width, layers.Height);
+                    var graph = Graphics.FromImage(bmp);
+                    graph.FillRectangle(new SolidBrush(Color.White), 0, 0, bmp.Width, bmp.Height);
+                    temp.Insert(0, bmp);
+                }
+
+                Bitmap saveB = GraphicsExtension.CombineBitmap(ref temp);
+                saveB.Save(savedialog.FileName);
+            }
+        }
+        #endregion
+        // ==================== //
+
+        // ==================== //
+        #region Рисование
+        private void Picture_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (layers.Count == 0) return;
+            prevPoint.X = e.X;
+            prevPoint.Y = e.Y;
+            mouseClickPoint.X = e.X;
+            mouseClickPoint.Y = e.Y;
+            layers.Change();
+
+            if (tool.Name == NameTool.Line) pen = tool.GetPen();
+            if (tool.Name == NameTool.Rectangle) pen = tool.GetPen();
+            if (tool.Name == NameTool.Fill && e.Button == MouseButtons.Left && layers.Visible)
+            {
+                pen = tool.GetPen();
+                layers.CurrentBitmap.FiilArea(pen, new Point(e.X, e.Y));                
+            }
+        }
+        private void Picture_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (layers.Count == 0) return;
+
+            if (e.Button == MouseButtons.Left && layers.Visible)
+            {
+                switch (tool.Name)
+                {
+                    case NameTool.Line:
+                        layers.CurrentBitmap.DrawLine(pen, mouseClickPoint, new Point(e.X, e.Y));
+                        break;
+                    case NameTool.Rectangle:
+                        RectangleSetting tempRect = (RectangleSetting)tool;
+                        layers.CurrentBitmap.DrawRectangle(tempRect.GetPen(), tempRect.FillColor, tempRect.Depth, mouseClickPoint, new Point(e.X, e.Y));
+                        break;
+                    case NameTool.Ellipse:
+                        RectangleSetting tempElipse = (EllipseSetting)tool;
+                        layers.CurrentBitmap.DrawEllipse(tempElipse.GetPen(), tempElipse.FillColor, tempElipse.Depth, mouseClickPoint, new Point(e.X, e.Y));
+                        break;
+                }
+            }
+            
+            layers.Update();
+            layers.Change();
+            layers.ViewUpdata();
+        }
+        private void Picture_MouseMove(object sender, MouseEventArgs e)
+        {
+            listView1.Select();
+            if (layers.Count == 0) return;
+
+            if (tool.Name == NameTool.Brush) pen = tool.GetPen();
+            if (tool.Name == NameTool.Eraser) pen = tool.GetPen();
+
+            if (pen != null)
+            {
+                pen.StartCap = LineCap.Round;
+                pen.EndCap = LineCap.Round;
+            }
+
+            if (e.Button == MouseButtons.Left && layers.Visible)
+            {
+                switch (tool.Name)
+                {
+                    case NameTool.Brush:
+                        using (Graphics graph = Graphics.FromImage(layers.CurrentBitmap))
+                            graph.DrawLine(pen, prevPoint.X, prevPoint.Y, e.X, e.Y);
+                        layers.Update();
+                        break;
+                    case NameTool.Eraser:
+                        using (Graphics graph = Graphics.FromImage(layers.CurrentBitmap))
+                        {
+                            graph.CompositingMode = CompositingMode.SourceCopy;
+                            graph.DrawLine(pen, prevPoint.X, prevPoint.Y, e.X, e.Y);
+                        }
+                        layers.Update();
+                        break;
+                    case NameTool.Line:
+                        Bitmap tempLine = new Bitmap(layers.Width, layers.Height);
+                        layers.MouseCanvas.Image = tempLine.DrawLine(new Pen(Color.Black), mouseClickPoint, new Point(e.X, e.Y));
+                        break;
+                    case NameTool.Rectangle:
+                        Bitmap tempRect = new Bitmap(layers.Width, layers.Height);
+                        layers.MouseCanvas.Image = tempRect.DrawRectangle(new Pen(Color.Black), Color.FromArgb(0, 0, 0, 0), 1, mouseClickPoint, new Point(e.X, e.Y));
+                        break;
+                    case NameTool.Ellipse:
+                        Bitmap tempEllipse = new Bitmap(layers.Width, layers.Height);
+                        layers.MouseCanvas.Image = tempEllipse.DrawEllipse(new Pen(Color.Black), Color.FromArgb(0, 0, 0, 0), 1, mouseClickPoint, new Point(e.X, e.Y));
+                        break;
+                }
+            }
+
+            if (tool.Name == NameTool.Brush || tool.Name == NameTool.Eraser)
+            {
+                Bitmap tempBmp = new Bitmap(layers.Width, layers.Height);
+                using (Graphics graph = Graphics.FromImage(tempBmp))
+                {
+                    graph.DrawEllipse(new Pen(Color.Black), e.X - pen.Width / 2, e.Y - pen.Width / 2, pen.Width, pen.Width);
+                    layers.MouseCanvas.Image = tempBmp;
+                }
+            }
+
+            prevPoint.X = e.X;
+            prevPoint.Y = e.Y;
+        }
+        #endregion
+        // ==================== // 
+
+        // ==================== //
+        #region События слоев
         private void IndexChange(object sender, EventArgs e)
         {
             if (!(listView1.SelectedIndices.Count > 0)) return;
             int index = listView1.SelectedIndices[0];
             layers.Number = index;
         }
-
+        private void butNewLayer_Click(object sender, EventArgs e)
+        {
+            if (layers == null) return;
+            layers.Add();
+            menuItemSaveFile.Enabled = true;
+        }
+        private void butDeleteLayer_Click(object sender, EventArgs e)
+        {
+            if (layers == null) return;
+            layers.RemoveAt(layers.Number);
+            if (layers.Count == 0) menuItemSaveFile.Enabled = false;
+        }
+        private void button_HidenLayer(object sender, EventArgs e)
+        {
+            if (layers == null) return;
+            layers.Visible = !layers.Visible;
+            layers.Change();
+            layers.ViewUpdata();
+        }
+        #endregion
+        // ==================== //
+   
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            activeKeys[Keys.Shift] = true;
+           activeKeys[Keys.Shift] = true;
         }
-
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
-            activeKeys[Keys.Shift] = false;
+           activeKeys[Keys.Shift] = false;
         }
 
         private void ChangeTool(NameTool name)
@@ -355,6 +351,8 @@ namespace Графический_редактор
                     case NameTool.Eraser: tool = new EraserSetting(toolSettingValues[name]); break;
                     case NameTool.Fill: tool = new FillSetting(toolSettingValues[name]); break;
                     case NameTool.Line: tool = new LineSetting(toolSettingValues[name]); break;
+                    case NameTool.Rectangle: tool = new RectangleSetting(toolSettingValues[name]); break;
+                    case NameTool.Ellipse: tool = new EllipseSetting(toolSettingValues[name]); break;
                 }
             }
             else
@@ -365,10 +363,11 @@ namespace Графический_редактор
                     case NameTool.Eraser: tool = new EraserSetting(); break;
                     case NameTool.Fill: tool = new FillSetting(); break;
                     case NameTool.Line: tool = new LineSetting(); break;
+                    case NameTool.Rectangle: tool = new RectangleSetting(); break;
+                    case NameTool.Ellipse: tool = new EllipseSetting(); break;
                 }
             }
         }
-
         private void ToolChange_Click(object sender, EventArgs e)
         {
             selectedTool.BackColor = Color.FromArgb(38, 38, 38);
@@ -386,61 +385,12 @@ namespace Графический_редактор
                 case "butEraser": ChangeTool(NameTool.Eraser); break;
                 case "butFill": ChangeTool(NameTool.Fill); break;
                 case "butLine": ChangeTool(NameTool.Line); break;
+                case "butRectangle": ChangeTool(NameTool.Rectangle); break;
+                case "butEllipse": ChangeTool(NameTool.Ellipse); break;
             }
             tool.SetSettings(ref panelTools);
+            if (layers != null) layers.Update();
         }
 
-        private void butNewLayer_Click(object sender, EventArgs e)
-        {
-            if (layers == null) return;
-            layers.Add();
-            menuItemSaveFile.Enabled = true;
-        }
-
-        private void butDeleteLayer_Click(object sender, EventArgs e)
-        {
-            if (layers == null) return;
-            layers.RemoveAt(layers.Number);
-            if (layers.Count == 0) menuItemSaveFile.Enabled = false;
-        }
-
-        private void SaveFile(object sender, EventArgs e)
-        {
-            if (layers == null) return;
-            SaveFileDialog savedialog = new SaveFileDialog
-            {
-                Filter =
-            "Bitmap File(*.bmp)|*.bmp|" +
-            "JPEG File(*.jpg)|*.jpg|" +
-            "TIF File(*.tif)|*.tif|" +
-            "PNG File(*.png)|*.png",
-                ShowHelp = true
-            };
-            if (savedialog.ShowDialog() == DialogResult.OK)
-            {
-                string fileExtension = System.IO.Path.GetExtension(savedialog.FileName);
-                List<Bitmap> temp = layers.GetBitmap();
-                temp.Reverse();
-
-                if (fileExtension == ".jpg")
-                {
-
-                    var bmp = new Bitmap(layers.Width, layers.Height);
-                    var graph = Graphics.FromImage(bmp);
-                    graph.FillRectangle(new SolidBrush(Color.White), 0, 0, bmp.Width, bmp.Height);
-                    temp.Insert(0, bmp);
-                }
-
-                Bitmap saveB = GraphicsExtension.CombineBitmap(ref temp);
-                saveB.Save(savedialog.FileName);
-            }
-        }
-        private void button_HidenLayer(object sender, EventArgs e)
-        {
-            if (layers == null) return;
-            layers.Visible = !layers.Visible;
-            layers.Change();
-            layers.ViewUpdata();
-        }
     }
 }

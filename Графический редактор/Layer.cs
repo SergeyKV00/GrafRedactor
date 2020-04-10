@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Drawing;
-using System.Text.RegularExpressions;
 
 namespace Графический_редактор
 {
@@ -34,7 +34,8 @@ namespace Графический_редактор
         public ListView View { get; set; }
         public int Count { get => count; }
         public int Number { get; set; }
-        public bool Visible {
+        public bool Visible
+        {
             get => bitmaps[Number].IsVisible;
             set
             {
@@ -48,21 +49,13 @@ namespace Графический_редактор
                     bitmaps[Number].Name = "Скрытый слой: " + match.Value;
             }
         }
+        public Bitmap CurrentBitmap { get => bitmaps[Number].Image; set => bitmaps[Number].Image = value; }
         public Layer(ref ListView listView, Size panel_size, Size image_size)
             : base(panel_size, image_size)
         {
             View = listView;
             Clear();
         }
-
-        public List<Bitmap> GetBitmap()
-        {
-            var tempList = new List<Bitmap>();
-            foreach (LayerNode it in bitmaps)
-                tempList.Add(it.Image);
-            return tempList;
-        }
-
         public Bitmap this[int index]
         {
             get
@@ -70,14 +63,19 @@ namespace Графический_редактор
                 if (index >= Count && index < 0) throw new Exception("Out of range");
                 return bitmaps[index].Image;
             }
-
             set
             {
                 if (index >= Count && index < 0) throw new Exception("Out of range");
                 bitmaps[index].Image = value;
             }
         }
-
+        public List<Bitmap> GetLayerList()
+        {
+            var tempList = new List<Bitmap>();
+            foreach (LayerNode it in bitmaps)
+                tempList.Add(it.Image);
+            return tempList;
+        }
         public void Add()
         {
             LayerNode tempNode = new LayerNode(new Bitmap(Width, Height), true, "Слой: " + nameCount);
@@ -94,10 +92,10 @@ namespace Графический_редактор
             bitmaps.RemoveAt(index);
             count--;
             if (Count == 0) nameCount = 0;
-            Number = 0;   
+            Number = 0;
             Change();
             Update();
-            ViewUpdata();          
+            ViewUpdata();
         }
 
         public void Up()
@@ -130,8 +128,8 @@ namespace Графический_редактор
         {
             ClearCanvas();
             Top.Image = comboBitTop;
-            if(Count != 0 && bitmaps[Number].IsVisible)
-            Middle.Image = bitmaps[Number].Image;
+            if (Count != 0 && bitmaps[Number].IsVisible)
+                Middle.Image = bitmaps[Number].Image;
             Bottom.Image = comboBitBottom;
         }
 
@@ -183,14 +181,14 @@ namespace Графический_редактор
             {
                 List<Bitmap> tempBmp = new List<Bitmap>();
                 tempBmp.Add(new Bitmap(Picture.Image));
-                tempBmp.Add(new Bitmap(bitmaps[Count - i - 1].Image));                       
+                tempBmp.Add(new Bitmap(bitmaps[Count - i - 1].Image));
                 images.Images.Add(GraphicsExtension.CombineBitmap(ref tempBmp));
 
                 ListViewItem tempItem = new ListViewItem(new string[] { "", bitmaps[Count - i - 1].Name });
                 tempItem.ImageIndex = images.Images.Count - 1;
                 View.Items.Insert(0, tempItem);
             }
-            if(Count != 0)
+            if (Count != 0)
             {
                 View.Items[Number].Selected = true;
                 View.Select();

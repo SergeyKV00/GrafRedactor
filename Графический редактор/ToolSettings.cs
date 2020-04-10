@@ -7,7 +7,7 @@ using CtrLibrary;
 namespace Графический_редактор
 {
 
-    public enum NameTool { Brush, Eraser, Fill, Line }
+    public enum NameTool { Brush, Eraser, Fill, Line, Rectangle, Ellipse, Polygon }
     class  ToolSetting
     {
         protected List<Control> controls;
@@ -21,6 +21,7 @@ namespace Графический_редактор
                 panel.Controls.Add(it);
         }
 
+        virtual public Pen GetPen() => new Pen(Color.FromArgb(0, 0, 0, 0));
         virtual public object[] Settings { get => controls.ToArray(); }
         virtual public NameTool Name { get; }
     }
@@ -31,7 +32,7 @@ namespace Графический_редактор
         public int Depth => ((Slider)controls[1]).Value;
         public int Transparence => ((Slider)controls[2]).Value * 255 / 100;
         public Color Color => ((ColorChanger)controls[0]).FirstColor;
-        public Pen GetPen() => new Pen(Color.FromArgb(Transparence, Color), Depth);
+        public override Pen GetPen() => new Pen(Color.FromArgb(Transparence, Color), Depth);
         public override object[] Settings => new object[] { Depth, ((Slider)controls[2]).Value,
             ((ColorChanger)controls[0]).FirstColor, ((ColorChanger)controls[0]).SecondColor };
 
@@ -65,7 +66,7 @@ namespace Графический_редактор
     {
         public override NameTool Name { get => NameTool.Eraser; }
         public int Depth => ((Slider)controls[0]).Value;
-        public Pen GetPen() => new Pen(Color.FromArgb(0, 0, 0, 0), Depth);
+        public override Pen GetPen() => new Pen(Color.FromArgb(0, 0, 0, 0), Depth);
         public override object[] Settings => new object[] { Depth };
 
         public EraserSetting(object[] settings = null)
@@ -88,7 +89,7 @@ namespace Графический_редактор
         public override NameTool Name => NameTool.Fill;
         public int Transparence => ((Slider)controls[1]).Value * 255 / 100;
         public Color Color => ((ColorChanger)controls[0]).FirstColor;
-        public Pen GetPen() => new Pen(Color.FromArgb(Transparence, Color));
+        public override Pen GetPen() => new Pen(Color.FromArgb(Transparence, Color));
         public override object[] Settings => new object[] { ((Slider)controls[1]).Value, ((ColorChanger)controls[0]).FirstColor, ((ColorChanger)controls[0]).SecondColor };
 
         public FillSetting(object[] settings = null)
@@ -116,12 +117,11 @@ namespace Графический_редактор
         public override NameTool Name => NameTool.Line;
         public Color Color => ((ColorSelection)controls[0]).Color;
         public int Depth => ((Slider)controls[1]).Value;
-        public Pen GetPen() => new Pen(Color, Depth);
+        public override Pen GetPen() => new Pen(Color, Depth);
         public override object[] Settings => new object[] { Color, Depth };
-
         public LineSetting(object[] settings = null)
         {
-            var color = new ColorSelection(new Point(100, 2), new Size(90, 36));
+            var color = new ColorSelection(new Point(100, 8), new Size(90, 36));
             color.LabelText = "Цвет: ";
 
             var slider = new Slider(new Point(190, 0), new Size(200, 50), "Размер:", 1, 50);
@@ -138,4 +138,43 @@ namespace Графический_редактор
             controls = new List<Control>() { color, slider };
         }
     }
+    class RectangleSetting : ToolSetting
+    {
+        public override NameTool Name => NameTool.Rectangle;    
+        public int Depth => ((Slider)controls[0]).Value;
+        public Color BorderColor => ((ColorSelection)controls[1]).Color;
+        public Color FillColor => ((ColorSelection)controls[2]).Color;
+        public override Pen GetPen() => new Pen(BorderColor, Depth);
+        public override object[] Settings => new object[] { Depth, BorderColor, FillColor };
+        public RectangleSetting(object[] settings = null)
+        {
+            var borderColor = new ColorSelection(new Point(100, 8), new Size(90, 36));
+            borderColor.LabelText = "Рамка:";
+
+            var fillColor = new ColorSelection(new Point(190, 8), new Size(110, 36));
+            fillColor.LabelText = "Заливка:";
+
+            var slider = new Slider(new Point(300, 0), new Size(200, 50), "Размер:", 0, 100);
+            slider.Format = SliderFormat.Pixel;
+            slider.BackColor = Color.FromArgb(38, 38, 38);
+            slider.Value = 5;
+
+            if(settings != null)
+            {
+                slider.Value = (int)settings[0];
+                borderColor.Color = (Color)settings[1];
+                fillColor.Color = (Color)settings[2];
+            }
+
+            controls = new List<Control> { slider, borderColor, fillColor };
+        }
+        
+    }
+    class EllipseSetting : RectangleSetting
+    {
+        public override NameTool Name => NameTool.Ellipse;
+        public EllipseSetting(object[] settings = null)
+            : base(settings) { }
+    }
+
 }

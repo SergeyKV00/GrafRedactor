@@ -18,6 +18,7 @@ namespace Графический_редактор
         public PictureBox MouseCanvas { get; }
         public int Width { get => width; }
         public int Height { get => height; } 
+        public Size Size { get => new Size(width, height); }
 
         protected Canvas(Size panel_size, Size image_size)
         {

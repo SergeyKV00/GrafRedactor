@@ -38,7 +38,6 @@
             this.размерХолстаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.размерИзображенияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.labelAngle = new System.Windows.Forms.Label();
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -162,7 +161,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.labelAngle);
             this.panel2.Controls.Add(this.listView1);
             this.panel2.Controls.Add(this.panel3);
             this.panel2.Controls.Add(this.labelNumber);
@@ -171,16 +169,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(285, 628);
             this.panel2.TabIndex = 3;
-            // 
-            // labelAngle
-            // 
-            this.labelAngle.AutoSize = true;
-            this.labelAngle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.labelAngle.Location = new System.Drawing.Point(56, 26);
-            this.labelAngle.Name = "labelAngle";
-            this.labelAngle.Size = new System.Drawing.Size(46, 17);
-            this.labelAngle.TabIndex = 1;
-            this.labelAngle.Text = "label1";
             // 
             // listView1
             // 
@@ -384,6 +372,7 @@
             this.butPolygon.Size = new System.Drawing.Size(24, 23);
             this.butPolygon.TabIndex = 15;
             this.butPolygon.UseVisualStyleBackColor = true;
+            this.butPolygon.Click += new System.EventHandler(this.ToolChange_Click);
             // 
             // butEllipse
             // 
@@ -396,6 +385,7 @@
             this.butEllipse.Size = new System.Drawing.Size(24, 23);
             this.butEllipse.TabIndex = 14;
             this.butEllipse.UseVisualStyleBackColor = true;
+            this.butEllipse.Click += new System.EventHandler(this.ToolChange_Click);
             // 
             // butLine
             // 
@@ -476,6 +466,7 @@
             this.butRectangle.Size = new System.Drawing.Size(24, 23);
             this.butRectangle.TabIndex = 12;
             this.butRectangle.UseVisualStyleBackColor = true;
+            this.butRectangle.Click += new System.EventHandler(this.ToolChange_Click);
             // 
             // PanelForDraw
             // 
@@ -699,7 +690,6 @@
         private System.Windows.Forms.Button butPolygon;
         private System.Windows.Forms.Button butEllipse;
         private System.Windows.Forms.Button butLine;
-        private System.Windows.Forms.Label labelAngle;
     }
 }
 
