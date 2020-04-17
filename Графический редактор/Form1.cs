@@ -23,20 +23,22 @@ namespace Графический_редактор
         private Button selectedTool;
         private Pen pen;
         private ToolSetting tool;
-        private Dictionary<NameTool, object[]> toolSettingValues;
         private Dictionary<Keys, bool> activeKeys;
 
         public Form1()
         {
             InitializeComponent();
-
             isCollapse = false;
             this.KeyPreview = true;
             this.MaximumSize = Screen.PrimaryScreen.WorkingArea.Size;
             resolution = Size;
             this.Size = Screen.PrimaryScreen.Bounds.Size;
+        }
+        #region Настройки формы
+
+        private void Form1_Load(object sender, EventArgs e)
+        {           
             selectedTool = butBrush;
-            toolSettingValues = new Dictionary<NameTool, object[]>();
             tool = new BrushSetting();
             ToolChange_Click(selectedTool, null);
 
@@ -45,9 +47,6 @@ namespace Графический_редактор
                 { Keys.Shift, false }
             };
         }
-        // ==================== //
-        #region Настройки формы
-
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
         {
             if (!isCollapse) return;
@@ -105,9 +104,7 @@ namespace Графический_редактор
         }
 
         #endregion
-        // ==================== //
-
-        // ==================== //
+        
         #region Открытие и Сохранение файла, и Создание Холста
         private void CreatePictureToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -193,9 +190,7 @@ namespace Графический_редактор
             }
         }
         #endregion
-        // ==================== //
 
-        // ==================== //
         #region Рисование
         private void Picture_MouseDown(object sender, MouseEventArgs e)
         {
@@ -206,18 +201,18 @@ namespace Графический_редактор
             mouseClickPoint.Y = e.Y;
             //layers.Change();
 
-            if (tool.Name == NameTool.Line) pen = tool.GetPen();
-            if (tool.Name == NameTool.Rectangle) pen = tool.GetPen();
+            pen = tool.GetPen();
+            pen.StartCap = LineCap.Round;
+            pen.EndCap = LineCap.Round;
+
             if (tool.Name == NameTool.Fill && e.Button == MouseButtons.Left && layers.Visible)
             {
-                pen = tool.GetPen();
                 layers.CurrentBitmap.FiilArea(pen, new Point(e.X, e.Y));
-            }
+            }        
             if (tool.Name == NameTool.Polygon && layers.Visible)
             {
                 PolygonSetting tempPolygon = (PolygonSetting)tool;
                 if (tempPolygon.Image == null) tempPolygon.Image = new Bitmap(layers.Width, layers.Height);
-                pen = tool.GetPen();
 
                 if (e.Button == MouseButtons.Left)
                 {
@@ -279,15 +274,6 @@ namespace Графический_редактор
             listView1.Select();
             if (layers.Count == 0) return;
 
-            if (tool.Name == NameTool.Brush) pen = tool.GetPen();
-            if (tool.Name == NameTool.Eraser) pen = tool.GetPen();
-
-            if (pen != null)
-            {
-                pen.StartCap = LineCap.Round;
-                pen.EndCap = LineCap.Round;
-            }
-
             if (e.Button == MouseButtons.Left && layers.Visible)
             {
                 switch (tool.Name)
@@ -331,11 +317,13 @@ namespace Графический_редактор
 
             if (tool.Name == NameTool.Brush || tool.Name == NameTool.Eraser)
             {
+                pen = tool.GetPen();
+                pen.StartCap = LineCap.Round;
+                pen.EndCap = LineCap.Round;
                 Bitmap tempBmp = new Bitmap(layers.Width, layers.Height);
                 using (Graphics graph = Graphics.FromImage(tempBmp))
                 {
                     graph.DrawEllipse(new Pen(Color.Black), e.X - pen.Width / 2, e.Y - pen.Width / 2, pen.Width, pen.Width);
-
                     layers.MouseCanvas.Image = tempBmp;
                 }
             }
@@ -344,9 +332,7 @@ namespace Графический_редактор
             prevPoint.Y = e.Y;
         }
         #endregion
-        // ==================== // 
 
-        // ==================== //
         #region События слоев
         private void IndexChange(object sender, EventArgs e)
         {
@@ -355,6 +341,7 @@ namespace Графический_редактор
             layers.Number = index;
             layers.Change();
         }
+
         private void butNewLayer_Click(object sender, EventArgs e)
         {
             if (layers == null) return;
@@ -375,7 +362,6 @@ namespace Графический_редактор
             layers.ViewUpdata();
         }
         #endregion
-        // ==================== //
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -385,48 +371,26 @@ namespace Графический_редактор
         {
             activeKeys[Keys.Shift] = false;
         }
-
-        private void ChangeTool(NameTool name)
-        {
-            object [] settings = null;
-            if (toolSettingValues.ContainsKey(name))
-                settings = toolSettingValues[name];
-
-            switch (name)
-            {
-                case NameTool.Brush: tool = new BrushSetting(settings); break;
-                case NameTool.Eraser: tool = new EraserSetting(settings); break;
-                case NameTool.Fill: tool = new FillSetting(settings); break;
-                case NameTool.Line: tool = new LineSetting(settings); break;
-                case NameTool.Rectangle: tool = new RectangleSetting(settings); break;
-                case NameTool.Ellipse: tool = new EllipseSetting(settings); break;
-                case NameTool.Polygon: tool = new PolygonSetting(settings); break;
-            }
-        }
         private void ToolChange_Click(object sender, EventArgs e)
         {
             selectedTool.BackColor = Color.FromArgb(38, 38, 38);
             selectedTool = (Button)sender;
             selectedTool.BackColor = Color.FromArgb(25, 25, 25);
 
-            if (toolSettingValues.ContainsKey(tool.Name))
-                toolSettingValues[tool.Name] = tool.Settings;
-            else
-                toolSettingValues.Add(tool.Name, tool.Settings);
+            tool.SaveSettings();
 
             switch (selectedTool.Name)
             {
-                case "butBrush": ChangeTool(NameTool.Brush); break;
-                case "butEraser": ChangeTool(NameTool.Eraser); break;
-                case "butFill": ChangeTool(NameTool.Fill); break;
-                case "butLine": ChangeTool(NameTool.Line); break;
-                case "butRectangle": ChangeTool(NameTool.Rectangle); break;
-                case "butEllipse": ChangeTool(NameTool.Ellipse); break;
-                case "butPolygon": ChangeTool(NameTool.Polygon); break;
+                case "butBrush": tool = new BrushSetting(); break;
+                case "butEraser": tool = new EraserSetting(); break;
+                case "butFill": tool = new FillSetting(); break;
+                case "butLine": tool = new LineSetting(); break;
+                case "butRectangle": tool = new RectangleSetting(); break;
+                case "butEllipse": tool = new EllipseSetting(); break;
+                case "butPolygon": tool = new PolygonSetting(); break;
             }
-            tool.SetSettings(ref panelTools);
+            tool.InstallTools(ref panelTools);
             if (layers != null) layers.Update();
         }
-
     }
 }

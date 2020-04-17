@@ -26,10 +26,16 @@ namespace Графический_редактор
     class Layer : Canvas
     {
         private List<LayerNode> bitmaps;
-
         private ImageList images;
         private Bitmap comboBitTop, comboBitBottom;
         private int count, nameCount;
+
+        public Layer(ref ListView listView, Size panel_size, Size image_size)
+            : base(panel_size, image_size)
+        {
+            View = listView;
+            Clear();
+        }
 
         public ListView View { get; set; }
         public int Count { get => count; }
@@ -50,12 +56,7 @@ namespace Графический_редактор
             }
         }
         public Bitmap CurrentBitmap { get => bitmaps[Number].Image; set => bitmaps[Number].Image = value; }
-        public Layer(ref ListView listView, Size panel_size, Size image_size)
-            : base(panel_size, image_size)
-        {
-            View = listView;
-            Clear();
-        }
+        
         public Bitmap this[int index]
         {
             get
@@ -69,6 +70,7 @@ namespace Графический_редактор
                 bitmaps[index].Image = value;
             }
         }
+
         public List<Bitmap> GetLayerList()
         {
             var tempList = new List<Bitmap>();
@@ -86,8 +88,7 @@ namespace Графический_редактор
             ViewUpdata();
             Number = 0;
         }
-
-        public void RemoveAt(int index) // <!--- Check Index --->
+        public void RemoveAt(int index)
         {
             bitmaps.RemoveAt(index);
             count--;
@@ -97,7 +98,6 @@ namespace Графический_редактор
             Update();
             ViewUpdata();
         }
-
         public void Up()
         {
             if (Number == 0 || Count < 2) return;
@@ -107,7 +107,6 @@ namespace Графический_редактор
             Change();
             ViewUpdata();
         }
-
         public void Down()
         {
             if (Number == Count - 1 || Count < 2) return;
@@ -116,14 +115,12 @@ namespace Графический_редактор
             Change();
             ViewUpdata();
         }
-
         public void Fill(Color color)
         {
             Graphics g = Graphics.FromImage(bitmaps[Number].Image);
             g.Clear(color);
             ViewUpdata();
         }
-
         public void Update()
         {
             ClearCanvas();
@@ -132,7 +129,6 @@ namespace Графический_редактор
                 Middle.Image = bitmaps[Number].Image;
             Bottom.Image = comboBitBottom;
         }
-
         public void Clear()
         {
             bitmaps = new List<LayerNode>();
@@ -143,7 +139,6 @@ namespace Графический_редактор
             nameCount = 0;
             ClearCanvas();
         }
-
         public void Change()
         {
             ClearCanvas();
@@ -184,7 +179,6 @@ namespace Графический_редактор
             
             View.Items[Number] = tempItem;
         }
-
         public void ViewUpdata()
         {
             View.Items.Clear();
