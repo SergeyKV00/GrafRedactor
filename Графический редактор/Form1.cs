@@ -80,7 +80,25 @@ namespace Графический_редактор
         private void SizerMouseUp(object sender, MouseEventArgs e) => moveResize = false;
         private void butLayerUp_Click(object sender, EventArgs e) => layers.Up();
         private void butLayerDown_Click(object sender, EventArgs e) => layers.Down();
-        private void button1_Click(object sender, EventArgs e) => Close();
+        private void butClouse_Click(object sender, EventArgs e)
+        {
+            if (layers != null)
+            {
+                switch (MessageBox.Show("Сохранить изменение и выйти?", "Paint++", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
+                {
+                    case DialogResult.Yes:
+                        if (SaveFile()) Close();
+                        else return;
+                        break;
+                    case DialogResult.No:
+                        Close();
+                        break;
+                    case DialogResult.Cancel:
+                        return;
+                }
+            }
+            Close();
+        }
         private void button2_Click(object sender, EventArgs e) => this.WindowState = FormWindowState.Minimized;
         private void button3_Click(object sender, EventArgs e)
         {
@@ -158,9 +176,9 @@ namespace Графический_редактор
                 butLayerDown.Enabled = true;
             }
         }
-        private void SaveFile(object sender, EventArgs e)
+        private bool SaveFile()
         {
-            if (layers == null) return;
+            if (layers == null) return false;
             SaveFileDialog savedialog = new SaveFileDialog
             {
                 Filter =
@@ -187,7 +205,9 @@ namespace Графический_редактор
 
                 Bitmap saveB = GraphicsExtension.CombineBitmap(ref temp);
                 saveB.Save(savedialog.FileName);
+                return true;
             }
+            return false;
         }
         #endregion
 
@@ -342,6 +362,8 @@ namespace Графический_редактор
             layers.Change();
         }
 
+        private void menuItemSaveFile_Click(object sender, EventArgs e) => SaveFile();
+
         private void butNewLayer_Click(object sender, EventArgs e)
         {
             if (layers == null) return;
@@ -357,6 +379,7 @@ namespace Графический_редактор
         private void button_HidenLayer(object sender, EventArgs e)
         {
             if (layers == null) return;
+            if (layers.Count < 1) return;
             layers.Visible = !layers.Visible;
             layers.Change();
             layers.ViewUpdata();

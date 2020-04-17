@@ -114,14 +114,14 @@
             this.создатьToolStripMenuItem.BackColor = System.Drawing.Color.White;
             this.создатьToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
             this.создатьToolStripMenuItem.Name = "создатьToolStripMenuItem";
-            this.создатьToolStripMenuItem.Size = new System.Drawing.Size(195, 26);
+            this.создатьToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.создатьToolStripMenuItem.Text = "Создать";
             this.создатьToolStripMenuItem.Click += new System.EventHandler(this.CreatePictureToolStripMenuItem_Click);
             // 
             // открытьToolStripMenuItem
             // 
             this.открытьToolStripMenuItem.Name = "открытьToolStripMenuItem";
-            this.открытьToolStripMenuItem.Size = new System.Drawing.Size(195, 26);
+            this.открытьToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.открытьToolStripMenuItem.Text = "Открыть";
             this.открытьToolStripMenuItem.Click += new System.EventHandler(this.OpenFile_Click);
             // 
@@ -129,9 +129,9 @@
             // 
             this.menuItemSaveFile.Enabled = false;
             this.menuItemSaveFile.Name = "menuItemSaveFile";
-            this.menuItemSaveFile.Size = new System.Drawing.Size(195, 26);
+            this.menuItemSaveFile.Size = new System.Drawing.Size(216, 26);
             this.menuItemSaveFile.Text = "Сохранить Как...";
-            this.menuItemSaveFile.Click += new System.EventHandler(this.SaveFile);
+            this.menuItemSaveFile.Click += new System.EventHandler(this.menuItemSaveFile_Click);
             // 
             // изображениеToolStripMenuItem
             // 
@@ -546,7 +546,7 @@
             this.button1.Size = new System.Drawing.Size(49, 28);
             this.button1.TabIndex = 1;
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.butClouse_Click);
             // 
             // button3
             // 

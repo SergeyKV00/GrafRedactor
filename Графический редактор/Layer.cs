@@ -90,13 +90,22 @@ namespace Графический_редактор
         }
         public void RemoveAt(int index)
         {
-            bitmaps.RemoveAt(index);
-            count--;
-            if (Count == 0) nameCount = 0;
-            Number = 0;
-            Change();
-            Update();
-            ViewUpdata();
+            try
+            {
+                bitmaps.RemoveAt(index);
+                count--;
+                if (Count == 0) nameCount = 0;
+                Number = 0;
+                Change();
+                Update();
+                ViewUpdata();
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+                return;
+            }
+            
         }
         public void Up()
         {
