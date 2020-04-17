@@ -11,6 +11,7 @@ namespace Графический_редактор
     class  ToolSetting
     {
         protected List<Control> controls;
+        //protected static Dictionary<NameTool, object[]> Settings { get; }       
         virtual public void SetSettings(ref Panel panel)
         {
             if (controls == null) return;
@@ -176,5 +177,19 @@ namespace Графический_редактор
         public EllipseSetting(object[] settings = null)
             : base(settings) { }
     }
+    class PolygonSetting : RectangleSetting
+    {
+        public override NameTool Name => NameTool.Polygon;
+        public List<Point> Points { get; }
+        public Bitmap Image { get; set; }
 
+        public PolygonSetting(object[] setting = null)
+            : base(setting)
+        {
+            Points = new List<Point>();
+        }
+
+        public void AddPoint(Point point) => Points.Add(point);
+        public void RemoveAtPoint(int index) => Points.RemoveAt(index);
+    }
 }

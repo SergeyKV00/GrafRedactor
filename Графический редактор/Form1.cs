@@ -204,14 +204,47 @@ namespace Графический_редактор
             prevPoint.Y = e.Y;
             mouseClickPoint.X = e.X;
             mouseClickPoint.Y = e.Y;
-            layers.Change();
+            //layers.Change();
 
             if (tool.Name == NameTool.Line) pen = tool.GetPen();
             if (tool.Name == NameTool.Rectangle) pen = tool.GetPen();
             if (tool.Name == NameTool.Fill && e.Button == MouseButtons.Left && layers.Visible)
             {
                 pen = tool.GetPen();
-                layers.CurrentBitmap.FiilArea(pen, new Point(e.X, e.Y));                
+                layers.CurrentBitmap.FiilArea(pen, new Point(e.X, e.Y));
+            }
+            if (tool.Name == NameTool.Polygon && layers.Visible)
+            {
+                PolygonSetting tempPolygon = (PolygonSetting)tool;
+                if (tempPolygon.Image == null) tempPolygon.Image = new Bitmap(layers.Width, layers.Height);
+                pen = tool.GetPen();
+
+                if (e.Button == MouseButtons.Left)
+                {
+                    tempPolygon.AddPoint(new Point(e.X, e.Y));
+                    if (tempPolygon.Points.Count > 1)
+                    {
+                        using (Graphics graph = Graphics.FromImage(tempPolygon.Image))
+                        {
+                            graph.DrawLines(new Pen(Color.Black), tempPolygon.Points.ToArray());
+                        }
+                    }
+                }
+                if (e.Button == MouseButtons.Right)
+                {
+                    if (tempPolygon.Points.Count > 1)
+                    {
+                        using (Graphics graph = Graphics.FromImage(layers.CurrentBitmap))
+                        {
+                            graph.FillPolygon(new SolidBrush(tempPolygon.FillColor), tempPolygon.Points.ToArray());
+                            if (tempPolygon.Depth > 0)
+                                graph.DrawPolygon(pen, tempPolygon.Points.ToArray());
+                        }
+                    }
+                    tempPolygon.Points.Clear();
+                    tempPolygon.Image = null;
+                }
+                tool = tempPolygon;
             }
         }
         private void Picture_MouseUp(object sender, MouseEventArgs e)
@@ -235,10 +268,11 @@ namespace Графический_редактор
                         break;
                 }
             }
-            
+
             layers.Update();
-            layers.Change();
+            //layers.Change();
             layers.ViewUpdata();
+            //layers.FastViewUpdata();
         }
         private void Picture_MouseMove(object sender, MouseEventArgs e)
         {
@@ -286,12 +320,22 @@ namespace Графический_редактор
                 }
             }
 
+            if (layers.Visible && tool.Name == NameTool.Polygon)
+            {
+                if (((PolygonSetting)tool).Points.Count > 0)
+                {
+                    Bitmap tempPolygon = new Bitmap(((PolygonSetting)tool).Image);
+                    layers.MouseCanvas.Image = tempPolygon.DrawLine(new Pen(Color.Black), mouseClickPoint, new Point(e.X, e.Y));
+                }
+            }
+
             if (tool.Name == NameTool.Brush || tool.Name == NameTool.Eraser)
             {
                 Bitmap tempBmp = new Bitmap(layers.Width, layers.Height);
                 using (Graphics graph = Graphics.FromImage(tempBmp))
                 {
                     graph.DrawEllipse(new Pen(Color.Black), e.X - pen.Width / 2, e.Y - pen.Width / 2, pen.Width, pen.Width);
+
                     layers.MouseCanvas.Image = tempBmp;
                 }
             }
@@ -309,6 +353,7 @@ namespace Графический_редактор
             if (!(listView1.SelectedIndices.Count > 0)) return;
             int index = listView1.SelectedIndices[0];
             layers.Number = index;
+            layers.Change();
         }
         private void butNewLayer_Click(object sender, EventArgs e)
         {
@@ -331,41 +376,31 @@ namespace Графический_редактор
         }
         #endregion
         // ==================== //
-   
+
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-           activeKeys[Keys.Shift] = true;
+            activeKeys[Keys.Shift] = true;
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
-           activeKeys[Keys.Shift] = false;
+            activeKeys[Keys.Shift] = false;
         }
 
         private void ChangeTool(NameTool name)
         {
+            object [] settings = null;
             if (toolSettingValues.ContainsKey(name))
+                settings = toolSettingValues[name];
+
+            switch (name)
             {
-                switch (name)
-                {
-                    case NameTool.Brush: tool = new BrushSetting(toolSettingValues[name]); break;
-                    case NameTool.Eraser: tool = new EraserSetting(toolSettingValues[name]); break;
-                    case NameTool.Fill: tool = new FillSetting(toolSettingValues[name]); break;
-                    case NameTool.Line: tool = new LineSetting(toolSettingValues[name]); break;
-                    case NameTool.Rectangle: tool = new RectangleSetting(toolSettingValues[name]); break;
-                    case NameTool.Ellipse: tool = new EllipseSetting(toolSettingValues[name]); break;
-                }
-            }
-            else
-            {
-                switch (name)
-                {
-                    case NameTool.Brush: tool = new BrushSetting(); break;
-                    case NameTool.Eraser: tool = new EraserSetting(); break;
-                    case NameTool.Fill: tool = new FillSetting(); break;
-                    case NameTool.Line: tool = new LineSetting(); break;
-                    case NameTool.Rectangle: tool = new RectangleSetting(); break;
-                    case NameTool.Ellipse: tool = new EllipseSetting(); break;
-                }
+                case NameTool.Brush: tool = new BrushSetting(settings); break;
+                case NameTool.Eraser: tool = new EraserSetting(settings); break;
+                case NameTool.Fill: tool = new FillSetting(settings); break;
+                case NameTool.Line: tool = new LineSetting(settings); break;
+                case NameTool.Rectangle: tool = new RectangleSetting(settings); break;
+                case NameTool.Ellipse: tool = new EllipseSetting(settings); break;
+                case NameTool.Polygon: tool = new PolygonSetting(settings); break;
             }
         }
         private void ToolChange_Click(object sender, EventArgs e)
@@ -387,6 +422,7 @@ namespace Графический_редактор
                 case "butLine": ChangeTool(NameTool.Line); break;
                 case "butRectangle": ChangeTool(NameTool.Rectangle); break;
                 case "butEllipse": ChangeTool(NameTool.Ellipse); break;
+                case "butPolygon": ChangeTool(NameTool.Polygon); break;
             }
             tool.SetSettings(ref panelTools);
             if (layers != null) layers.Update();

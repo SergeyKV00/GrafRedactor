@@ -173,10 +173,23 @@ namespace Графический_редактор
                 Bottom.Image = comboBitBottom;
             }
         }
+        public void FastViewUpdata()
+        {
+            ListViewItem tempItem = new ListViewItem(new string[] { " ", bitmaps[Number].Name});
+            List<Bitmap> tempBmp = new List<Bitmap>();
+            tempBmp.Add(new Bitmap(Picture.Image));
+            tempBmp.Add(new Bitmap(bitmaps[Number].Image));
+            images.Images[Count - Number - 1] = GraphicsExtension.CombineBitmap(ref tempBmp);
+            tempItem.ImageIndex = Count - Number - 1;
+            
+            View.Items[Number] = tempItem;
+        }
 
         public void ViewUpdata()
         {
             View.Items.Clear();
+
+            images.Images.Clear();
             for (int i = 0; i < Count; i++)
             {
                 List<Bitmap> tempBmp = new List<Bitmap>();
