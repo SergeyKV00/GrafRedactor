@@ -364,6 +364,11 @@ namespace Графический_редактор
 
         private void menuItemSaveFile_Click(object sender, EventArgs e) => SaveFile();
 
+        private void размерХолстаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+        }
+
         private void butNewLayer_Click(object sender, EventArgs e)
         {
             if (layers == null) return;

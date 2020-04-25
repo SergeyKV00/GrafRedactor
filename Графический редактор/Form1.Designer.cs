@@ -114,14 +114,14 @@
             this.создатьToolStripMenuItem.BackColor = System.Drawing.Color.White;
             this.создатьToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
             this.создатьToolStripMenuItem.Name = "создатьToolStripMenuItem";
-            this.создатьToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.создатьToolStripMenuItem.Size = new System.Drawing.Size(195, 26);
             this.создатьToolStripMenuItem.Text = "Создать";
             this.создатьToolStripMenuItem.Click += new System.EventHandler(this.CreatePictureToolStripMenuItem_Click);
             // 
             // открытьToolStripMenuItem
             // 
             this.открытьToolStripMenuItem.Name = "открытьToolStripMenuItem";
-            this.открытьToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.открытьToolStripMenuItem.Size = new System.Drawing.Size(195, 26);
             this.открытьToolStripMenuItem.Text = "Открыть";
             this.открытьToolStripMenuItem.Click += new System.EventHandler(this.OpenFile_Click);
             // 
@@ -129,7 +129,7 @@
             // 
             this.menuItemSaveFile.Enabled = false;
             this.menuItemSaveFile.Name = "menuItemSaveFile";
-            this.menuItemSaveFile.Size = new System.Drawing.Size(216, 26);
+            this.menuItemSaveFile.Size = new System.Drawing.Size(195, 26);
             this.menuItemSaveFile.Text = "Сохранить Как...";
             this.menuItemSaveFile.Click += new System.EventHandler(this.menuItemSaveFile_Click);
             // 
@@ -148,6 +148,7 @@
             this.размерХолстаToolStripMenuItem.Name = "размерХолстаToolStripMenuItem";
             this.размерХолстаToolStripMenuItem.Size = new System.Drawing.Size(235, 26);
             this.размерХолстаToolStripMenuItem.Text = "Размер холста";
+            this.размерХолстаToolStripMenuItem.Click += new System.EventHandler(this.размерХолстаToolStripMenuItem_Click);
             // 
             // размерИзображенияToolStripMenuItem
             // 
