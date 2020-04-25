@@ -405,8 +405,6 @@ namespace Графический_редактор
             selectedTool = (Button)sender;
             selectedTool.BackColor = Color.FromArgb(25, 25, 25);
 
-            tool.SaveSettings();
-
             switch (selectedTool.Name)
             {
                 case "butBrush": tool = new BrushSetting(); break;
