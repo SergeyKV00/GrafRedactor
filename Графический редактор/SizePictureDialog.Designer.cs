@@ -1,6 +1,6 @@
 ﻿namespace Графический_редактор
 {
-    partial class CreatePictureDialog
+    partial class SizePictureDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -82,7 +82,7 @@
             this.buttonOk.TabIndex = 4;
             this.buttonOk.Text = "ок";
             this.buttonOk.UseVisualStyleBackColor = true;
-            this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
+            this.buttonOk.Click += new System.EventHandler(this.ButtonOk_Click);
             // 
             // buttonCancel
             // 
@@ -92,7 +92,7 @@
             this.buttonCancel.TabIndex = 5;
             this.buttonCancel.Text = "отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            this.buttonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
             // 
             // label3
             // 

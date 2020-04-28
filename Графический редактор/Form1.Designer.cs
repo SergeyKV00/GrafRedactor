@@ -131,7 +131,7 @@
             this.menuItemSaveFile.Name = "menuItemSaveFile";
             this.menuItemSaveFile.Size = new System.Drawing.Size(195, 26);
             this.menuItemSaveFile.Text = "Сохранить Как...";
-            this.menuItemSaveFile.Click += new System.EventHandler(this.menuItemSaveFile_Click);
+            this.menuItemSaveFile.Click += new System.EventHandler(this.MenuItemSaveFile_Click);
             // 
             // изображениеToolStripMenuItem
             // 
@@ -148,7 +148,7 @@
             this.размерХолстаToolStripMenuItem.Name = "размерХолстаToolStripMenuItem";
             this.размерХолстаToolStripMenuItem.Size = new System.Drawing.Size(235, 26);
             this.размерХолстаToolStripMenuItem.Text = "Размер холста";
-            this.размерХолстаToolStripMenuItem.Click += new System.EventHandler(this.размерХолстаToolStripMenuItem_Click);
+            this.размерХолстаToolStripMenuItem.Click += new System.EventHandler(this.SizePictureToolStripMenuItem_Click);
             // 
             // размерИзображенияToolStripMenuItem
             // 
@@ -241,7 +241,7 @@
             this.butLayerUp.Size = new System.Drawing.Size(50, 35);
             this.butLayerUp.TabIndex = 7;
             this.butLayerUp.UseVisualStyleBackColor = true;
-            this.butLayerUp.Click += new System.EventHandler(this.butLayerUp_Click);
+            this.butLayerUp.Click += new System.EventHandler(this.ButLayerUp_Click);
             // 
             // butLayerDown
             // 
@@ -256,7 +256,7 @@
             this.butLayerDown.Size = new System.Drawing.Size(50, 35);
             this.butLayerDown.TabIndex = 8;
             this.butLayerDown.UseVisualStyleBackColor = true;
-            this.butLayerDown.Click += new System.EventHandler(this.butLayerDown_Click);
+            this.butLayerDown.Click += new System.EventHandler(this.ButLayerDown_Click);
             // 
             // butHidenLayer
             // 
@@ -270,7 +270,7 @@
             this.butHidenLayer.Size = new System.Drawing.Size(50, 35);
             this.butHidenLayer.TabIndex = 3;
             this.butHidenLayer.UseVisualStyleBackColor = true;
-            this.butHidenLayer.Click += new System.EventHandler(this.button_HidenLayer);
+            this.butHidenLayer.Click += new System.EventHandler(this.Button_HidenLayer);
             // 
             // butDeleteLayer
             // 
@@ -284,7 +284,7 @@
             this.butDeleteLayer.Size = new System.Drawing.Size(50, 35);
             this.butDeleteLayer.TabIndex = 2;
             this.butDeleteLayer.UseVisualStyleBackColor = true;
-            this.butDeleteLayer.Click += new System.EventHandler(this.butDeleteLayer_Click);
+            this.butDeleteLayer.Click += new System.EventHandler(this.ButDeleteLayer_Click);
             // 
             // butNewLayer
             // 
@@ -298,7 +298,7 @@
             this.butNewLayer.Size = new System.Drawing.Size(53, 35);
             this.butNewLayer.TabIndex = 1;
             this.butNewLayer.UseVisualStyleBackColor = true;
-            this.butNewLayer.Click += new System.EventHandler(this.butNewLayer_Click);
+            this.butNewLayer.Click += new System.EventHandler(this.ButNewLayer_Click);
             // 
             // labelNumber
             // 
@@ -547,7 +547,7 @@
             this.button1.Size = new System.Drawing.Size(49, 28);
             this.button1.TabIndex = 1;
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.butClouse_Click);
+            this.button1.Click += new System.EventHandler(this.ButClouse_Click);
             // 
             // button3
             // 
@@ -566,7 +566,7 @@
             this.button3.Size = new System.Drawing.Size(48, 28);
             this.button3.TabIndex = 5;
             this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.Click += new System.EventHandler(this.Button3_Click);
             // 
             // button2
             // 
@@ -585,7 +585,7 @@
             this.button2.Size = new System.Drawing.Size(48, 28);
             this.button2.TabIndex = 2;
             this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.Click += new System.EventHandler(this.Button2_Click);
             // 
             // panelX_Default
             // 

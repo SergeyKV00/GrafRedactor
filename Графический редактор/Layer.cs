@@ -30,7 +30,7 @@ namespace Графический_редактор
         private Bitmap comboBitTop, comboBitBottom;
         private int count, nameCount;
 
-        public Layer(ref ListView listView, Size panel_size, Size image_size)
+        public Layer(ListView listView, Size panel_size, Size image_size)
             : base(panel_size, image_size)
         {
             View = listView;

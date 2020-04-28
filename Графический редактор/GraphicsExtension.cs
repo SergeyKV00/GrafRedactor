@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing.Drawing2D;
-using System.Drawing;
 
 namespace Графический_редактор
 {
-    static class GraphicsExtension
+    internal static class GraphicsExtension
     {
         public static List<T> Swap<T>(this List<T> list, int first, int second)
         {
@@ -71,29 +71,21 @@ namespace Графический_редактор
 
             var scaleWidth = (int)(image.Width * scale);
             var scaleHeight = (int)(image.Height * scale);
-            
-            // Эту (тут ее уже нет ыыыыыыыыыы) ну она в этом месте
+
             graph.DrawImage(image, new Rectangle(((int)width - scaleWidth) / 2, ((int)height - scaleHeight) / 2, scaleWidth, scaleHeight));
             return new Bitmap(scaleWidth, scaleHeight);
         }
 
         public static Bitmap CombineBitmap(ref List<Bitmap> images)
         {
-            //read all images into memory
             Bitmap finalImage = null;
 
             try
             {
-                // create a bitmap to hold the combined image
                 finalImage = new Bitmap(images[0].Width, images[0].Height);
-
-                // get a graphics object from the image so we can draw on it
                 using (Graphics g = Graphics.FromImage(finalImage))
                 {
-                    // set background color
                     g.Clear(Color.Transparent);
-
-                    // go through each image and draw it on the final image
                     foreach (Bitmap image in images)
                     {
                         g.DrawImage(image, new Rectangle(0, 0, image.Width, image.Height));

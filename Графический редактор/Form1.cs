@@ -78,9 +78,9 @@ namespace Графический_редактор
             }
         }
         private void SizerMouseUp(object sender, MouseEventArgs e) => moveResize = false;
-        private void butLayerUp_Click(object sender, EventArgs e) => layers.Up();
-        private void butLayerDown_Click(object sender, EventArgs e) => layers.Down();
-        private void butClouse_Click(object sender, EventArgs e)
+        private void ButLayerUp_Click(object sender, EventArgs e) => layers.Up();
+        private void ButLayerDown_Click(object sender, EventArgs e) => layers.Down();
+        private void ButClouse_Click(object sender, EventArgs e)
         {
             if (layers != null)
             {
@@ -99,8 +99,8 @@ namespace Графический_редактор
             }
             Close();
         }
-        private void button2_Click(object sender, EventArgs e) => this.WindowState = FormWindowState.Minimized;
-        private void button3_Click(object sender, EventArgs e)
+        private void Button2_Click(object sender, EventArgs e) => this.WindowState = FormWindowState.Minimized;
+        private void Button3_Click(object sender, EventArgs e)
         {
             if (isCollapse)
             {
@@ -124,14 +124,9 @@ namespace Графический_редактор
         #endregion
         
         #region Открытие и Сохранение файла, и Создание Холста
-        private void CreatePictureToolStripMenuItem_Click(object sender, EventArgs e)
+        private void InitLayers(Size pictureSize)
         {
-            var PictureDialog = new CreatePictureDialog();
-            PictureDialog.TopMost = true;
-            PictureDialog.ShowDialog();
-            if (PictureDialog.Cancel) return;
-
-            layers = new Layer(ref listView1, PanelForDraw.Size, PictureDialog.picSize);
+            layers = new Layer(listView1, PanelForDraw.Size, pictureSize);
 
             PanelForDraw.Controls.Clear();
             PanelForDraw.Controls.Add(layers.Picture);
@@ -141,6 +136,14 @@ namespace Графический_редактор
             layers.MouseCanvas.MouseUp += new MouseEventHandler(Picture_MouseUp);
 
             layers.Add();
+        }
+        private void CreatePictureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var SizeDialog = new SizePictureDialog();
+            if (new Size(0, 0) == SizeDialog.Size) return;
+
+            InitLayers(SizeDialog.Size);
+            
             layers.Fill(Color.White);
             layers.Change();
             ToolChange_Click(selectedTool, null);
@@ -156,17 +159,8 @@ namespace Графический_редактор
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 Bitmap image = new Bitmap(openFileDialog.FileName);
-
-                layers = new Layer(ref listView1, PanelForDraw.Size, new Bitmap(PanelForDraw.Width, PanelForDraw.Height).ImageZoom(image).Size);
-
-                PanelForDraw.Controls.Clear();
-                PanelForDraw.Controls.Add(layers.Picture);
-
-                layers.MouseCanvas.MouseDown += new MouseEventHandler(Picture_MouseDown);
-                layers.MouseCanvas.MouseMove += new MouseEventHandler(Picture_MouseMove);
-                layers.MouseCanvas.MouseUp += new MouseEventHandler(Picture_MouseUp);
-
-                layers.Add();
+                InitLayers(new Bitmap(PanelForDraw.Width, PanelForDraw.Height).ImageZoom(image).Size);
+                
                 layers.Middle.Image = layers[0].ImageZoom(image);
                 layers.Middle.Image = layers[0].ImageZoom(image);
                 layers.Change();
@@ -196,7 +190,6 @@ namespace Графический_редактор
 
                 if (fileExtension == ".jpg")
                 {
-
                     var bmp = new Bitmap(layers.Width, layers.Height);
                     var graph = Graphics.FromImage(bmp);
                     graph.FillRectangle(new SolidBrush(Color.White), 0, 0, bmp.Width, bmp.Height);
@@ -361,27 +354,27 @@ namespace Графический_редактор
             layers.Number = index;
             layers.Change();
         }
+        private void MenuItemSaveFile_Click(object sender, EventArgs e) => SaveFile();
 
-        private void menuItemSaveFile_Click(object sender, EventArgs e) => SaveFile();
-
-        private void размерХолстаToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SizePictureToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+            var SizeDialog = new SizePictureDialog();
+            if (new Size(0, 0) == SizeDialog.Size) return;
         }
 
-        private void butNewLayer_Click(object sender, EventArgs e)
+        private void ButNewLayer_Click(object sender, EventArgs e)
         {
             if (layers == null) return;
             layers.Add();
             menuItemSaveFile.Enabled = true;
         }
-        private void butDeleteLayer_Click(object sender, EventArgs e)
+        private void ButDeleteLayer_Click(object sender, EventArgs e)
         {
             if (layers == null) return;
             layers.RemoveAt(layers.Number);
             if (layers.Count == 0) menuItemSaveFile.Enabled = false;
         }
-        private void button_HidenLayer(object sender, EventArgs e)
+        private void Button_HidenLayer(object sender, EventArgs e)
         {
             if (layers == null) return;
             if (layers.Count < 1) return;

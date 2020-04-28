@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Графический_редактор
-{
-    public partial class CreatePictureDialog : Form
+{  
+    partial class SizePictureDialog : Form
     {
-        private Size pic_size;
-        public Size picSize { get => pic_size; }
-        public bool Cancel { get; set; }
-        public CreatePictureDialog()
+        public new Size Size { get; private set; } 
+        public SizePictureDialog()
         {
             InitializeComponent();
-            Cancel = true;
             textBoxWidth.Text = "600";
             textBoxHeight.Text = "600";
+            Size = new Size(0, 0);
+            this.TopMost = true;
+            this.ShowDialog();           
         }
 
         private bool ValueCheck(object sender)
@@ -49,13 +49,11 @@ namespace Графический_редактор
                 buttonOk.Enabled = false;
             }
         }
-        private void buttonCancel_Click(object sender, EventArgs e) => Close();
-
-        private void buttonOk_Click(object sender, EventArgs e)
+        private void ButtonCancel_Click(object sender, EventArgs e) => Close();
+        private void ButtonOk_Click(object sender, EventArgs e)
         {
-                Cancel = false;
-                pic_size = new Size(Convert.ToInt32(textBoxWidth.Text), Convert.ToInt32(textBoxHeight.Text));
-                Close();  
+            Size = new Size(Convert.ToInt32(textBoxWidth.Text), Convert.ToInt32(textBoxHeight.Text));
+            Close();
         }
     }
 }

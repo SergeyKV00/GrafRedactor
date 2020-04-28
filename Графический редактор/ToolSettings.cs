@@ -7,7 +7,7 @@ using CtrLibrary;
 namespace Графический_редактор
 {
     public enum NameTool { Brush, Eraser, Fill, Line, Rectangle, Ellipse, Polygon }
-    class ToolSetting
+    abstract class ToolSetting
     {
         protected static Dictionary<NameTool, Control[]> Settings;
         virtual public void InstallTools(ref Panel panel)
@@ -31,7 +31,7 @@ namespace Графический_редактор
                 { NameTool.Polygon, null }
             };
         }
-        public NameTool Name { get; protected set; }
+        public NameTool Name { get; private protected set; }
         virtual public Pen GetPen() => new Pen(Color.FromArgb(0, 0, 0, 0));
     }
     class BrushSetting : ToolSetting
@@ -45,15 +45,15 @@ namespace Графический_редактор
             Name = NameTool.Brush;
             if (Settings[Name] == null)
             {
-                var color = new ColorChanger(new Point(100, 2)); // control
+                var color = new ColorChanger(new Point(100, 2));
                 color.BackImage = Properties.Resources.transfer;
 
-                var slider1 = new Slider(new Point(150, 0), new Size(200, 50), "Размер:", 1, 200); // control
+                var slider1 = new Slider(new Point(150, 0), new Size(200, 50), "Размер:", 1, 200);
                 slider1.Format = SliderFormat.Pixel;
                 slider1.BackColor = Color.FromArgb(38, 38, 38);
                 slider1.Value = 5;
 
-                var slider2 = new Slider(new Point(350, 0), new Size(200, 50), "Непрозрачность:", 1, 100); // control            
+                var slider2 = new Slider(new Point(350, 0), new Size(200, 50), "Непрозрачность:", 1, 100);        
                 slider2.Format = SliderFormat.Percent;
                 slider2.BackColor = Color.FromArgb(38, 38, 38);
                 slider2.Value = 100;
