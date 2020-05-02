@@ -6,14 +6,15 @@ using CtrLibrary;
 
 namespace Графический_редактор
 {
-    public enum NameTool { Brush, Eraser, Fill, Line, Rectangle, Ellipse, Polygon }
+    public enum NameTool { Brush, Eraser, Fill, Line, Rectangle, Ellipse, Polygon } 
     abstract class ToolSetting
     {
         protected static Dictionary<NameTool, Control[]> Settings;
-        virtual public void InstallTools(ref Panel panel)
+        virtual public void InstallTools(Panel panel)
         {
             for (int i = panel.Controls.Count - 1; i > 0; i--)
                 panel.Controls.RemoveAt(i);
+            
 
             panel.Controls.AddRange(Settings[Name]);
         }

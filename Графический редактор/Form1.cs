@@ -37,7 +37,7 @@ namespace Графический_редактор
         #region Настройки формы
 
         private void Form1_Load(object sender, EventArgs e)
-        {           
+        {
             selectedTool = butBrush;
             tool = new BrushSetting();
             ToolChange_Click(selectedTool, null);
@@ -82,9 +82,9 @@ namespace Графический_редактор
         private void ButLayerDown_Click(object sender, EventArgs e) => layers.Down();
         private void ButClouse_Click(object sender, EventArgs e)
         {
-            if (layers != null)
+            if (layers != null && layers.Count != 0)
             {
-                switch (MessageBox.Show("Сохранить изменение и выйти?", "Paint++", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
+                switch (MessageBox.Show("Сохранить изменение?", "Paint++", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
                 {
                     case DialogResult.Yes:
                         if (SaveFile()) Close();
@@ -122,7 +122,7 @@ namespace Графический_редактор
         }
 
         #endregion
-        
+
         #region Открытие и Сохранение файла, и Создание Холста
         private void InitLayers(Size pictureSize)
         {
@@ -143,7 +143,7 @@ namespace Графический_редактор
             if (new Size(0, 0) == SizeDialog.Size) return;
 
             InitLayers(SizeDialog.Size);
-            
+
             layers.Fill(Color.White);
             layers.Change();
             ToolChange_Click(selectedTool, null);
@@ -160,7 +160,7 @@ namespace Графический_редактор
             {
                 Bitmap image = new Bitmap(openFileDialog.FileName);
                 InitLayers(new Bitmap(PanelForDraw.Width, PanelForDraw.Height).ImageZoom(image).Size);
-                
+
                 layers.Middle.Image = layers[0].ImageZoom(image);
                 layers.Middle.Image = layers[0].ImageZoom(image);
                 layers.Change();
@@ -207,7 +207,11 @@ namespace Графический_редактор
         #region Рисование
         private void Picture_MouseDown(object sender, MouseEventArgs e)
         {
-            if (layers.Count == 0) return;
+            if (layers.Count == 0)
+            {
+                DialogResult dialogResult = MessageBox.Show("Отсуствуют слои", "Paint++", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             prevPoint.X = e.X;
             prevPoint.Y = e.Y;
             mouseClickPoint.X = e.X;
@@ -221,7 +225,7 @@ namespace Графический_редактор
             if (tool.Name == NameTool.Fill && e.Button == MouseButtons.Left && layers.Visible)
             {
                 layers.CurrentBitmap.FiilArea(pen, new Point(e.X, e.Y));
-            }        
+            }
             if (tool.Name == NameTool.Polygon && layers.Visible)
             {
                 PolygonSetting tempPolygon = (PolygonSetting)tool;
@@ -254,6 +258,9 @@ namespace Графический_редактор
                 }
                 tool = tempPolygon;
             }
+
+            if (e.Button == MouseButtons.Left && !layers.Visible)
+                MessageBox.Show("Этот слой скрыт", "Paint++", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
         private void Picture_MouseUp(object sender, MouseEventArgs e)
         {
@@ -408,8 +415,8 @@ namespace Графический_редактор
                 case "butEllipse": tool = new EllipseSetting(); break;
                 case "butPolygon": tool = new PolygonSetting(); break;
             }
-            tool.InstallTools(ref panelTools);
-            if (layers != null) layers.Update();
+            tool.InstallTools(panelTools);
+            layers?.Update();
         }
     }
 }
