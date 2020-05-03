@@ -36,7 +36,7 @@ namespace Графический_редактор
             View = listView;
             Clear();
         }
-
+        public enum ResizeMode { Compression, Framing }
         public ListView View { get; set; }
         public int Count { get => count; }
         public int Number { get; set; }
@@ -56,7 +56,6 @@ namespace Графический_редактор
             }
         }
         public Bitmap CurrentBitmap { get => bitmaps[Number].Image; set => bitmaps[Number].Image = value; }
-        
         public Bitmap this[int index]
         {
             get
@@ -70,7 +69,6 @@ namespace Графический_редактор
                 bitmaps[index].Image = value;
             }
         }
-
         public List<Bitmap> GetLayerList()
         {
             var tempList = new List<Bitmap>();
@@ -105,7 +103,7 @@ namespace Графический_редактор
                 Console.WriteLine("{0} Exception caught.", e);
                 return;
             }
-            
+
         }
         public void Up()
         {
@@ -152,7 +150,7 @@ namespace Графический_редактор
         {
             ClearCanvas();
             comboBitBottom = new Bitmap(Width, Height);
-            comboBitTop = new Bitmap(width, Height);
+            comboBitTop = new Bitmap(Width, Height);
 
             if (Count > 0)
             {
@@ -177,16 +175,14 @@ namespace Графический_редактор
                 Bottom.Image = comboBitBottom;
             }
         }
-        public void FastViewUpdata()
+        public void ViewImageUpdata()
         {
-            ListViewItem tempItem = new ListViewItem(new string[] { " ", bitmaps[Number].Name});
             List<Bitmap> tempBmp = new List<Bitmap>();
-            tempBmp.Add(new Bitmap(Picture.Image));
-            tempBmp.Add(new Bitmap(bitmaps[Number].Image));
+            tempBmp.Add(GraphicsExtension.ImageZoom(Picture.Image, 35, 35));
+            tempBmp.Add(GraphicsExtension.ImageZoom(CurrentBitmap, 35, 35));
+
             images.Images[Count - Number - 1] = GraphicsExtension.CombineBitmap(ref tempBmp);
-            tempItem.ImageIndex = Count - Number - 1;
-            
-            View.Items[Number] = tempItem;
+            View.Invalidate();
         }
         public void ViewUpdata()
         {
@@ -196,8 +192,8 @@ namespace Графический_редактор
             for (int i = 0; i < Count; i++)
             {
                 List<Bitmap> tempBmp = new List<Bitmap>();
-                tempBmp.Add(new Bitmap(Picture.Image));
-                tempBmp.Add(new Bitmap(bitmaps[Count - i - 1].Image));
+                tempBmp.Add(GraphicsExtension.ImageZoom(new Bitmap(Picture.Image), 35, 35));
+                tempBmp.Add(GraphicsExtension.ImageZoom(new Bitmap(bitmaps[Count - i - 1].Image), 35, 35));
                 images.Images.Add(GraphicsExtension.CombineBitmap(ref tempBmp));
 
                 ListViewItem tempItem = new ListViewItem(new string[] { "", bitmaps[Count - i - 1].Name });
@@ -209,6 +205,32 @@ namespace Графический_редактор
                 View.Items[Number].Selected = true;
                 View.Select();
             }
+        }
+        public void Resize(Size new_size, Size panel_size, ResizeMode mode)
+        {
+            base.Resize(new_size);
+            Picture.Location = new Point((panel_size.Width - Width) / 2, (panel_size.Height - Height) / 2);
+
+            switch (mode)
+            {
+                case ResizeMode.Compression:
+                    for (int i = 0; i < Count; i++)
+                        bitmaps[i].Image = new Bitmap(bitmaps[i].Image, new Size(Width, Height));
+                    break;
+                case ResizeMode.Framing:
+                    Size dSize = new Size(Math.Abs(bitmaps[0].Image.Width - Width), Math.Abs(bitmaps[0].Image.Height - Height));
+                    for (int i = 0; i < Count; i++)
+                    {
+                        Bitmap tempBmp;
+                        tempBmp = GraphicsExtension.Crop(bitmaps[i].Image, new Rectangle(dSize.Width / 2, dSize.Height / 2, Width, Height));
+                        bitmaps[i].Image = tempBmp;
+                    }
+                    break;
+            }
+
+            Change();
+            Update();
+            ViewUpdata();
         }
     }
 }

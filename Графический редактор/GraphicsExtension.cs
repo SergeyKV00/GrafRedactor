@@ -41,7 +41,26 @@ namespace Графический_редактор
 
             return graph;
         }
+        // Изменяет размер soorceImage с сохранением пропорций
+        public static Bitmap ImageZoom(Image sourceImage, float new_width, float new_height)
+        {
+            Bitmap updatedImage = new Bitmap((int)new_width, (int)new_height);
 
+            float scale = Math.Min(new_width / sourceImage.Width, new_height / sourceImage.Height);
+            int scaleWidth = (int)(sourceImage.Width * scale);
+            int scaleHeight = (int)(sourceImage.Height * scale);
+
+            using (Graphics graph = Graphics.FromImage(updatedImage))
+            {
+
+                graph.InterpolationMode = InterpolationMode.High;
+                graph.CompositingQuality = CompositingQuality.HighQuality;
+                graph.SmoothingMode = SmoothingMode.AntiAlias;
+
+                graph.DrawImage(sourceImage, new Rectangle(((int)new_width - scaleWidth) / 2, ((int)new_height - scaleHeight) / 2, scaleWidth, scaleHeight));
+            }
+            return updatedImage;
+        }
         public static Bitmap ImageZoom(this Bitmap bmp, Bitmap image, float width, float height)
         {
             float scale = Math.Min(width / image.Width, height / image.Height);
@@ -74,6 +93,23 @@ namespace Графический_редактор
 
             graph.DrawImage(image, new Rectangle(((int)width - scaleWidth) / 2, ((int)height - scaleHeight) / 2, scaleWidth, scaleHeight));
             return new Bitmap(scaleWidth, scaleHeight);
+        }
+
+        public static Bitmap Crop(this Image image, Rectangle selection)
+        {
+            Bitmap bmp = image as Bitmap;
+
+            // Check if it is a bitmap:
+            if (bmp == null)
+                throw new ArgumentException("No valid bitmap");
+
+            // Crop the image:
+            Bitmap cropBmp = bmp.Clone(selection, bmp.PixelFormat);
+
+            // Release the resources:
+            image.Dispose();
+
+            return cropBmp;
         }
 
         public static Bitmap CombineBitmap(ref List<Bitmap> images)

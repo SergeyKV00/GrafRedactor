@@ -10,15 +10,14 @@ namespace Графический_редактор
 {
     abstract class Canvas
     {
-        protected int width, height;
         public PictureBox Top { get; set; }
         public PictureBox Middle { get; set; }
         public PictureBox Bottom { get; set; }
         public PictureBox Picture { get; set; }
         public PictureBox MouseCanvas { get; }
-        public int Width { get => width; }
-        public int Height { get => height; } 
-        public Size Size { get => new Size(width, height); }
+        public int Width { get; private protected set; }
+        public int Height { get; private protected set; }
+        public Size Size { get => new Size(Width, Height); private protected set { Width = value.Width; Height = value.Height; } }
 
         protected Canvas(Size panel_size, Size image_size)
         {
@@ -42,7 +41,6 @@ namespace Графический_редактор
             Middle.Controls.Add(Top);
             Top.Controls.Add(MouseCanvas);
         }
-
         private PictureBox Create(Size panel_size, Size image_size)
         {
             Bitmap temp = new Bitmap(panel_size.Width, panel_size.Height);
@@ -54,19 +52,33 @@ namespace Графический_редактор
             picture.BackColor = Color.FromArgb(0, 0, 0, 0);
             picture.Size = temp.Size;
             picture.Location = new Point(0, 0);
-            width = temp.Width;
-            height = temp.Height;
+            Size = temp.Size;
 
             return picture;
         }
-
         protected void ClearCanvas()
         {
-            Bitmap tempBmp = new Bitmap(Width, Height);
-            MouseCanvas.Image = tempBmp;
-            Top.Image = tempBmp;
-            Middle.Image = tempBmp;
-            Bottom.Image = tempBmp;
+            Bitmap emply = new Bitmap(Width, Height);
+            MouseCanvas.Image = emply;
+            Top.Image = emply;
+            Middle.Image = emply;
+            Bottom.Image = emply;
+        }
+        protected void Resize(Size new_size)
+        {
+            Size = new_size;
+
+            MouseCanvas.Size = new_size;
+            Top.Size = new_size;
+            Middle.Size = new_size;
+            Bottom.Size = new_size;
+            Picture.Size = new_size;
+            ClearCanvas();
+
+            Bitmap pngBmp = new Bitmap(Width, Height);
+            using Graphics g = Graphics.FromImage(pngBmp);
+            g.FillPngBackground(Width, Height);
+            Picture.Image = pngBmp;
         }
     }
 }

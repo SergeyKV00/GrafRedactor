@@ -159,7 +159,13 @@ namespace Графический_редактор
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 Bitmap image = new Bitmap(openFileDialog.FileName);
-                InitLayers(new Bitmap(PanelForDraw.Width, PanelForDraw.Height).ImageZoom(image).Size);
+                if (image.Width > PanelForDraw.Width || image.Height > PanelForDraw.Height)
+                {
+                    InitLayers(new Bitmap(PanelForDraw.Width, PanelForDraw.Height).ImageZoom(image).Size);
+                }
+                else
+                    InitLayers(image.Size);
+
 
                 layers.Middle.Image = layers[0].ImageZoom(image);
                 layers.Middle.Image = layers[0].ImageZoom(image);
@@ -285,9 +291,7 @@ namespace Графический_редактор
             }
 
             layers.Update();
-            //layers.Change();
-            layers.ViewUpdata();
-            //layers.FastViewUpdata();
+            layers.ViewImageUpdata();
         }
         private void Picture_MouseMove(object sender, MouseEventArgs e)
         {
@@ -362,13 +366,28 @@ namespace Графический_редактор
             layers.Change();
         }
         private void MenuItemSaveFile_Click(object sender, EventArgs e) => SaveFile();
-
         private void SizePictureToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var SizeDialog = new SizePictureDialog();
             if (new Size(0, 0) == SizeDialog.Size) return;
+            if (layers == null)
+            {
+                DialogResult dialogResult = MessageBox.Show("Отсуствуют слои", "Paint++", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            layers.Resize(SizeDialog.Size, PanelForDraw.Size, Layer.ResizeMode.Framing);
         }
-
+        private void SizeImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var SizeDialog = new SizePictureDialog();
+            if (new Size(0, 0) == SizeDialog.Size) return;
+            if (layers == null)
+            {
+                DialogResult dialogResult = MessageBox.Show("Отсуствуют слои", "Paint++", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            layers.Resize(SizeDialog.Size, PanelForDraw.Size, Layer.ResizeMode.Compression);
+        }
         private void ButNewLayer_Click(object sender, EventArgs e)
         {
             if (layers == null) return;
@@ -393,7 +412,7 @@ namespace Графический_редактор
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            activeKeys[Keys.Shift] = true;
+            activeKeys[Keys.Shift] = true;    
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {

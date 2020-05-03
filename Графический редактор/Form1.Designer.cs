@@ -106,7 +106,7 @@
             this.файлToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.файлToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
-            this.файлToolStripMenuItem.Size = new System.Drawing.Size(57, 24);
+            this.файлToolStripMenuItem.Size = new System.Drawing.Size(59, 24);
             this.файлToolStripMenuItem.Text = "Файл";
             // 
             // создатьToolStripMenuItem
@@ -114,14 +114,14 @@
             this.создатьToolStripMenuItem.BackColor = System.Drawing.Color.White;
             this.создатьToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
             this.создатьToolStripMenuItem.Name = "создатьToolStripMenuItem";
-            this.создатьToolStripMenuItem.Size = new System.Drawing.Size(195, 26);
+            this.создатьToolStripMenuItem.Size = new System.Drawing.Size(203, 26);
             this.создатьToolStripMenuItem.Text = "Создать";
             this.создатьToolStripMenuItem.Click += new System.EventHandler(this.CreatePictureToolStripMenuItem_Click);
             // 
             // открытьToolStripMenuItem
             // 
             this.открытьToolStripMenuItem.Name = "открытьToolStripMenuItem";
-            this.открытьToolStripMenuItem.Size = new System.Drawing.Size(195, 26);
+            this.открытьToolStripMenuItem.Size = new System.Drawing.Size(203, 26);
             this.открытьToolStripMenuItem.Text = "Открыть";
             this.открытьToolStripMenuItem.Click += new System.EventHandler(this.OpenFile_Click);
             // 
@@ -129,7 +129,7 @@
             // 
             this.menuItemSaveFile.Enabled = false;
             this.menuItemSaveFile.Name = "menuItemSaveFile";
-            this.menuItemSaveFile.Size = new System.Drawing.Size(195, 26);
+            this.menuItemSaveFile.Size = new System.Drawing.Size(203, 26);
             this.menuItemSaveFile.Text = "Сохранить Как...";
             this.menuItemSaveFile.Click += new System.EventHandler(this.MenuItemSaveFile_Click);
             // 
@@ -140,21 +140,22 @@
             this.размерИзображенияToolStripMenuItem});
             this.изображениеToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.изображениеToolStripMenuItem.Name = "изображениеToolStripMenuItem";
-            this.изображениеToolStripMenuItem.Size = new System.Drawing.Size(119, 24);
+            this.изображениеToolStripMenuItem.Size = new System.Drawing.Size(121, 24);
             this.изображениеToolStripMenuItem.Text = "Изображение";
             // 
             // размерХолстаToolStripMenuItem
             // 
             this.размерХолстаToolStripMenuItem.Name = "размерХолстаToolStripMenuItem";
-            this.размерХолстаToolStripMenuItem.Size = new System.Drawing.Size(235, 26);
+            this.размерХолстаToolStripMenuItem.Size = new System.Drawing.Size(243, 26);
             this.размерХолстаToolStripMenuItem.Text = "Размер холста";
             this.размерХолстаToolStripMenuItem.Click += new System.EventHandler(this.SizePictureToolStripMenuItem_Click);
             // 
             // размерИзображенияToolStripMenuItem
             // 
             this.размерИзображенияToolStripMenuItem.Name = "размерИзображенияToolStripMenuItem";
-            this.размерИзображенияToolStripMenuItem.Size = new System.Drawing.Size(235, 26);
+            this.размерИзображенияToolStripMenuItem.Size = new System.Drawing.Size(243, 26);
             this.размерИзображенияToolStripMenuItem.Text = "Размер изображения";
+            this.размерИзображенияToolStripMenuItem.Click += new System.EventHandler(this.SizeImageToolStripMenuItem_Click);
             // 
             // panel2
             // 
@@ -196,7 +197,7 @@
             // columnHeader2
             // 
             this.columnHeader2.Text = "";
-            this.columnHeader2.Width = 150;
+            this.columnHeader2.Width = 140;
             // 
             // panel3
             // 
