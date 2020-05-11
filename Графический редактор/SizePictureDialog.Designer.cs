@@ -1,4 +1,8 @@
-﻿namespace Графический_редактор
+﻿using System.Drawing;
+using System.Threading;
+using System.Windows.Forms;
+
+namespace Графический_редактор
 {
     partial class SizePictureDialog
     {
@@ -110,7 +114,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(355, 112);
+            this.ClientSize= new System.Drawing.Size(355, 112);        
             this.Controls.Add(this.label3);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOk);
@@ -123,7 +127,8 @@
             this.Text = "Новый";
             this.ResumeLayout(false);
             this.PerformLayout();
-
+            
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
         }
 
         #endregion

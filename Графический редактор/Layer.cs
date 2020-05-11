@@ -25,6 +25,7 @@ namespace Графический_редактор
 
     class Layer : Canvas
     {
+        private Bitmap backGroundPNG;
         private List<LayerNode> bitmaps;
         private ImageList images;
         private Bitmap comboBitTop, comboBitBottom;
@@ -34,6 +35,7 @@ namespace Графический_редактор
             : base(panel_size, image_size)
         {
             View = listView;
+            backGroundPNG = new Bitmap(Width, Height).FillPngBackground();
             Clear();
         }
         public enum ResizeMode { Compression, Framing }
@@ -109,7 +111,7 @@ namespace Графический_редактор
         {
             if (Number == 0 || Count < 2) return;
 
-            bitmaps.Swap(Number, Number - 1);
+            bitmaps.SwapListItems(Number, Number - 1);
             Number--;
             Change();
             ViewUpdata();
@@ -117,7 +119,7 @@ namespace Графический_редактор
         public void Down()
         {
             if (Number == Count - 1 || Count < 2) return;
-            bitmaps.Swap(Number, Number + 1);
+            bitmaps.SwapListItems(Number, Number + 1);
             Number++;
             Change();
             ViewUpdata();
@@ -158,9 +160,11 @@ namespace Графический_редактор
 
                 for (int i = Number + 1; i < Count; ++i)
                     if (bitmaps[i].IsVisible) tempComboBitmaps.Insert(0, bitmaps[i].Image);
+                tempComboBitmaps.Insert(0, backGroundPNG);
 
                 if (tempComboBitmaps.Count > 0)
                     comboBitBottom = GraphicsExtension.CombineBitmap(ref tempComboBitmaps);
+                    
                 tempComboBitmaps.Clear();
 
                 for (int i = 0; i < Number; ++i)
@@ -178,7 +182,7 @@ namespace Графический_редактор
         public void ViewImageUpdata()
         {
             List<Bitmap> tempBmp = new List<Bitmap>();
-            tempBmp.Add(GraphicsExtension.ImageZoom(Picture.Image, 35, 35));
+            tempBmp.Add(GraphicsExtension.ImageZoom(backGroundPNG, 35, 35));
             tempBmp.Add(GraphicsExtension.ImageZoom(CurrentBitmap, 35, 35));
 
             images.Images[Count - Number - 1] = GraphicsExtension.CombineBitmap(ref tempBmp);
@@ -192,7 +196,7 @@ namespace Графический_редактор
             for (int i = 0; i < Count; i++)
             {
                 List<Bitmap> tempBmp = new List<Bitmap>();
-                tempBmp.Add(GraphicsExtension.ImageZoom(new Bitmap(Picture.Image), 35, 35));
+                tempBmp.Add(GraphicsExtension.ImageZoom(new Bitmap(backGroundPNG), 35, 35));
                 tempBmp.Add(GraphicsExtension.ImageZoom(new Bitmap(bitmaps[Count - i - 1].Image), 35, 35));
                 images.Images.Add(GraphicsExtension.CombineBitmap(ref tempBmp));
 
@@ -206,10 +210,10 @@ namespace Графический_редактор
                 View.Select();
             }
         }
-        public void Resize(Size new_size, Size panel_size, ResizeMode mode)
+        public void Resize(Size new_size, Size panel_size, ResizeMode mode, Rectangle rect)
         {
             base.Resize(new_size);
-            Picture.Location = new Point((panel_size.Width - Width) / 2, (panel_size.Height - Height) / 2);
+            Bottom.Location = new Point((panel_size.Width - Width) / 2, (panel_size.Height - Height) / 2);
 
             switch (mode)
             {
@@ -219,14 +223,17 @@ namespace Графический_редактор
                     break;
                 case ResizeMode.Framing:
                     Size dSize = new Size(Math.Abs(bitmaps[0].Image.Width - Width), Math.Abs(bitmaps[0].Image.Height - Height));
+                    if (rect == Rectangle.Empty) rect = new Rectangle(dSize.Width / 2, dSize.Height / 2, Width, Height);
                     for (int i = 0; i < Count; i++)
                     {
                         Bitmap tempBmp;
-                        tempBmp = GraphicsExtension.Crop(bitmaps[i].Image, new Rectangle(dSize.Width / 2, dSize.Height / 2, Width, Height));
+                        tempBmp = GraphicsExtension.Crop(bitmaps[i].Image, rect);
                         bitmaps[i].Image = tempBmp;
                     }
                     break;
             }
+
+            backGroundPNG = new Bitmap(Width, Height).FillPngBackground();
 
             Change();
             Update();

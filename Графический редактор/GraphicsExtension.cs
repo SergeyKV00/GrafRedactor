@@ -10,7 +10,7 @@ namespace Графический_редактор
 {
     internal static class GraphicsExtension
     {
-        public static List<T> Swap<T>(this List<T> list, int first, int second)
+        public static List<T> SwapListItems<T>(this List<T> list, int first, int second)
         {
             T temp = list[first];
             list[first] = list[second];
@@ -23,25 +23,30 @@ namespace Графический_редактор
             a = b;
             b = temp;
         }
-
-
-        public static Graphics FillPngBackground(this Graphics graph, int Width, int Height)
+        public static Bitmap FillPngBackground(this Bitmap bmp, int Width, int Height)
         {
-            graph.Clear(Color.White);
-            SolidBrush solidBrush = new SolidBrush(Color.FromArgb(232, 232, 232));
-            bool turn = false;
-            for (int x = 0; x < Width; x += 10)
+            using (Graphics graph = Graphics.FromImage(bmp))
             {
-                for (int y = (turn) ? 10 : 0; y < Height; y += 20)
+                graph.Clear(Color.White);
+                SolidBrush solidBrush = new SolidBrush(Color.FromArgb(232, 232, 232));
+                bool turn = false;
+                for (int x = 0; x < Width; x += 10)
                 {
-                    graph.FillRectangle(solidBrush, x, y, 10, 10);
+                    for (int y = (turn) ? 10 : 0; y < Height; y += 20)
+                    {
+                        graph.FillRectangle(solidBrush, x, y, 10, 10);
+                    }
+                    turn = !turn;
                 }
-                turn = !turn;
             }
 
-            return graph;
+            return bmp;
         }
-        // Изменяет размер soorceImage с сохранением пропорций
+        public static Bitmap FillPngBackground(this Bitmap bmp)
+        {
+            return bmp.FillPngBackground(bmp.Width, bmp.Height);
+        }
+        // Изменяет размер исходного изображения с сохранением пропорций
         public static Bitmap ImageZoom(Image sourceImage, float new_width, float new_height)
         {
             Bitmap updatedImage = new Bitmap((int)new_width, (int)new_height);
@@ -76,7 +81,6 @@ namespace Графический_редактор
             graph.DrawImage(image, new Rectangle(((int)width - scaleWidth) / 2, ((int)height - scaleHeight) / 2, scaleWidth, scaleHeight));
             return bmp;
         }
-
         public static Bitmap ImageZoom(this Bitmap bmp, Bitmap image)
         {
             float width = bmp.Width;
@@ -94,24 +98,15 @@ namespace Графический_редактор
             graph.DrawImage(image, new Rectangle(((int)width - scaleWidth) / 2, ((int)height - scaleHeight) / 2, scaleWidth, scaleHeight));
             return new Bitmap(scaleWidth, scaleHeight);
         }
-
         public static Bitmap Crop(this Image image, Rectangle selection)
         {
-            Bitmap bmp = image as Bitmap;
+            Bitmap bmp = new Bitmap(image);
 
-            // Check if it is a bitmap:
-            if (bmp == null)
-                throw new ArgumentException("No valid bitmap");
-
-            // Crop the image:
             Bitmap cropBmp = bmp.Clone(selection, bmp.PixelFormat);
-
-            // Release the resources:
             image.Dispose();
 
             return cropBmp;
         }
-
         public static Bitmap CombineBitmap(ref List<Bitmap> images)
         {
             Bitmap finalImage = null;

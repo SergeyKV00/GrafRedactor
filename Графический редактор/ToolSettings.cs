@@ -3,20 +3,26 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
 using CtrLibrary;
+using System.Collections;
 
 namespace Графический_редактор
 {
-    public enum NameTool { Brush, Eraser, Fill, Line, Rectangle, Ellipse, Polygon } 
+    public enum NameTool { Brush, Eraser, Fill, Line, Rectangle, Ellipse, Polygon, Crop } 
     abstract class ToolSetting
     {
         protected static Dictionary<NameTool, Control[]> Settings;
         virtual public void InstallTools(Panel panel)
         {
-            for (int i = panel.Controls.Count - 1; i > 0; i--)
-                panel.Controls.RemoveAt(i);
-            
-
-            panel.Controls.AddRange(Settings[Name]);
+            foreach(Control[] controls in Settings.Values)
+            {
+                if (controls == null) continue;
+                foreach(Control control in controls)
+                {
+                    panel.Controls.RemoveByKey(control.Name);
+                }
+            }            
+            if (Settings[Name] != null)
+                panel.Controls.AddRange(Settings[Name]);
         }
 
         static ToolSetting()
@@ -29,7 +35,8 @@ namespace Графический_редактор
                 { NameTool.Line, null },
                 { NameTool.Rectangle, null },
                 { NameTool.Ellipse, null },
-                { NameTool.Polygon, null }
+                { NameTool.Polygon, null },
+                { NameTool.Crop, null }
             };
         }
         public NameTool Name { get; private protected set; }
@@ -116,6 +123,7 @@ namespace Графический_редактор
             {
                 var color = new ColorSelection(new Point(100, 8), new Size(90, 36));
                 color.LabelText = "Цвет: ";
+                color.Color = Color.Red;
 
                 var slider = new Slider(new Point(190, 0), new Size(200, 50), "Размер:", 1, 50);
                 slider.Format = SliderFormat.Pixel;
@@ -139,9 +147,11 @@ namespace Графический_редактор
             {
                 var borderColor = new ColorSelection(new Point(100, 8), new Size(90, 36));
                 borderColor.LabelText = "Рамка:";
+                borderColor.Color = Color.Crimson;
 
                 var fillColor = new ColorSelection(new Point(190, 8), new Size(110, 36));
                 fillColor.LabelText = "Заливка:";
+                fillColor.Color = Color.Yellow;
 
                 var slider = new Slider(new Point(300, 0), new Size(200, 50), "Размер:", 0, 100);
                 slider.Format = SliderFormat.Pixel;
@@ -170,5 +180,12 @@ namespace Графический_редактор
 
         public void AddPoint(Point point) => Points.Add(point);
         public void RemoveAtPoint(int index) => Points.RemoveAt(index);
+    }
+    class CropSetting : ToolSetting
+    {
+        public CropSetting()
+        {
+            Name = NameTool.Crop;
+        }
     }
 }

@@ -23,6 +23,17 @@ namespace Графический_редактор
             this.ShowDialog();           
         }
 
+        public SizePictureDialog(Size size)          
+        {
+            InitializeComponent();
+            textBoxWidth.Text = size.Width.ToString();
+            textBoxHeight.Text = size.Height.ToString();
+            Size = new Size(0, 0);
+            this.TopMost = true;
+            this.ShowDialog();
+           
+        }
+
         private bool ValueCheck(object sender)
         {
             var temp = (TextBox)sender;

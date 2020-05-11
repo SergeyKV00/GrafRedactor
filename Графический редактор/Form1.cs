@@ -12,47 +12,21 @@ using System.Windows.Forms;
 
 namespace Графический_редактор
 {
-    public partial class Form1 : Form
+    public partial class MainWindow : Form
     {
-        private int Mx, My, Sw, Sh;
+        private int Mx, My, Sw, Sh; // Для изменения размера окна
         private bool moveResize, isCollapse;
 
-        private Size resolution;
+        private Size resolution; // Размеры окна в оконном режиме
         private Point prevPoint, mouseHook, mouseClickPoint;
-        private Layer layers;
-        private Button selectedTool;
+        private Layer layers; // Класс для работы с слоями
+        private Button selectedTool; // Кнопка текущего выбранного инструмента
         private Pen pen;
-        private ToolSetting tool;
+        private ToolSetting tool; // Инструменты для рисования
         private Dictionary<Keys, bool> activeKeys;
 
-        public Form1()
-        {
-            InitializeComponent();
-            isCollapse = false;
-            this.KeyPreview = true;
-            this.MaximumSize = Screen.PrimaryScreen.WorkingArea.Size;
-            resolution = Size;
-            this.Size = Screen.PrimaryScreen.Bounds.Size;
-        }
-        #region Настройки формы
+        #region Изменение размера окна
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            selectedTool = butBrush;
-            tool = new BrushSetting();
-            ToolChange_Click(selectedTool, null);
-
-            activeKeys = new Dictionary<Keys, bool>
-            {
-                { Keys.Shift, false }
-            };
-        }
-        private void MainForm_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (!isCollapse) return;
-            if (e.Button != MouseButtons.Left) mouseHook = e.Location;
-            Location = new Point((Size)Location - (Size)mouseHook + (Size)e.Location);
-        }
         private void SizerMouseDown(object sender, MouseEventArgs e)
         {
             moveResize = true;
@@ -77,9 +51,87 @@ namespace Графический_редактор
                     Height = MousePosition.Y - My + Sh;
             }
         }
-        private void SizerMouseUp(object sender, MouseEventArgs e) => moveResize = false;
-        private void ButLayerUp_Click(object sender, EventArgs e) => layers.Up();
-        private void ButLayerDown_Click(object sender, EventArgs e) => layers.Down();
+        private void SizerMouseUp(object sender, MouseEventArgs e)
+        {
+            moveResize = false;
+        }
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            if (layers != null)
+            {
+                int x = (PanelForDraw.Width - layers.Width) / 2;
+                x = (x > 0) ? x : 0;
+                int y = (PanelForDraw.Height - layers.Height) / 2;
+                y = (y > 0) ? y : 0;
+                layers.Bottom.Location = new Point(x, y);
+            }
+        }
+        private void ButMinimized_Click(object sender, EventArgs e) => this.WindowState = FormWindowState.Minimized;
+        private void ButtonWindowMode_Click(object sender, EventArgs e)
+        {
+            if (isCollapse)
+            {
+                panelResizeALL.Cursor = Cursors.Default;
+                panelResizeX.Cursor = Cursors.Default;
+                panelResizeY.Cursor = Cursors.Default;
+                this.MaximumSize = Screen.FromControl(this).WorkingArea.Size;
+                this.Size = Screen.FromControl(this).Bounds.Size;
+                this.Location = Screen.FromControl(this).Bounds.Location;
+            }
+            else
+            {
+                panelResizeALL.Cursor = Cursors.SizeNWSE;
+                panelResizeX.Cursor = Cursors.SizeWE;
+                panelResizeY.Cursor = Cursors.SizeNS;
+
+                this.Size = resolution;
+            }
+            isCollapse = !isCollapse;
+        }
+
+        #endregion
+
+        #region Окно(Форма)
+
+        public MainWindow()
+        {
+            InitializeComponent();
+            isCollapse = false;
+            this.KeyPreview = true;
+            this.MaximumSize = Screen.FromControl(this).WorkingArea.Size;
+            resolution = Size;
+            this.Size = Screen.FromControl(this).Bounds.Size;
+            this.Location = Screen.FromControl(this).Bounds.Location;
+        }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            selectedTool = butBrush;
+            tool = new BrushSetting();
+            ToolChange_Click(selectedTool, null);
+
+            activeKeys = new Dictionary<Keys, bool>
+            {
+                { Keys.Shift, false }
+            };
+        }
+        private void MainForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) mouseHook = e.Location;
+            Location = new Point((Size)Location - (Size)mouseHook + (Size)e.Location);
+            if(!isCollapse)
+            {
+                this.MaximumSize = Screen.FromControl(this).WorkingArea.Size;
+                this.Size = Screen.FromControl(this).Bounds.Size;
+            }
+            
+        }  
+        private void ManForm_MouseUp(object sender, MouseEventArgs e)
+        {
+            if(!isCollapse)
+            {
+                this.Location = Screen.FromControl(this).Bounds.Location;
+            }
+        }
         private void ButClouse_Click(object sender, EventArgs e)
         {
             if (layers != null && layers.Count != 0)
@@ -99,37 +151,16 @@ namespace Графический_редактор
             }
             Close();
         }
-        private void Button2_Click(object sender, EventArgs e) => this.WindowState = FormWindowState.Minimized;
-        private void Button3_Click(object sender, EventArgs e)
-        {
-            if (isCollapse)
-            {
-                panelResizeALL.Cursor = Cursors.Default;
-                panelResizeX.Cursor = Cursors.Default;
-                panelResizeY.Cursor = Cursors.Default;
-                this.Size = Screen.PrimaryScreen.Bounds.Size;
-                Location = new Point(0, 0);
-            }
-            else
-            {
-                panelResizeALL.Cursor = Cursors.SizeNWSE;
-                panelResizeX.Cursor = Cursors.SizeWE;
-                panelResizeY.Cursor = Cursors.SizeNS;
-
-                this.Size = resolution;
-            }
-            isCollapse = !isCollapse;
-        }
 
         #endregion
 
         #region Открытие и Сохранение файла, и Создание Холста
         private void InitLayers(Size pictureSize)
         {
-            layers = new Layer(listView1, PanelForDraw.Size, pictureSize);
+            layers = new Layer(listLayers, PanelForDraw.Size, pictureSize);
 
             PanelForDraw.Controls.Clear();
-            PanelForDraw.Controls.Add(layers.Picture);
+            PanelForDraw.Controls.Add(layers.Bottom);
 
             layers.MouseCanvas.MouseDown += new MouseEventHandler(Picture_MouseDown);
             layers.MouseCanvas.MouseMove += new MouseEventHandler(Picture_MouseMove);
@@ -222,7 +253,6 @@ namespace Графический_редактор
             prevPoint.Y = e.Y;
             mouseClickPoint.X = e.X;
             mouseClickPoint.Y = e.Y;
-            //layers.Change();
 
             pen = tool.GetPen();
             pen.StartCap = LineCap.Round;
@@ -287,6 +317,11 @@ namespace Графический_редактор
                         RectangleSetting tempElipse = (EllipseSetting)tool;
                         layers.CurrentBitmap.DrawEllipse(tempElipse.GetPen(), tempElipse.FillColor, tempElipse.Depth, mouseClickPoint, new Point(e.X, e.Y));
                         break;
+                    case NameTool.Crop:
+                        Size tempSize = new Size(Math.Abs(e.X - mouseClickPoint.X), Math.Abs(e.Y - mouseClickPoint.Y));
+                        Rectangle tempRect_2 = new Rectangle(new Point(Math.Min(e.X, mouseClickPoint.X), Math.Min(e.Y, mouseClickPoint.Y)), tempSize);
+                        layers.Resize(tempSize, PanelForDraw.Size, Layer.ResizeMode.Framing, tempRect_2);
+                        break;
                 }
             }
 
@@ -295,7 +330,7 @@ namespace Графический_редактор
         }
         private void Picture_MouseMove(object sender, MouseEventArgs e)
         {
-            listView1.Select();
+            listLayers.Select();
             if (layers.Count == 0) return;
 
             if (e.Button == MouseButtons.Left && layers.Visible)
@@ -319,6 +354,7 @@ namespace Графический_редактор
                         Bitmap tempLine = new Bitmap(layers.Width, layers.Height);
                         layers.MouseCanvas.Image = tempLine.DrawLine(new Pen(Color.Black), mouseClickPoint, new Point(e.X, e.Y));
                         break;
+                    case NameTool.Crop:
                     case NameTool.Rectangle:
                         Bitmap tempRect = new Bitmap(layers.Width, layers.Height);
                         layers.MouseCanvas.Image = tempRect.DrawRectangle(new Pen(Color.Black), Color.FromArgb(0, 0, 0, 0), 1, mouseClickPoint, new Point(e.X, e.Y));
@@ -358,35 +394,36 @@ namespace Графический_редактор
         #endregion
 
         #region События слоев
+
         private void IndexChange(object sender, EventArgs e)
         {
-            if (!(listView1.SelectedIndices.Count > 0)) return;
-            int index = listView1.SelectedIndices[0];
+            if (!(listLayers.SelectedIndices.Count > 0)) return;
+            int index = listLayers.SelectedIndices[0];
             layers.Number = index;
             layers.Change();
         }
-        private void MenuItemSaveFile_Click(object sender, EventArgs e) => SaveFile();
-        private void SizePictureToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveFileMenu_Click(object sender, EventArgs e) => SaveFile();
+        private void SizePictureToolMenu_Click(object sender, EventArgs e)
         {
-            var SizeDialog = new SizePictureDialog();
+            var SizeDialog = new SizePictureDialog(layers.Size);
             if (new Size(0, 0) == SizeDialog.Size) return;
             if (layers == null)
             {
                 DialogResult dialogResult = MessageBox.Show("Отсуствуют слои", "Paint++", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            layers.Resize(SizeDialog.Size, PanelForDraw.Size, Layer.ResizeMode.Framing);
+            layers.Resize(SizeDialog.Size, PanelForDraw.Size, Layer.ResizeMode.Framing, Rectangle.Empty);
         }
-        private void SizeImageToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SizeImageToolMenu_Click(object sender, EventArgs e)
         {
-            var SizeDialog = new SizePictureDialog();
+            var SizeDialog = new SizePictureDialog(layers.Size);
             if (new Size(0, 0) == SizeDialog.Size) return;
             if (layers == null)
             {
                 DialogResult dialogResult = MessageBox.Show("Отсуствуют слои", "Paint++", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            layers.Resize(SizeDialog.Size, PanelForDraw.Size, Layer.ResizeMode.Compression);
+            layers.Resize(SizeDialog.Size, PanelForDraw.Size, Layer.ResizeMode.Compression, Rectangle.Empty);
         }
         private void ButNewLayer_Click(object sender, EventArgs e)
         {
@@ -400,7 +437,7 @@ namespace Графический_редактор
             layers.RemoveAt(layers.Number);
             if (layers.Count == 0) menuItemSaveFile.Enabled = false;
         }
-        private void Button_HidenLayer(object sender, EventArgs e)
+        private void ButLayerHiden_Click(object sender, EventArgs e)
         {
             if (layers == null) return;
             if (layers.Count < 1) return;
@@ -408,6 +445,9 @@ namespace Графический_редактор
             layers.Change();
             layers.ViewUpdata();
         }
+        private void ButLayerUp_Click(object sender, EventArgs e) => layers.Up();
+        private void ButLayerDown_Click(object sender, EventArgs e) => layers.Down();
+
         #endregion
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -433,6 +473,7 @@ namespace Графический_редактор
                 case "butRectangle": tool = new RectangleSetting(); break;
                 case "butEllipse": tool = new EllipseSetting(); break;
                 case "butPolygon": tool = new PolygonSetting(); break;
+                case "butCrop": tool = new CropSetting(); break;
             }
             tool.InstallTools(panelTools);
             layers?.Update();
