@@ -93,9 +93,19 @@ namespace Графический_редактор.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap changeW {
+        internal static System.Drawing.Bitmap CancelOFF {
             get {
-                object obj = ResourceManager.GetObject("changeW", resourceCulture);
+                object obj = ResourceManager.GetObject("CancelOFF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CancelON {
+            get {
+                object obj = ResourceManager.GetObject("CancelON", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -216,6 +226,26 @@ namespace Графический_редактор.Properties {
         internal static System.Drawing.Bitmap polygon {
             get {
                 object obj = ResourceManager.GetObject("polygon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ReturnOFF {
+            get {
+                object obj = ResourceManager.GetObject("ReturnOFF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ReturnON {
+            get {
+                object obj = ResourceManager.GetObject("ReturnON", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -105,9 +105,6 @@
     <None Include="Resources\transfer.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\changeW.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Logo2.png" />
   </ItemGroup>
   <ItemGroup>
@@ -147,9 +144,6 @@
     <None Include="Resources\crop_tool.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\square-shape.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\line.png" />
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +154,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\squareShape.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CancelOFF.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ReturnOFF.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ReturnON.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CancelON.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

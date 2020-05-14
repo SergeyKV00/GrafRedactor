@@ -24,6 +24,7 @@ namespace Графический_редактор
         private Pen pen;
         private ToolSetting tool; // Инструменты для рисования
         private Dictionary<Keys, bool> activeKeys;
+        private LayerHistory layerHistory;
 
         #region Изменение размера окна
 
@@ -64,6 +65,7 @@ namespace Графический_редактор
                 int y = (PanelForDraw.Height - layers.Height) / 2;
                 y = (y > 0) ? y : 0;
                 layers.Bottom.Location = new Point(x, y);
+                layers.PanelSize = PanelForDraw.Size;
             }
         }
         private void ButMinimized_Click(object sender, EventArgs e) => this.WindowState = FormWindowState.Minimized;
@@ -157,7 +159,8 @@ namespace Графический_редактор
         #region Открытие и Сохранение файла, и Создание Холста
         private void InitLayers(Size pictureSize)
         {
-            layers = new Layer(listLayers, PanelForDraw.Size, pictureSize);
+            layers = new Layer(PanelForDraw.Size, pictureSize);
+            listLayers.SmallImageList = layers.ImageList;
 
             PanelForDraw.Controls.Clear();
             PanelForDraw.Controls.Add(layers.Bottom);
@@ -165,6 +168,10 @@ namespace Графический_редактор
             layers.MouseCanvas.MouseDown += new MouseEventHandler(Picture_MouseDown);
             layers.MouseCanvas.MouseMove += new MouseEventHandler(Picture_MouseMove);
             layers.MouseCanvas.MouseUp += new MouseEventHandler(Picture_MouseUp);
+            layers.Change += SaveState;
+
+            layerHistory = new LayerHistory();
+            layerHistory.Action += ButtonColor_Change;
 
             layers.Add();
         }
@@ -176,7 +183,9 @@ namespace Графический_редактор
             InitLayers(SizeDialog.Size);
 
             layers.Fill(Color.White);
-            layers.Change();
+            layers.Rebuilding();
+            layers.ViewUpdata(listLayers);
+            
             ToolChange_Click(selectedTool, null);
 
             menuItemSaveFile.Enabled = true;
@@ -200,7 +209,8 @@ namespace Графический_редактор
 
                 layers.Middle.Image = layers[0].ImageZoom(image);
                 layers.Middle.Image = layers[0].ImageZoom(image);
-                layers.Change();
+                layers.Rebuilding();
+                layers.ViewUpdata(listLayers);
 
                 menuItemSaveFile.Enabled = true;
                 butLayerUp.Enabled = true;
@@ -249,6 +259,10 @@ namespace Графический_редактор
                 DialogResult dialogResult = MessageBox.Show("Отсуствуют слои", "Paint++", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            
+            if(tool.Name != NameTool.Polygon && layers.Visible && e.Button == MouseButtons.Left)
+                SaveState(layers); 
+
             prevPoint.X = e.X;
             prevPoint.Y = e.Y;
             mouseClickPoint.X = e.X;
@@ -280,6 +294,7 @@ namespace Графический_редактор
                 }
                 if (e.Button == MouseButtons.Right)
                 {
+                    SaveState(layers);
                     if (tempPolygon.Points.Count > 1)
                     {
                         using (Graphics graph = Graphics.FromImage(layers.CurrentBitmap))
@@ -321,12 +336,16 @@ namespace Графический_редактор
                         Size tempSize = new Size(Math.Abs(e.X - mouseClickPoint.X), Math.Abs(e.Y - mouseClickPoint.Y));
                         Rectangle tempRect_2 = new Rectangle(new Point(Math.Min(e.X, mouseClickPoint.X), Math.Min(e.Y, mouseClickPoint.Y)), tempSize);
                         layers.Resize(tempSize, PanelForDraw.Size, Layer.ResizeMode.Framing, tempRect_2);
+                        layers.ViewUpdata(listLayers);
                         break;
                 }
             }
 
+            if (tool.Name != NameTool.Polygon && layers.Visible && e.Button == MouseButtons.Left)
+                layerHistory.push_end(layers.SaveState());
+
             layers.Update();
-            layers.ViewImageUpdata();
+            layers.ViewImageUpdata(listLayers);    
         }
         private void Picture_MouseMove(object sender, MouseEventArgs e)
         {
@@ -395,14 +414,41 @@ namespace Графический_редактор
 
         #region События слоев
 
+        private void SaveState(object sender)
+        {
+            layerHistory.Add(layers.SaveState());
+            label1.Text = layerHistory.Count.ToString();
+        }
+        private void ButtonColor_Change(object sender)
+        {
+            if(layerHistory.NumberSave > 0)
+            {
+                butCancel.BackgroundImage = Properties.Resources.ReturnON;
+                butCancel.Enabled = true;
+            }
+            else
+            {
+                butCancel.BackgroundImage = Properties.Resources.ReturnOFF;
+                butCancel.Enabled = false;
+            }
+            if(layerHistory.NumberSave < layerHistory.Count - 1)
+            {
+                butReturn.BackgroundImage = Properties.Resources.CancelON;
+                butReturn.Enabled = true;
+            }
+            else
+            {
+                butReturn.BackgroundImage = Properties.Resources.CancelOFF;
+                butReturn.Enabled = false;
+            }
+        }
         private void IndexChange(object sender, EventArgs e)
         {
             if (!(listLayers.SelectedIndices.Count > 0)) return;
             int index = listLayers.SelectedIndices[0];
             layers.Number = index;
-            layers.Change();
-        }
-        private void SaveFileMenu_Click(object sender, EventArgs e) => SaveFile();
+            layers.Rebuilding();
+        }        
         private void SizePictureToolMenu_Click(object sender, EventArgs e)
         {
             var SizeDialog = new SizePictureDialog(layers.Size);
@@ -413,6 +459,7 @@ namespace Графический_редактор
                 return;
             }
             layers.Resize(SizeDialog.Size, PanelForDraw.Size, Layer.ResizeMode.Framing, Rectangle.Empty);
+            layers.ViewUpdata(listLayers);
         }
         private void SizeImageToolMenu_Click(object sender, EventArgs e)
         {
@@ -424,17 +471,20 @@ namespace Графический_редактор
                 return;
             }
             layers.Resize(SizeDialog.Size, PanelForDraw.Size, Layer.ResizeMode.Compression, Rectangle.Empty);
+            layers.ViewUpdata(listLayers);
         }
         private void ButNewLayer_Click(object sender, EventArgs e)
         {
             if (layers == null) return;
             layers.Add();
+            layers.ViewUpdata(listLayers);
             menuItemSaveFile.Enabled = true;
         }
         private void ButDeleteLayer_Click(object sender, EventArgs e)
         {
             if (layers == null) return;
             layers.RemoveAt(layers.Number);
+            layers.ViewUpdata(listLayers);
             if (layers.Count == 0) menuItemSaveFile.Enabled = false;
         }
         private void ButLayerHiden_Click(object sender, EventArgs e)
@@ -442,11 +492,39 @@ namespace Графический_редактор
             if (layers == null) return;
             if (layers.Count < 1) return;
             layers.Visible = !layers.Visible;
-            layers.Change();
-            layers.ViewUpdata();
+            layers.Rebuilding();
+            layers.ViewUpdata(listLayers);
         }
-        private void ButLayerUp_Click(object sender, EventArgs e) => layers.Up();
-        private void ButLayerDown_Click(object sender, EventArgs e) => layers.Down();
+
+        private void butCancel_Click(object sender, EventArgs e)
+        {
+            if (layerHistory.Count == 0) return;
+            layers.RestoreState(layerHistory.GetPrevSave());
+            layers.Rebuilding();
+            layers.Update();
+            layers.ViewUpdata(listLayers);
+            label1.Text = layerHistory.Count.ToString();
+        }
+        private void butReturn_Click(object sender, EventArgs e)
+        {
+            if (layerHistory.Count == 0) return;
+            layers.RestoreState(layerHistory.GetNextSave());
+            layers.Rebuilding();
+            layers.Update();
+            layers.ViewUpdata(listLayers);
+            label1.Text = layerHistory.Count.ToString();
+        }
+        private void ButLayerUp_Click(object sender, EventArgs e)
+        {
+            layers.Up();
+            layers.ViewUpdata(listLayers);
+        }
+        private void ButLayerDown_Click(object sender, EventArgs e)
+        {
+            layers.Down();
+            layers.ViewUpdata(listLayers);
+        }
+        private void SaveFileMenu_Click(object sender, EventArgs e) => SaveFile();
 
         #endregion
 

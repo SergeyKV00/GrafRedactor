@@ -42,15 +42,27 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panelForLayers = new System.Windows.Forms.Panel();
             this.LayoutForLayers = new System.Windows.Forms.TableLayoutPanel();
+            this.labelNumber = new System.Windows.Forms.Label();
+            this.panelResizeX = new System.Windows.Forms.Panel();
+            this.panelTools = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.LayoutTools = new System.Windows.Forms.TableLayoutPanel();
+            this.PanelForDraw = new System.Windows.Forms.Panel();
+            this.panelResizeALL = new System.Windows.Forms.Panel();
+            this.panelResizeY = new System.Windows.Forms.Panel();
+            this.LayoutButtonWindow = new System.Windows.Forms.TableLayoutPanel();
+            this.panelX_Default = new System.Windows.Forms.Panel();
             this.butLayerUp = new System.Windows.Forms.Button();
             this.butLayerDown = new System.Windows.Forms.Button();
             this.butHidenLayer = new System.Windows.Forms.Button();
             this.butDeleteLayer = new System.Windows.Forms.Button();
             this.butNewLayer = new System.Windows.Forms.Button();
-            this.labelNumber = new System.Windows.Forms.Label();
-            this.panelResizeX = new System.Windows.Forms.Panel();
-            this.panelTools = new System.Windows.Forms.Panel();
-            this.LayoutTools = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonClose = new System.Windows.Forms.Button();
+            this.buttonWindowMode = new System.Windows.Forms.Button();
+            this.buttonMinimized = new System.Windows.Forms.Button();
+            this.Logo = new System.Windows.Forms.PictureBox();
+            this.butCancel = new System.Windows.Forms.Button();
+            this.butReturn = new System.Windows.Forms.Button();
             this.butPolygon = new System.Windows.Forms.Button();
             this.butEllipse = new System.Windows.Forms.Button();
             this.butLine = new System.Windows.Forms.Button();
@@ -59,15 +71,6 @@
             this.butEraser = new System.Windows.Forms.Button();
             this.butBrush = new System.Windows.Forms.Button();
             this.butRectangle = new System.Windows.Forms.Button();
-            this.PanelForDraw = new System.Windows.Forms.Panel();
-            this.panelResizeALL = new System.Windows.Forms.Panel();
-            this.panelResizeY = new System.Windows.Forms.Panel();
-            this.LayoutButtonWindow = new System.Windows.Forms.TableLayoutPanel();
-            this.buttonClose = new System.Windows.Forms.Button();
-            this.buttonWindowMode = new System.Windows.Forms.Button();
-            this.buttonMinimized = new System.Windows.Forms.Button();
-            this.panelX_Default = new System.Windows.Forms.Panel();
-            this.Logo = new System.Windows.Forms.PictureBox();
             this.menuStrip.SuspendLayout();
             this.rightPanel.SuspendLayout();
             this.panelForLayers.SuspendLayout();
@@ -112,14 +115,14 @@
             this.CreateToolStripMenuItem.BackColor = System.Drawing.Color.White;
             this.CreateToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
             this.CreateToolStripMenuItem.Name = "CreateToolStripMenuItem";
-            this.CreateToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.CreateToolStripMenuItem.Size = new System.Drawing.Size(203, 26);
             this.CreateToolStripMenuItem.Text = "Создать";
             this.CreateToolStripMenuItem.Click += new System.EventHandler(this.CreatePictureToolStripMenuItem_Click);
             // 
             // OpenToolStripMenuItem
             // 
             this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(203, 26);
             this.OpenToolStripMenuItem.Text = "Открыть";
             this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenFile_Click);
             // 
@@ -127,7 +130,7 @@
             // 
             this.menuItemSaveFile.Enabled = false;
             this.menuItemSaveFile.Name = "menuItemSaveFile";
-            this.menuItemSaveFile.Size = new System.Drawing.Size(224, 26);
+            this.menuItemSaveFile.Size = new System.Drawing.Size(203, 26);
             this.menuItemSaveFile.Text = "Сохранить Как...";
             this.menuItemSaveFile.Click += new System.EventHandler(this.SaveFileMenu_Click);
             // 
@@ -227,6 +230,150 @@
             this.LayoutForLayers.Size = new System.Drawing.Size(283, 41);
             this.LayoutForLayers.TabIndex = 4;
             // 
+            // labelNumber
+            // 
+            this.labelNumber.AutoSize = true;
+            this.labelNumber.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.labelNumber.Location = new System.Drawing.Point(61, 119);
+            this.labelNumber.Name = "labelNumber";
+            this.labelNumber.Size = new System.Drawing.Size(44, 17);
+            this.labelNumber.TabIndex = 6;
+            this.labelNumber.Text = "NULL";
+            this.labelNumber.Visible = false;
+            // 
+            // panelResizeX
+            // 
+            this.panelResizeX.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
+            this.panelResizeX.Cursor = System.Windows.Forms.Cursors.Default;
+            this.panelResizeX.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panelResizeX.Location = new System.Drawing.Point(1275, 0);
+            this.panelResizeX.Name = "panelResizeX";
+            this.panelResizeX.Size = new System.Drawing.Size(5, 720);
+            this.panelResizeX.TabIndex = 0;
+            this.panelResizeX.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SizerMouseDown);
+            this.panelResizeX.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SizerMouseMove);
+            this.panelResizeX.MouseUp += new System.Windows.Forms.MouseEventHandler(this.SizerMouseUp);
+            // 
+            // panelTools
+            // 
+            this.panelTools.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelTools.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.panelTools.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelTools.Controls.Add(this.butCancel);
+            this.panelTools.Controls.Add(this.butReturn);
+            this.panelTools.Controls.Add(this.label1);
+            this.panelTools.Controls.Add(this.LayoutTools);
+            this.panelTools.Location = new System.Drawing.Point(0, 28);
+            this.panelTools.Margin = new System.Windows.Forms.Padding(0);
+            this.panelTools.Name = "panelTools";
+            this.panelTools.Size = new System.Drawing.Size(1280, 60);
+            this.panelTools.TabIndex = 4;
+            this.panelTools.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
+            this.panelTools.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ManForm_MouseUp);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.Coral;
+            this.label1.Location = new System.Drawing.Point(997, 24);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(46, 17);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "label1";
+            // 
+            // LayoutTools
+            // 
+            this.LayoutTools.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.LayoutTools.ColumnCount = 4;
+            this.LayoutTools.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.LayoutTools.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.LayoutTools.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.LayoutTools.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.LayoutTools.Controls.Add(this.butPolygon, 3, 1);
+            this.LayoutTools.Controls.Add(this.butEllipse, 3, 0);
+            this.LayoutTools.Controls.Add(this.butLine, 2, 0);
+            this.LayoutTools.Controls.Add(this.butFill, 0, 1);
+            this.LayoutTools.Controls.Add(this.butCrop, 0, 1);
+            this.LayoutTools.Controls.Add(this.butEraser, 1, 0);
+            this.LayoutTools.Controls.Add(this.butBrush, 0, 0);
+            this.LayoutTools.Controls.Add(this.butRectangle, 2, 1);
+            this.LayoutTools.Location = new System.Drawing.Point(0, 0);
+            this.LayoutTools.Name = "LayoutTools";
+            this.LayoutTools.RowCount = 2;
+            this.LayoutTools.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.LayoutTools.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.LayoutTools.Size = new System.Drawing.Size(120, 60);
+            this.LayoutTools.TabIndex = 0;
+            // 
+            // PanelForDraw
+            // 
+            this.PanelForDraw.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PanelForDraw.AutoScroll = true;
+            this.PanelForDraw.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.PanelForDraw.Location = new System.Drawing.Point(5, 88);
+            this.PanelForDraw.Margin = new System.Windows.Forms.Padding(0);
+            this.PanelForDraw.Name = "PanelForDraw";
+            this.PanelForDraw.Size = new System.Drawing.Size(983, 628);
+            this.PanelForDraw.TabIndex = 4;
+            // 
+            // panelResizeALL
+            // 
+            this.panelResizeALL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelResizeALL.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
+            this.panelResizeALL.Cursor = System.Windows.Forms.Cursors.Default;
+            this.panelResizeALL.Location = new System.Drawing.Point(1275, 715);
+            this.panelResizeALL.Name = "panelResizeALL";
+            this.panelResizeALL.Size = new System.Drawing.Size(5, 5);
+            this.panelResizeALL.TabIndex = 1;
+            this.panelResizeALL.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SizerMouseDown);
+            this.panelResizeALL.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SizerMouseMove);
+            this.panelResizeALL.MouseUp += new System.Windows.Forms.MouseEventHandler(this.SizerMouseUp);
+            // 
+            // panelResizeY
+            // 
+            this.panelResizeY.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelResizeY.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
+            this.panelResizeY.Cursor = System.Windows.Forms.Cursors.Default;
+            this.panelResizeY.Location = new System.Drawing.Point(0, 715);
+            this.panelResizeY.Name = "panelResizeY";
+            this.panelResizeY.Size = new System.Drawing.Size(1275, 5);
+            this.panelResizeY.TabIndex = 2;
+            this.panelResizeY.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SizerMouseDown);
+            this.panelResizeY.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SizerMouseMove);
+            this.panelResizeY.MouseUp += new System.Windows.Forms.MouseEventHandler(this.SizerMouseUp);
+            // 
+            // LayoutButtonWindow
+            // 
+            this.LayoutButtonWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.LayoutButtonWindow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
+            this.LayoutButtonWindow.ColumnCount = 3;
+            this.LayoutButtonWindow.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.LayoutButtonWindow.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.LayoutButtonWindow.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.LayoutButtonWindow.Controls.Add(this.buttonClose, 2, 0);
+            this.LayoutButtonWindow.Controls.Add(this.buttonWindowMode, 1, 0);
+            this.LayoutButtonWindow.Controls.Add(this.buttonMinimized, 0, 0);
+            this.LayoutButtonWindow.Location = new System.Drawing.Point(1130, 0);
+            this.LayoutButtonWindow.Name = "LayoutButtonWindow";
+            this.LayoutButtonWindow.RowCount = 1;
+            this.LayoutButtonWindow.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.LayoutButtonWindow.Size = new System.Drawing.Size(145, 28);
+            this.LayoutButtonWindow.TabIndex = 0;
+            // 
+            // panelX_Default
+            // 
+            this.panelX_Default.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
+            this.panelX_Default.Cursor = System.Windows.Forms.Cursors.Default;
+            this.panelX_Default.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelX_Default.Location = new System.Drawing.Point(0, 0);
+            this.panelX_Default.Name = "panelX_Default";
+            this.panelX_Default.Size = new System.Drawing.Size(5, 720);
+            this.panelX_Default.TabIndex = 1;
+            // 
             // butLayerUp
             // 
             this.butLayerUp.BackgroundImage = global::Графический_редактор.Properties.Resources.arrowUp;
@@ -299,68 +446,101 @@
             this.butNewLayer.UseVisualStyleBackColor = true;
             this.butNewLayer.Click += new System.EventHandler(this.ButNewLayer_Click);
             // 
-            // labelNumber
+            // buttonClose
             // 
-            this.labelNumber.AutoSize = true;
-            this.labelNumber.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.labelNumber.Location = new System.Drawing.Point(61, 119);
-            this.labelNumber.Name = "labelNumber";
-            this.labelNumber.Size = new System.Drawing.Size(44, 17);
-            this.labelNumber.TabIndex = 6;
-            this.labelNumber.Text = "NULL";
-            this.labelNumber.Visible = false;
+            this.buttonClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.buttonClose.BackgroundImage = global::Графический_редактор.Properties.Resources.close;
+            this.buttonClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.buttonClose.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonClose.FlatAppearance.BorderSize = 0;
+            this.buttonClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonClose.Font = new System.Drawing.Font("Microsoft Tai Le", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonClose.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.buttonClose.Location = new System.Drawing.Point(96, 0);
+            this.buttonClose.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonClose.Name = "buttonClose";
+            this.buttonClose.Padding = new System.Windows.Forms.Padding(1, 0, 0, 0);
+            this.buttonClose.Size = new System.Drawing.Size(49, 28);
+            this.buttonClose.TabIndex = 1;
+            this.buttonClose.UseVisualStyleBackColor = false;
+            this.buttonClose.Click += new System.EventHandler(this.ButClouse_Click);
             // 
-            // panelResizeX
+            // buttonWindowMode
             // 
-            this.panelResizeX.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
-            this.panelResizeX.Cursor = System.Windows.Forms.Cursors.Default;
-            this.panelResizeX.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelResizeX.Location = new System.Drawing.Point(1275, 0);
-            this.panelResizeX.Name = "panelResizeX";
-            this.panelResizeX.Size = new System.Drawing.Size(5, 720);
-            this.panelResizeX.TabIndex = 0;
-            this.panelResizeX.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SizerMouseDown);
-            this.panelResizeX.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SizerMouseMove);
-            this.panelResizeX.MouseUp += new System.Windows.Forms.MouseEventHandler(this.SizerMouseUp);
+            this.buttonWindowMode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.buttonWindowMode.BackgroundImage = global::Графический_редактор.Properties.Resources.Minimize;
+            this.buttonWindowMode.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.buttonWindowMode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonWindowMode.FlatAppearance.BorderSize = 0;
+            this.buttonWindowMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonWindowMode.Font = new System.Drawing.Font("Microsoft Tai Le", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonWindowMode.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.buttonWindowMode.Location = new System.Drawing.Point(48, 0);
+            this.buttonWindowMode.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonWindowMode.Name = "buttonWindowMode";
+            this.buttonWindowMode.Padding = new System.Windows.Forms.Padding(1, 0, 0, 0);
+            this.buttonWindowMode.Size = new System.Drawing.Size(48, 28);
+            this.buttonWindowMode.TabIndex = 5;
+            this.buttonWindowMode.UseVisualStyleBackColor = false;
+            this.buttonWindowMode.Click += new System.EventHandler(this.ButtonWindowMode_Click);
             // 
-            // panelTools
+            // buttonMinimized
             // 
-            this.panelTools.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelTools.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.panelTools.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelTools.Controls.Add(this.LayoutTools);
-            this.panelTools.Location = new System.Drawing.Point(0, 28);
-            this.panelTools.Margin = new System.Windows.Forms.Padding(0);
-            this.panelTools.Name = "panelTools";
-            this.panelTools.Size = new System.Drawing.Size(1280, 60);
-            this.panelTools.TabIndex = 4;
-            this.panelTools.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
-            this.panelTools.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ManForm_MouseUp);
+            this.buttonMinimized.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.buttonMinimized.BackgroundImage = global::Графический_редактор.Properties.Resources.Collapse;
+            this.buttonMinimized.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.buttonMinimized.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonMinimized.FlatAppearance.BorderSize = 0;
+            this.buttonMinimized.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonMinimized.Font = new System.Drawing.Font("Microsoft Tai Le", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonMinimized.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.buttonMinimized.Location = new System.Drawing.Point(0, 0);
+            this.buttonMinimized.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonMinimized.Name = "buttonMinimized";
+            this.buttonMinimized.Padding = new System.Windows.Forms.Padding(1, 0, 0, 0);
+            this.buttonMinimized.Size = new System.Drawing.Size(48, 28);
+            this.buttonMinimized.TabIndex = 2;
+            this.buttonMinimized.UseVisualStyleBackColor = false;
+            this.buttonMinimized.Click += new System.EventHandler(this.ButMinimized_Click);
             // 
-            // LayoutTools
+            // Logo
             // 
-            this.LayoutTools.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.LayoutTools.ColumnCount = 4;
-            this.LayoutTools.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.LayoutTools.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.LayoutTools.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.LayoutTools.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.LayoutTools.Controls.Add(this.butPolygon, 3, 1);
-            this.LayoutTools.Controls.Add(this.butEllipse, 3, 0);
-            this.LayoutTools.Controls.Add(this.butLine, 2, 0);
-            this.LayoutTools.Controls.Add(this.butFill, 0, 1);
-            this.LayoutTools.Controls.Add(this.butCrop, 0, 1);
-            this.LayoutTools.Controls.Add(this.butEraser, 1, 0);
-            this.LayoutTools.Controls.Add(this.butBrush, 0, 0);
-            this.LayoutTools.Controls.Add(this.butRectangle, 2, 1);
-            this.LayoutTools.Location = new System.Drawing.Point(0, 0);
-            this.LayoutTools.Name = "LayoutTools";
-            this.LayoutTools.RowCount = 2;
-            this.LayoutTools.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.LayoutTools.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.LayoutTools.Size = new System.Drawing.Size(120, 60);
-            this.LayoutTools.TabIndex = 0;
+            this.Logo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
+            this.Logo.Image = global::Графический_редактор.Properties.Resources.Logo2;
+            this.Logo.Location = new System.Drawing.Point(5, 1);
+            this.Logo.Name = "Logo";
+            this.Logo.Size = new System.Drawing.Size(109, 27);
+            this.Logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Logo.TabIndex = 0;
+            this.Logo.TabStop = false;
+            // 
+            // butCancel
+            // 
+            this.butCancel.BackgroundImage = global::Графический_редактор.Properties.Resources.ReturnOFF;
+            this.butCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.butCancel.Enabled = false;
+            this.butCancel.FlatAppearance.BorderSize = 0;
+            this.butCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butCancel.Location = new System.Drawing.Point(123, 19);
+            this.butCancel.Name = "butCancel";
+            this.butCancel.Size = new System.Drawing.Size(44, 27);
+            this.butCancel.TabIndex = 1;
+            this.butCancel.UseVisualStyleBackColor = true;
+            this.butCancel.Click += new System.EventHandler(this.butCancel_Click);
+            // 
+            // butReturn
+            // 
+            this.butReturn.BackgroundImage = global::Графический_редактор.Properties.Resources.CancelOFF;
+            this.butReturn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.butReturn.Enabled = false;
+            this.butReturn.FlatAppearance.BorderSize = 0;
+            this.butReturn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butReturn.Location = new System.Drawing.Point(173, 19);
+            this.butReturn.Name = "butReturn";
+            this.butReturn.Size = new System.Drawing.Size(44, 27);
+            this.butReturn.TabIndex = 0;
+            this.butReturn.UseVisualStyleBackColor = true;
+            this.butReturn.Click += new System.EventHandler(this.butReturn_Click);
             // 
             // butPolygon
             // 
@@ -469,142 +649,6 @@
             this.butRectangle.UseVisualStyleBackColor = true;
             this.butRectangle.Click += new System.EventHandler(this.ToolChange_Click);
             // 
-            // PanelForDraw
-            // 
-            this.PanelForDraw.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.PanelForDraw.AutoScroll = true;
-            this.PanelForDraw.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.PanelForDraw.Location = new System.Drawing.Point(5, 88);
-            this.PanelForDraw.Margin = new System.Windows.Forms.Padding(0);
-            this.PanelForDraw.Name = "PanelForDraw";
-            this.PanelForDraw.Size = new System.Drawing.Size(983, 628);
-            this.PanelForDraw.TabIndex = 4;
-            // 
-            // panelResizeALL
-            // 
-            this.panelResizeALL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelResizeALL.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
-            this.panelResizeALL.Cursor = System.Windows.Forms.Cursors.Default;
-            this.panelResizeALL.Location = new System.Drawing.Point(1275, 715);
-            this.panelResizeALL.Name = "panelResizeALL";
-            this.panelResizeALL.Size = new System.Drawing.Size(5, 5);
-            this.panelResizeALL.TabIndex = 1;
-            this.panelResizeALL.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SizerMouseDown);
-            this.panelResizeALL.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SizerMouseMove);
-            this.panelResizeALL.MouseUp += new System.Windows.Forms.MouseEventHandler(this.SizerMouseUp);
-            // 
-            // panelResizeY
-            // 
-            this.panelResizeY.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelResizeY.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
-            this.panelResizeY.Cursor = System.Windows.Forms.Cursors.Default;
-            this.panelResizeY.Location = new System.Drawing.Point(0, 715);
-            this.panelResizeY.Name = "panelResizeY";
-            this.panelResizeY.Size = new System.Drawing.Size(1275, 5);
-            this.panelResizeY.TabIndex = 2;
-            this.panelResizeY.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SizerMouseDown);
-            this.panelResizeY.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SizerMouseMove);
-            this.panelResizeY.MouseUp += new System.Windows.Forms.MouseEventHandler(this.SizerMouseUp);
-            // 
-            // LayoutButtonWindow
-            // 
-            this.LayoutButtonWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.LayoutButtonWindow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
-            this.LayoutButtonWindow.ColumnCount = 3;
-            this.LayoutButtonWindow.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.LayoutButtonWindow.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.LayoutButtonWindow.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.LayoutButtonWindow.Controls.Add(this.buttonClose, 2, 0);
-            this.LayoutButtonWindow.Controls.Add(this.buttonWindowMode, 1, 0);
-            this.LayoutButtonWindow.Controls.Add(this.buttonMinimized, 0, 0);
-            this.LayoutButtonWindow.Location = new System.Drawing.Point(1130, 0);
-            this.LayoutButtonWindow.Name = "LayoutButtonWindow";
-            this.LayoutButtonWindow.RowCount = 1;
-            this.LayoutButtonWindow.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.LayoutButtonWindow.Size = new System.Drawing.Size(145, 28);
-            this.LayoutButtonWindow.TabIndex = 0;
-            // 
-            // buttonClose
-            // 
-            this.buttonClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.buttonClose.BackgroundImage = global::Графический_редактор.Properties.Resources.close;
-            this.buttonClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonClose.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonClose.FlatAppearance.BorderSize = 0;
-            this.buttonClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonClose.Font = new System.Drawing.Font("Microsoft Tai Le", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonClose.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.buttonClose.Location = new System.Drawing.Point(96, 0);
-            this.buttonClose.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Padding = new System.Windows.Forms.Padding(1, 0, 0, 0);
-            this.buttonClose.Size = new System.Drawing.Size(49, 28);
-            this.buttonClose.TabIndex = 1;
-            this.buttonClose.UseVisualStyleBackColor = false;
-            this.buttonClose.Click += new System.EventHandler(this.ButClouse_Click);
-            // 
-            // buttonWindowMode
-            // 
-            this.buttonWindowMode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.buttonWindowMode.BackgroundImage = global::Графический_редактор.Properties.Resources.Minimize;
-            this.buttonWindowMode.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonWindowMode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonWindowMode.FlatAppearance.BorderSize = 0;
-            this.buttonWindowMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonWindowMode.Font = new System.Drawing.Font("Microsoft Tai Le", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonWindowMode.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.buttonWindowMode.Location = new System.Drawing.Point(48, 0);
-            this.buttonWindowMode.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonWindowMode.Name = "buttonWindowMode";
-            this.buttonWindowMode.Padding = new System.Windows.Forms.Padding(1, 0, 0, 0);
-            this.buttonWindowMode.Size = new System.Drawing.Size(48, 28);
-            this.buttonWindowMode.TabIndex = 5;
-            this.buttonWindowMode.UseVisualStyleBackColor = false;
-            this.buttonWindowMode.Click += new System.EventHandler(this.ButtonWindowMode_Click);
-            // 
-            // buttonMinimized
-            // 
-            this.buttonMinimized.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.buttonMinimized.BackgroundImage = global::Графический_редактор.Properties.Resources.Collapse;
-            this.buttonMinimized.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonMinimized.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonMinimized.FlatAppearance.BorderSize = 0;
-            this.buttonMinimized.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonMinimized.Font = new System.Drawing.Font("Microsoft Tai Le", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonMinimized.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.buttonMinimized.Location = new System.Drawing.Point(0, 0);
-            this.buttonMinimized.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonMinimized.Name = "buttonMinimized";
-            this.buttonMinimized.Padding = new System.Windows.Forms.Padding(1, 0, 0, 0);
-            this.buttonMinimized.Size = new System.Drawing.Size(48, 28);
-            this.buttonMinimized.TabIndex = 2;
-            this.buttonMinimized.UseVisualStyleBackColor = false;
-            this.buttonMinimized.Click += new System.EventHandler(this.ButMinimized_Click);
-            // 
-            // panelX_Default
-            // 
-            this.panelX_Default.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
-            this.panelX_Default.Cursor = System.Windows.Forms.Cursors.Default;
-            this.panelX_Default.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelX_Default.Location = new System.Drawing.Point(0, 0);
-            this.panelX_Default.Name = "panelX_Default";
-            this.panelX_Default.Size = new System.Drawing.Size(5, 720);
-            this.panelX_Default.TabIndex = 1;
-            // 
-            // Logo
-            // 
-            this.Logo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
-            this.Logo.Image = global::Графический_редактор.Properties.Resources.Logo2;
-            this.Logo.Location = new System.Drawing.Point(5, 1);
-            this.Logo.Name = "Logo";
-            this.Logo.Size = new System.Drawing.Size(109, 27);
-            this.Logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.Logo.TabIndex = 0;
-            this.Logo.TabStop = false;
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -638,6 +682,7 @@
             this.panelForLayers.ResumeLayout(false);
             this.LayoutForLayers.ResumeLayout(false);
             this.panelTools.ResumeLayout(false);
+            this.panelTools.PerformLayout();
             this.LayoutTools.ResumeLayout(false);
             this.LayoutButtonWindow.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Logo)).EndInit();
@@ -688,6 +733,9 @@
         private System.Windows.Forms.Button butPolygon;
         private System.Windows.Forms.Button butEllipse;
         private System.Windows.Forms.Button butLine;
+        private System.Windows.Forms.Button butReturn;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button butCancel;
     }
 }
 

@@ -53,15 +53,15 @@ namespace Графический_редактор
             Name = NameTool.Brush;
             if (Settings[Name] == null)
             {
-                var color = new ColorChanger(new Point(100, 2));
+                var color = new ColorChanger(new Point(170, 2));
                 color.BackImage = Properties.Resources.transfer;
 
-                var slider1 = new Slider(new Point(150, 0), new Size(200, 50), "Размер:", 1, 200);
+                var slider1 = new Slider(new Point(210, 0), new Size(200, 50), "Размер:", 1, 200);
                 slider1.Format = SliderFormat.Pixel;
                 slider1.BackColor = Color.FromArgb(38, 38, 38);
                 slider1.Value = 5;
 
-                var slider2 = new Slider(new Point(350, 0), new Size(200, 50), "Непрозрачность:", 1, 100);        
+                var slider2 = new Slider(new Point(410, 0), new Size(200, 50), "Непрозрачность:", 1, 100);        
                 slider2.Format = SliderFormat.Percent;
                 slider2.BackColor = Color.FromArgb(38, 38, 38);
                 slider2.Value = 100;
@@ -79,7 +79,7 @@ namespace Графический_редактор
             Name = NameTool.Eraser;
             if (Settings[Name] == null)
             {
-                var slider1 = new Slider(new Point(100, 0), new Size(200, 50), "Размер:", 1, 200);
+                var slider1 = new Slider(new Point(170, 0), new Size(200, 50), "Размер:", 1, 200);
                 slider1.Format = SliderFormat.Pixel;
                 slider1.BackColor = Color.FromArgb(38, 38, 38);
                 slider1.Value = 5;
@@ -99,10 +99,10 @@ namespace Графический_редактор
             Name = NameTool.Fill;
             if(Settings[Name] == null)
             {
-                var color = new ColorChanger(new Point(100, 2));
+                var color = new ColorChanger(new Point(170, 2));
                 color.BackImage = Properties.Resources.transfer;
 
-                var slider = new Slider(new Point(150, 0), new Size(200, 50), "Непрозрачность:", 1, 100);
+                var slider = new Slider(new Point(220, 0), new Size(200, 50), "Непрозрачность:", 1, 100);
                 slider.Format = SliderFormat.Percent;
                 slider.BackColor = Color.FromArgb(38, 38, 38);
                 slider.Value = 100;
@@ -121,11 +121,11 @@ namespace Графический_редактор
             Name = NameTool.Line;
             if(Settings[Name] == null)
             {
-                var color = new ColorSelection(new Point(100, 8), new Size(90, 36));
+                var color = new ColorSelection(new Point(170, 8), new Size(90, 36));
                 color.LabelText = "Цвет: ";
                 color.Color = Color.Red;
 
-                var slider = new Slider(new Point(190, 0), new Size(200, 50), "Размер:", 1, 50);
+                var slider = new Slider(new Point(260, 0), new Size(200, 50), "Размер:", 1, 50);
                 slider.Format = SliderFormat.Pixel;
                 slider.BackColor = Color.FromArgb(38, 38, 38);
                 slider.Value = 1;
@@ -145,15 +145,15 @@ namespace Графический_редактор
             Name = name;
             if(Settings[Name] == null)
             {
-                var borderColor = new ColorSelection(new Point(100, 8), new Size(90, 36));
+                var borderColor = new ColorSelection(new Point(170, 8), new Size(90, 36));
                 borderColor.LabelText = "Рамка:";
                 borderColor.Color = Color.Crimson;
 
-                var fillColor = new ColorSelection(new Point(190, 8), new Size(110, 36));
+                var fillColor = new ColorSelection(new Point(260, 8), new Size(110, 36));
                 fillColor.LabelText = "Заливка:";
                 fillColor.Color = Color.Yellow;
 
-                var slider = new Slider(new Point(300, 0), new Size(200, 50), "Размер:", 0, 100);
+                var slider = new Slider(new Point(370, 0), new Size(200, 50), "Размер:", 0, 100);
                 slider.Format = SliderFormat.Pixel;
                 slider.BackColor = Color.FromArgb(38, 38, 38);
                 slider.Value = 5;

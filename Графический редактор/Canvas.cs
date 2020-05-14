@@ -10,10 +10,10 @@ namespace Графический_редактор
 {
     abstract class Canvas
     {
-        public PictureBox Top { get; set; } // Верхние слои
-        public PictureBox Middle { get; set; } // Выбранный слой
-        public PictureBox Bottom { get; set; } // Нижние слои
-        public PictureBox MouseCanvas { get; } // Для работы с мышью (Самый вверхний)
+        public PictureBox Top { get; set; } // Верхние слои // Save
+        public PictureBox Middle { get; set; } // Выбранный слой // Save
+        public PictureBox Bottom { get; set; } // Нижние слои // Save
+        public PictureBox MouseCanvas { get; private protected set; } // Для работы с мышью (Самый вверхний) // Save
         public int Width { get; private protected set; }
         public int Height { get; private protected set; }
         public Size Size
@@ -24,14 +24,16 @@ namespace Графический_редактор
                 Width = value.Width; 
                 Height = value.Height;
             }
-        }
+        } // Save
+        public Size PanelSize { get; set; } // Save
 
         protected Canvas(Size panel_size, Size image_size)
         {
-            Bottom = Create(panel_size, image_size);
-            Middle = Create(panel_size, image_size);
-            Top = Create(panel_size, image_size);
-            MouseCanvas = Create(panel_size, image_size);
+            PanelSize = panel_size;
+            Bottom = Create(image_size);
+            Middle = Create(image_size);
+            Top = Create(image_size);
+            MouseCanvas = Create(image_size);
             MouseCanvas.Cursor = Cursors.Cross;
 
             Bottom.Location = new Point((panel_size.Width - Width) / 2, (panel_size.Height - Height) / 2);
@@ -40,10 +42,10 @@ namespace Графический_редактор
             Middle.Controls.Add(Top);
             Top.Controls.Add(MouseCanvas);
         }
-        private PictureBox Create(Size panel_size, Size image_size)
+        private PictureBox Create(Size image_size)
         {
-            Bitmap temp = new Bitmap(panel_size.Width, panel_size.Height);
-            if (image_size.Width > panel_size.Width && image_size.Height > panel_size.Height)
+            Bitmap temp = new Bitmap(PanelSize.Width, PanelSize.Height);
+            if (image_size.Width > PanelSize.Width && image_size.Height > PanelSize.Height)
                 temp = temp.ImageZoom(new Bitmap(image_size.Width, image_size.Height));
             else
                 temp = new Bitmap(image_size.Width, image_size.Height);
@@ -55,7 +57,7 @@ namespace Графический_редактор
 
             return picture;
         }
-        protected void ClearCanvas()
+        protected void Clear()
         {
             Bitmap emply = new Bitmap(Width, Height);
             MouseCanvas.Image = emply;
@@ -71,7 +73,7 @@ namespace Графический_редактор
             Top.Size = new_size;
             Middle.Size = new_size;
             Bottom.Size = new_size;
-            ClearCanvas();
+            Clear();
         }
     }
 }
