@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Canvas.cs" />
+    <Compile Include="LayerHistory.cs" />
     <Compile Include="SizePictureDialog.cs">
       <SubType>Form</SubType>
     </Compile>

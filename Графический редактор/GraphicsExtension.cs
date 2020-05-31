@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -101,11 +102,19 @@ namespace Графический_редактор
         public static Bitmap Crop(this Image image, Rectangle selection)
         {
             Bitmap bmp = new Bitmap(image);
-
-            Bitmap cropBmp = bmp.Clone(selection, bmp.PixelFormat);
-            image.Dispose();
+            Bitmap cropBmp = null;
+            try
+            {
+                cropBmp = bmp.Clone(selection, bmp.PixelFormat);
+                image.Dispose();
+            }
+            catch(OutOfMemoryException)
+            {
+                throw new Exception("Invalid Selection");
+            }
 
             return cropBmp;
+         
         }
         public static Bitmap CombineBitmap(ref List<Bitmap> images)
         {

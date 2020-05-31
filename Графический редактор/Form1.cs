@@ -171,9 +171,28 @@ namespace Графический_редактор
             layers.Change += SaveState;
 
             layerHistory = new LayerHistory();
-            layerHistory.Action += ButtonColor_Change;
+            //layerHistory.Action += ButtonColor_Change;
 
             layers.Add();
+        }
+
+        private void AddImage(Bitmap image)
+        {
+            if (image.Width > PanelForDraw.Width || image.Height > PanelForDraw.Height)
+            {
+                InitLayers(new Bitmap(PanelForDraw.Width, PanelForDraw.Height).ImageZoom(image).Size);
+            }
+            else
+                InitLayers(image.Size);
+
+            layers.Middle.Image = layers[0].ImageZoom(image);
+            layers.Middle.Image = layers[0].ImageZoom(image);
+            layers.Rebuilding();
+            layers.ViewUpdata(listLayers);
+
+            menuItemSaveFile.Enabled = true;
+            butLayerUp.Enabled = true;
+            butLayerDown.Enabled = true;
         }
         private void CreatePictureToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -199,23 +218,15 @@ namespace Графический_редактор
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 Bitmap image = new Bitmap(openFileDialog.FileName);
-                if (image.Width > PanelForDraw.Width || image.Height > PanelForDraw.Height)
-                {
-                    InitLayers(new Bitmap(PanelForDraw.Width, PanelForDraw.Height).ImageZoom(image).Size);
-                }
-                else
-                    InitLayers(image.Size);
-
-
-                layers.Middle.Image = layers[0].ImageZoom(image);
-                layers.Middle.Image = layers[0].ImageZoom(image);
-                layers.Rebuilding();
-                layers.ViewUpdata(listLayers);
-
-                menuItemSaveFile.Enabled = true;
-                butLayerUp.Enabled = true;
-                butLayerDown.Enabled = true;
+                AddImage(image);                
             }
+        }
+        private void InsertToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!Clipboard.ContainsImage())
+                return;
+            Bitmap image = Clipboard.GetImage() as Bitmap;
+            AddImage(image);
         }
         private bool SaveFile()
         {
@@ -333,16 +344,21 @@ namespace Графический_редактор
                         layers.CurrentBitmap.DrawEllipse(tempElipse.GetPen(), tempElipse.FillColor, tempElipse.Depth, mouseClickPoint, new Point(e.X, e.Y));
                         break;
                     case NameTool.Crop:
-                        Size tempSize = new Size(Math.Abs(e.X - mouseClickPoint.X), Math.Abs(e.Y - mouseClickPoint.Y));
-                        Rectangle tempRect_2 = new Rectangle(new Point(Math.Min(e.X, mouseClickPoint.X), Math.Min(e.Y, mouseClickPoint.Y)), tempSize);
-                        layers.Resize(tempSize, PanelForDraw.Size, Layer.ResizeMode.Framing, tempRect_2);
+                       
+                        Point first = new Point(Math.Min(e.X, mouseClickPoint.X), Math.Min(e.Y, mouseClickPoint.Y));
+                        first.X = (first.X >= 0) ? first.X : 0;
+                        first.Y = (first.Y >= 0) ? first.Y : 0;
+                        Size second = new Size(Math.Abs(e.X - mouseClickPoint.X), Math.Abs(e.Y - mouseClickPoint.Y));
+                        second.Width = (second.Width + first.X <= layers.Width) ? second.Width : layers.Width - first.X;
+                        second.Height = (second.Height + first.Y <= layers.Height) ? second.Height : layers.Height - first.Y;
+                        layers.Resize(second, PanelForDraw.Size, Layer.ResizeMode.Framing, new Rectangle(first, second));
                         layers.ViewUpdata(listLayers);
                         break;
                 }
             }
 
             if (tool.Name != NameTool.Polygon && layers.Visible && e.Button == MouseButtons.Left)
-                layerHistory.push_end(layers.SaveState());
+                //layerHistory.Add(layers.SaveState()); ????????????????????
 
             layers.Update();
             layers.ViewImageUpdata(listLayers);    
@@ -416,11 +432,14 @@ namespace Графический_редактор
 
         private void SaveState(object sender)
         {
+            /* ??????????????
             layerHistory.Add(layers.SaveState());
             label1.Text = layerHistory.Count.ToString();
+            */
         }
         private void ButtonColor_Change(object sender)
         {
+            /* ?????????????????????
             if(layerHistory.NumberSave > 0)
             {
                 butCancel.BackgroundImage = Properties.Resources.ReturnON;
@@ -441,6 +460,7 @@ namespace Графический_редактор
                 butReturn.BackgroundImage = Properties.Resources.CancelOFF;
                 butReturn.Enabled = false;
             }
+            */
         }
         private void IndexChange(object sender, EventArgs e)
         {
@@ -451,25 +471,25 @@ namespace Графический_редактор
         }        
         private void SizePictureToolMenu_Click(object sender, EventArgs e)
         {
-            var SizeDialog = new SizePictureDialog(layers.Size);
-            if (new Size(0, 0) == SizeDialog.Size) return;
-            if (layers == null)
+            if (layers == null || layers.Count == 0)
             {
                 DialogResult dialogResult = MessageBox.Show("Отсуствуют слои", "Paint++", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            var SizeDialog = new SizePictureDialog(layers.Size);
+            if (new Size(0, 0) == SizeDialog.Size) return;
             layers.Resize(SizeDialog.Size, PanelForDraw.Size, Layer.ResizeMode.Framing, Rectangle.Empty);
             layers.ViewUpdata(listLayers);
         }
         private void SizeImageToolMenu_Click(object sender, EventArgs e)
         {
-            var SizeDialog = new SizePictureDialog(layers.Size);
-            if (new Size(0, 0) == SizeDialog.Size) return;
-            if (layers == null)
+            if (layers == null || layers.Count == 0)
             {
                 DialogResult dialogResult = MessageBox.Show("Отсуствуют слои", "Paint++", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            var SizeDialog = new SizePictureDialog(layers.Size);
+            if (new Size(0, 0) == SizeDialog.Size) return;           
             layers.Resize(SizeDialog.Size, PanelForDraw.Size, Layer.ResizeMode.Compression, Rectangle.Empty);
             layers.ViewUpdata(listLayers);
         }
@@ -498,22 +518,30 @@ namespace Графический_редактор
 
         private void butCancel_Click(object sender, EventArgs e)
         {
+            /*
             if (layerHistory.Count == 0) return;
+            //layerHistory.Add(layers.SaveState());
             layers.RestoreState(layerHistory.GetPrevSave());
             layers.Rebuilding();
             layers.Update();
             layers.ViewUpdata(listLayers);
             label1.Text = layerHistory.Count.ToString();
+            */
         }
         private void butReturn_Click(object sender, EventArgs e)
         {
+            /*
             if (layerHistory.Count == 0) return;
             layers.RestoreState(layerHistory.GetNextSave());
             layers.Rebuilding();
             layers.Update();
             layers.ViewUpdata(listLayers);
             label1.Text = layerHistory.Count.ToString();
+            */
         }
+
+        
+
         private void ButLayerUp_Click(object sender, EventArgs e)
         {
             layers.Up();

@@ -262,7 +262,7 @@ namespace Графический_редактор
                     {
                         Bitmap tempBmp;
                         tempBmp = GraphicsExtension.Crop(bitmaps[i].Image, rect);
-                        bitmaps[i].Image = tempBmp;
+                        bitmaps[i].Image = tempBmp;  
                     }
                     break;
             }
@@ -271,88 +271,6 @@ namespace Графический_редактор
 
             Rebuilding();
             Update();
-        }
-    }
-    class LayerMemento
-    {
-        public Bitmap BackGroundPNG { get; private set; }
-        public List<LayerNode> Bitmaps { get; private set; }
-        public ImageList Images { get; private set; }
-        public (int, int) Counters { get; private set; }
-        public int Number { get; private set; }
-        public Size Size { get; private set; }
-        public Size PanelSize { get; private set; }
-
-        public LayerMemento(Bitmap backGround, List<LayerNode> bitmaps, ImageList images, int number,
-            Size size, Size panelSize, (int, int) counters)
-        {
-            BackGroundPNG = backGround;
-            Bitmaps = bitmaps;
-            Images = images;
-            Number = number;
-            Size = size;
-            PanelSize = panelSize;
-            Counters = counters;
-        }
-    }
-    class LayerHistory
-    {
-        private List<LayerMemento> history;
-        private LayerMemento lastMemento; 
-
-        public delegate void LayerMementoHandler(object sender);
-        public event LayerMementoHandler Action;
-
-        public int NumberSave { get; private set; }
-        public int Count { get; private set; }
-        public LayerHistory()
-        {
-            history = new List<LayerMemento>();
-            NumberSave = -1;
-            Count = 0;
-        }
-
-        public void Add(LayerMemento memento)
-        {
-            history.Insert(++NumberSave, memento);
-            Count++;
-            if(Count > 10)
-            {
-                history.RemoveAt(0);
-                Count--;
-            }
-            Action?.Invoke(this);
-        }
-        public void push_end(LayerMemento memento)
-        {
-            lastMemento = memento;
-        }
-        public LayerMemento GetPrevSave()
-        {         
-            if(NumberSave > 0)
-            {
-                NumberSave--;
-                Action?.Invoke(this);
-                return history[NumberSave + 1];
-            }
-            return null;
-        }
-        public LayerMemento GetNextSave()
-        {
-            if (NumberSave + 1 < Count - 1)
-            {
-                NumberSave++;
-                Action?.Invoke(this);
-                return history[NumberSave];
-            }
-            else
-            {
-                NumberSave++;
-                Action?.Invoke(this);
-                NumberSave--;
-                return lastMemento;
-            }
-            
         }
     }
 }
