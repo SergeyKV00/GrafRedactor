@@ -52,7 +52,6 @@
             this.panelTools = new System.Windows.Forms.Panel();
             this.butCancel = new System.Windows.Forms.Button();
             this.butReturn = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.LayoutTools = new System.Windows.Forms.TableLayoutPanel();
             this.butPolygon = new System.Windows.Forms.Button();
             this.butEllipse = new System.Windows.Forms.Button();
@@ -338,7 +337,6 @@
             this.panelTools.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelTools.Controls.Add(this.butCancel);
             this.panelTools.Controls.Add(this.butReturn);
-            this.panelTools.Controls.Add(this.label1);
             this.panelTools.Controls.Add(this.LayoutTools);
             this.panelTools.Location = new System.Drawing.Point(0, 28);
             this.panelTools.Margin = new System.Windows.Forms.Padding(0);
@@ -375,16 +373,6 @@
             this.butReturn.TabIndex = 0;
             this.butReturn.UseVisualStyleBackColor = true;
             this.butReturn.Click += new System.EventHandler(this.butReturn_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.Color.Coral;
-            this.label1.Location = new System.Drawing.Point(997, 24);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "label1";
             // 
             // LayoutTools
             // 
@@ -693,7 +681,6 @@
             this.panelForLayers.ResumeLayout(false);
             this.LayoutForLayers.ResumeLayout(false);
             this.panelTools.ResumeLayout(false);
-            this.panelTools.PerformLayout();
             this.LayoutTools.ResumeLayout(false);
             this.LayoutButtonWindow.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Logo)).EndInit();
@@ -745,7 +732,6 @@
         private System.Windows.Forms.Button butEllipse;
         private System.Windows.Forms.Button butLine;
         private System.Windows.Forms.Button butReturn;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button butCancel;
         private System.Windows.Forms.ToolStripMenuItem InsertToolStripMenuItem;
     }

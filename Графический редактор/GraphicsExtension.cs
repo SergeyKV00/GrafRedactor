@@ -47,8 +47,7 @@ namespace Графический_редактор
         {
             return bmp.FillPngBackground(bmp.Width, bmp.Height);
         }
-        // Изменяет размер исходного изображения с сохранением пропорций
-        public static Bitmap ImageZoom(Image sourceImage, float new_width, float new_height)
+        public static Bitmap ImageZoom(Image sourceImage, float new_width, float new_height) // Изменяет размер исходного изображения с сохранением пропорций
         {
             Bitmap updatedImage = new Bitmap((int)new_width, (int)new_height);
 

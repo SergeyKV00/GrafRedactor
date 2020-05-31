@@ -156,7 +156,7 @@ namespace Графический_редактор
 
         #endregion
 
-        #region Открытие и Сохранение файла, и Создание Холста
+        #region Открытие, Сохранение файла и Создание Холста
         private void InitLayers(Size pictureSize)
         {
             layers = new Layer(PanelForDraw.Size, pictureSize);
@@ -168,14 +168,13 @@ namespace Графический_редактор
             layers.MouseCanvas.MouseDown += new MouseEventHandler(Picture_MouseDown);
             layers.MouseCanvas.MouseMove += new MouseEventHandler(Picture_MouseMove);
             layers.MouseCanvas.MouseUp += new MouseEventHandler(Picture_MouseUp);
-            layers.Change += SaveState;
+            layers.Change += (obj) => layerHistory.Add(layers.SaveState());
 
             layerHistory = new LayerHistory();
-            //layerHistory.Action += ButtonColor_Change;
+            layerHistory.Action += ButtonColor_Change;
 
             layers.Add();
-        }
-
+        } 
         private void AddImage(Bitmap image)
         {
             if (image.Width > PanelForDraw.Width || image.Height > PanelForDraw.Height)
@@ -272,7 +271,7 @@ namespace Графический_редактор
             }
             
             if(tool.Name != NameTool.Polygon && layers.Visible && e.Button == MouseButtons.Left)
-                SaveState(layers); 
+                layerHistory.Add(layers.SaveState());
 
             prevPoint.X = e.X;
             prevPoint.Y = e.Y;
@@ -305,7 +304,7 @@ namespace Графический_редактор
                 }
                 if (e.Button == MouseButtons.Right)
                 {
-                    SaveState(layers);
+                    layerHistory.Add(layers.SaveState());
                     if (tempPolygon.Points.Count > 1)
                     {
                         using (Graphics graph = Graphics.FromImage(layers.CurrentBitmap))
@@ -356,9 +355,6 @@ namespace Графический_редактор
                         break;
                 }
             }
-
-            if (tool.Name != NameTool.Polygon && layers.Visible && e.Button == MouseButtons.Left)
-                //layerHistory.Add(layers.SaveState()); ????????????????????
 
             layers.Update();
             layers.ViewImageUpdata(listLayers);    
@@ -430,16 +426,9 @@ namespace Графический_редактор
 
         #region События слоев
 
-        private void SaveState(object sender)
-        {
-            /* ??????????????
-            layerHistory.Add(layers.SaveState());
-            label1.Text = layerHistory.Count.ToString();
-            */
-        }
         private void ButtonColor_Change(object sender)
         {
-            /* ?????????????????????
+            
             if(layerHistory.NumberSave > 0)
             {
                 butCancel.BackgroundImage = Properties.Resources.ReturnON;
@@ -460,7 +449,7 @@ namespace Графический_редактор
                 butReturn.BackgroundImage = Properties.Resources.CancelOFF;
                 butReturn.Enabled = false;
             }
-            */
+           
         }
         private void IndexChange(object sender, EventArgs e)
         {
@@ -515,33 +504,26 @@ namespace Графический_редактор
             layers.Rebuilding();
             layers.ViewUpdata(listLayers);
         }
-
         private void butCancel_Click(object sender, EventArgs e)
         {
-            /*
-            if (layerHistory.Count == 0) return;
-            //layerHistory.Add(layers.SaveState());
+            if (layerHistory == null || layerHistory.Count == 0) return;
+            if(layerHistory.NumberSave == layerHistory.Count - 1 && !layerHistory.Lock)
+                layerHistory.Add(layers.SaveState());  
+
             layers.RestoreState(layerHistory.GetPrevSave());
             layers.Rebuilding();
             layers.Update();
-            layers.ViewUpdata(listLayers);
-            label1.Text = layerHistory.Count.ToString();
-            */
+            layers.ViewUpdata(listLayers);   
         }
         private void butReturn_Click(object sender, EventArgs e)
         {
-            /*
-            if (layerHistory.Count == 0) return;
+            
+            if (layerHistory == null || layerHistory.Count == 0) return;
             layers.RestoreState(layerHistory.GetNextSave());
             layers.Rebuilding();
             layers.Update();
             layers.ViewUpdata(listLayers);
-            label1.Text = layerHistory.Count.ToString();
-            */
         }
-
-        
-
         private void ButLayerUp_Click(object sender, EventArgs e)
         {
             layers.Up();
@@ -558,7 +540,25 @@ namespace Графический_редактор
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            activeKeys[Keys.Shift] = true;    
+            activeKeys[Keys.Shift] = true;
+
+            if (e.KeyCode == Keys.S && e.Control)
+                SaveFile();
+
+            if (e.KeyCode == Keys.V && e.Control)
+                InsertToolStripMenuItem_Click(InsertToolStripMenuItem, null);
+
+            if (e.KeyCode == Keys.O && e.Control)
+                OpenFile_Click(null, null);
+
+            if (e.KeyCode == Keys.N && e.Control)
+                CreatePictureToolStripMenuItem_Click(null, null);
+
+            if (e.KeyCode == Keys.Z && e.Control)
+                if (butCancel.Enabled) butCancel_Click(null, null);
+
+            if (e.KeyCode == Keys.Y && e.Control)
+                if(butReturn.Enabled) butReturn_Click(null, null);
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
